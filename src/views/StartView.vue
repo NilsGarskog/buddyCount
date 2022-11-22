@@ -1,5 +1,16 @@
 <template>
+
 <body>
+        <div v-if="popupTriggers.buttonTrigger">
+      <PopUp v-bind:PopUp="PopUp"
+             v-bind:key="PopUpFonster"
+             v-on:closeCurrentPopup="togglePopup()">
+             <input type="text" v-model="id">
+             <router-link v-bind:to="'/poll/'+id">
+          <button class="standardButton" role="button" id="codeSubmitButton">OK </button>
+            </router-link>
+        </PopUp>
+      </div>
 <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 
 <img class="playMuteButton" :src="audioPicture" v-on:click="playSong" />
@@ -19,20 +30,33 @@
   </label>
 -->
 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-  <router-link v-bind:to="'/poll/'+id">
-  <button class="standardButton" role="button"><p class="buttonText">Join game </p></button>
-  </router-link>
+  <div>
+  <button class="standardButton" role="button" v-on:click="togglePopup"><p class="buttonText">Join game </p></button>
+  </div>
   </div>
 </body>
 </template>
 
 <script>
 import io from "socket.io-client";
+import PopUp from "../components/PopUp.vue"
+import { ref } from 'vue';
+
 const socket = io();
 
 export default {
   name: "StartView",
-  components: {},
+  components: {
+    PopUp,
+  },
+      setup(){
+    const popupTriggers = ref({
+      buttonTrigger: false
+    })
+    return {
+      popupTriggers
+    }
+  },
   data: function () {
     return {
       uiLabels: {},
@@ -41,7 +65,7 @@ export default {
       hideNav: true,
       audioOn: false,
       audio: new Audio(require('../Music/FunkyMusic.mp3')),
-      audioPicture: require('../Icons/Speaker.png')
+      audioPicture: require('../Icons/Speaker.png'),
 
     };
   },
@@ -50,7 +74,11 @@ export default {
       this.uiLabels = labels;
     });
   },
-  methods: {
+  methods:   {
+      togglePopup: function(){
+      this.popupTriggers.buttonTrigger = !this.popupTriggers.buttonTrigger
+    },
+
     switchLanguage: function () {
       if (this.lang === "en") this.lang = "sv";
       else this.lang = "en";
@@ -76,7 +104,13 @@ export default {
   },
 };
 </script>
+
 <style scoped>
+#codeSubmitButton {
+  height: 5vh;
+  width: 8vw;
+  padding: 0;
+}
 .playMuteButton{
   display: grid;
   height:5em;
@@ -92,10 +126,7 @@ export default {
   grid-template-columns: 20em;
   justify-content: center;
 }
-.noLink {
-  text-decoration: none;
-  color: inherit;
-}
+
 body {
   position: fixed;
   background-color: #24a07b;
