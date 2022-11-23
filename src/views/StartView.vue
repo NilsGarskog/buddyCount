@@ -36,16 +36,19 @@
       rel="stylesheet"
       type="text/css"
     />
-
-    <img class="playMuteButton" :src="audioPicture" v-on:click="playSong" />
+    <span class=topButtons> 
+    <img id="playMuteButton" :src="audioPicture" v-on:click="playSong" />
+    <img id="langBtn" :src="langImg" v-on:click="switchLanguage">
+    </span>
     <div>
       <h1 id="title">BuddyCount</h1>
     </div>
+    
 
     <div id="Buttons">
       <router-link v-bind:to="'/create/' + lang">
         <button class="standardButton" role="button">
-          <p class="buttonText">Create Game</p>
+          <p class="buttonText">{{uiLabels.createGame}}</p>
         </button>
       </router-link>
       <hr
@@ -62,7 +65,7 @@
           role="button"
           v-on:click="togglePopup('join')"
         >
-          <p class="buttonText">Join game</p>
+          <p class="buttonText">{{uiLabels.joinGame}}</p>
         </button>
       </div>
     </div>
@@ -105,6 +108,7 @@ export default {
       audio: new Audio(require("../Music/FunkyMusic.mp3")),
       audioPicture: require("../Icons/Speaker.png"),
       rulesPicture: require("../Icons/daRules.png"),
+      langImg: require("../Icons/Sweden.png"),
     };
   },
   created: function () {
@@ -124,12 +128,15 @@ export default {
     },
 
     switchLanguage: function () {
-      if (this.lang === "en") this.lang = "sv";
-      else this.lang = "en";
+      if (this.lang === "en"){ 
+        this.lang = "sv"; 
+        this.langImg = require("../Icons/England.png")
+      }
+      else {
+        this.lang = "en";
+        this.langImg = require("../Icons/Sweden.png")
+      }
       socket.emit("switchLanguage", this.lang);
-    },
-    toggleNav: function () {
-      this.hideNav = !this.hideNav;
     },
     playSong: function () {
       if (this.audioOn === false) {
@@ -183,13 +190,22 @@ ul {
   width: 8vw;
   padding: 0;
 }
-.playMuteButton {
-  display: grid;
+.topButtons {
+  display: flex;
   height: 5em;
-  width: 5em;
-  padding: 1em;
+  width: 100%;
   cursor: pointer;
+  justify-content: space-between;
+  margin-top: 1em;
 }
+#playMuteButton{
+ margin-left: 1em;
+}
+#langBtn{
+  margin-right: 1em;
+}
+
+
 .buttonText {
   font-size: 1.7em;
 }
