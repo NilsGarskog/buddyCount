@@ -24,9 +24,9 @@
 
           <div class="ruleText">
             <ul>
-          <li> Answer the questions and then guess which answer each person wrote.</li>
-          <li>The person with the most right answers will win!</li>
-          <li>Have fun and answer honestly.</li>
+          <li>{{uiLabels.rules1}}</li>
+          <li>{{uiLabels.rules2}}</li>
+          <li>{{uiLabels.rules3}}</li>
           </ul>
           </div>
       </PopUp>
@@ -222,6 +222,7 @@ body {
   min-height: 100vh;
   padding: 0;
 }
+
 
 #title {
   font-family: "Monoton";

@@ -4,5 +4,8 @@
 	"createGame": "Gå med i spel",
 	"joinGame": "Delta i spel",
 	"question": "Fråga",
-	"changeLanguage": "Change to English"
+	"changeLanguage": "Change to English",
+	"rules1":  "Svara på frågorna och gissa sedan vilket svar varje person skrev.",
+	"rules2": "Personen med flest rätt svar vinner!",
+	"rules3": "Ha kul och svara ärligt."
 }
