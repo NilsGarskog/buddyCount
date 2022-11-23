@@ -131,6 +131,7 @@ font-weight: 300;
     transition: 0.2s;
     cursor: pointer;
 
+
 }
 
 .gameCode {
