@@ -1,9 +1,12 @@
 <template>
   <body>
  <div>
-  <button v-on:click="hideQuestion" id="hideButton">
-    Hide questions
-  </button>
+  <div id="hideQuestions">
+  <img class="hideEye" :src="hidePic" v-on:click="hideQuestion" > 
+  <h3> Hide questions </h3>
+  </div>
+
+ 
     <!-- Poll link: 
     <input type="text" v-model="pollId">
     <button v-on:click="createPoll">
@@ -23,11 +26,11 @@
       </div>-->
    
     <button v-on:click="addQuestion" id="submitButton">
-      Submitt
+      Submit
     </button>
   </div>
   
-  <div>
+  <div class="showQuestions">
 <div v-if="!hide">
     <div v-for= "question in questions" v-bind:key="question"> <!--Printar en loop över de angivna svaren-->
     {{question}}
@@ -36,11 +39,11 @@
  <div v-else>
     <div v-for="(question,index) in questions"
     v-bind:key="question">
-    Question{{index+1}}
+    Question {{index+1}}
   </div>
   </div>
 </div>
-<div>
+<div class="createGame">
   <router-link v-bind:to="'/'">
    <!--<input type="number" v-model="questionNumber">-->
     <button v-on:click="runQuestion" id="createGameButton">
@@ -72,6 +75,7 @@ export default {
       data: {},
       uiLabels: {},
       hide: false,
+      hidePic: require('../Icons/eyeOpen.png')
     }
   },
   created: function () {
@@ -94,11 +98,13 @@ export default {
     hideQuestion: function(){
       if(this.hide){
         this.hide=false
+        this.hidePic=require('../Icons/eyeOpen.png')
       }
       else{
       this.hide = true
+      this.hidePic = require('../Icons/eyeClosed.png')
       }
-      console.log(this.hide)
+      
       
     },
     addQuestion: function () {
@@ -124,6 +130,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   padding: 0;
+  
 }
 
 
@@ -132,7 +139,7 @@ button {
   width: 6em;
   background-color: #78df73;
   border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 17px;
+  border-radius: 20px;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
   color: black;
@@ -140,10 +147,10 @@ button {
   display: inline-block;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 20px;
-  padding: 6px 16px;
+  padding: 6px 12px;
   position: relative;
   text-align: center;
 }
@@ -152,23 +159,52 @@ button {
 }
 .questionInput{
   margin-top: 100px;
-  
-  
+}
+.showQuestions{
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  color:white;
+  margin-right: 7em;
+
+}
+#hideQuestions{
+  display:flex;
+  flex-direction: column;
+  align-items:flex-end;
+  width: 95%;
+  margin-right: 7em;
+  margin-top: 2em;
+}
+.hideEye{
+  height:7em;
+  width: 7em;
+ 
 }
 #questionInputField{
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  font-weight: 600;
   background-color: #67b3a5b7;
- 
   border:none;
   border-bottom: 2px solid black;
 }
+::placeholder{
+  color:rgba(255, 255, 255, 0.516);
+  
+  text-align: center;
+ 
+}
 
 #createGameButton{
+  position:fixed;
   margin-top:300px
-}
-#hideButton{
-  margin-left: 600px;
   
 }
+
 #submitButton{
   margin-left:10px;
   
