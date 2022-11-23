@@ -1,46 +1,83 @@
 <template>
+  <body>
+    <div v-if="popupTriggers.buttonTriggerJoin"> <!-- Popup för att joina spel -->
+      <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+        v-on:closeCurrentPopup="togglePopup('join')"
+      >
+        <input type="text" v-model="id" class="inputField" />
+        <router-link v-bind:to="'/poll/' + id">
+          <button class="standardButton" role="button" id="codeSubmitButton">
+            OK
+          </button>
+        </router-link>
+      </PopUp>
+    </div>
+    <div v-if="popupTriggers.buttonTriggerRules"> <!-- Popup för regler -->
+      <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+      >
+          <img src="../Icons/closeButton.png" class ="popupClose" v-on:click="togglePopup('rules')">
+           <pre> </pre>
 
-<body>
-        <div v-if="popupTriggers.buttonTrigger">
-      <PopUp v-bind:PopUp="PopUp"
-             v-bind:key="PopUpFonster"
-             v-on:closeCurrentPopup="togglePopup()">
-             <input type="text" v-model="id">
-             <router-link v-bind:to="'/poll/'+id">
-          <button class="standardButton" role="button" id="codeSubmitButton">OK </button>
-            </router-link>
-        </PopUp>
+          <div class="ruleText">
+            <ul>
+          <li> Answer the questions and then guess which answer each person wrote.</li>
+          <li>The person with the most right answers will win!</li>
+          <li>Have fun and answer honestly.</li>
+          </ul>
+          </div>
+      </PopUp>
+    </div>
+    <link
+      href="https://fonts.googleapis.com/css?family=Monoton"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <img class="playMuteButton" :src="audioPicture" v-on:click="playSong" />
+    <div>
+      <h1 id="title">BuddyCount</h1>
+    </div>
+
+    <div id="Buttons">
+      <router-link v-bind:to="'/create/' + lang">
+        <button class="standardButton" role="button">
+          <p class="buttonText">Create Game</p>
+        </button>
+      </router-link>
+      <hr
+        style="
+          height: 2px;
+          border-width: 0;
+          color: gray;
+          background-color: gray;
+        "
+      />
+      <div>
+        <button
+          class="standardButton"
+          role="button"
+          v-on:click="togglePopup('join')"
+        >
+          <p class="buttonText">Join game</p>
+        </button>
       </div>
-<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
-
-<img class="playMuteButton" :src="audioPicture" v-on:click="playSong" />
-  <div>
-  <h1 id="title">BuddyCount</h1>
-  </div>
-  
-  <div id="Buttons">
-  
-  <router-link v-bind:to="'/create/'+lang">
-  <button class="standardButton" role="button"><p class="buttonText">Create Game</p></button>
-  </router-link>
-<!--
-  <label>
-    Write poll id: 
-    <input type="text" v-model="id">
-  </label>
--->
-<hr style="height:2px;border-width:0;color:gray;background-color:gray">
-  <div>
-  <button class="standardButton" role="button" v-on:click="togglePopup"><p class="buttonText">Join game </p></button>
-  </div>
-  </div>
-</body>
+    </div>
+    <img
+      class="rulesButton"
+      :src="rulesPicture"
+      v-on:click="togglePopup('rules')"
+    />
+  </body>
 </template>
 
 <script>
 import io from "socket.io-client";
-import PopUp from "../components/PopUp.vue"
-import { ref } from 'vue';
+import PopUp from "../components/PopUp.vue";
+import { ref } from "vue";
 
 const socket = io();
 
@@ -49,13 +86,14 @@ export default {
   components: {
     PopUp,
   },
-      setup(){
+  setup() {
     const popupTriggers = ref({
-      buttonTrigger: false
-    })
+      buttonTriggerJoin: false,
+      buttonTriggerRules: false,
+    });
     return {
-      popupTriggers
-    }
+      popupTriggers,
+    };
   },
   data: function () {
     return {
@@ -64,9 +102,9 @@ export default {
       lang: "en",
       hideNav: true,
       audioOn: false,
-      audio: new Audio(require('../Music/FunkyMusic.mp3')),
-      audioPicture: require('../Icons/Speaker.png'),
-
+      audio: new Audio(require("../Music/FunkyMusic.mp3")),
+      audioPicture: require("../Icons/Speaker.png"),
+      rulesPicture: require("../Icons/daRules.png"),
     };
   },
   created: function () {
@@ -74,9 +112,15 @@ export default {
       this.uiLabels = labels;
     });
   },
-  methods:   {
-      togglePopup: function(){
-      this.popupTriggers.buttonTrigger = !this.popupTriggers.buttonTrigger
+  methods: {
+    togglePopup: function (type) {
+      if (type === "join") {
+        this.popupTriggers.buttonTriggerJoin =
+          !this.popupTriggers.buttonTriggerJoin;
+      } else {
+        this.popupTriggers.buttonTriggerRules =
+          !this.popupTriggers.buttonTriggerRules;
+      }
     },
 
     switchLanguage: function () {
@@ -87,38 +131,66 @@ export default {
     toggleNav: function () {
       this.hideNav = !this.hideNav;
     },
-    playSong: function(){
-      if (this.audioOn === false){
-      this.audio.play()
-      this.audioOn = true
-      this.audioPicture = require('../Icons/SpeakerOff.png')
+    playSong: function () {
+      if (this.audioOn === false) {
+        this.audio.play();
+        this.audioOn = true;
+        this.audioPicture = require("../Icons/SpeakerOff.png");
+      } else {
+        this.audio.pause();
+        this.audioOn = false;
+        this.audioPicture = require("../Icons/Speaker.png");
       }
-      else {
-      this.audio.pause()
-      this.audioOn = false
-      this.audioPicture = require('../Icons/Speaker.png')
-
-      }
-
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
+.inputField{
+  height: 4em;
+  width: 15em;
+}
+.popupClose{
+  height:4em;
+  width: 4em;
+  position: absolute;
+  padding: 0.2em;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}
+.ruleText{
+  font-size: 3vw;
+  text-align: left;
+  position: relative
+}
+
+ul {
+  list-style-position: outside;
+}
+.rulesButton {
+  height: 8em;
+  width: 8em;
+  padding: 2em;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  cursor: pointer;
+}
 #codeSubmitButton {
   height: 5vh;
   width: 8vw;
   padding: 0;
 }
-.playMuteButton{
+.playMuteButton {
   display: grid;
-  height:5em;
+  height: 5em;
   width: 5em;
-  padding:1em;
-
+  padding: 1em;
+  cursor: pointer;
 }
-.buttonText{
+.buttonText {
   font-size: 1.7em;
 }
 #Buttons {
@@ -139,7 +211,6 @@ body {
   font-family: "Monoton";
   font-size: 10vw;
   font-synthesis: none;
-  
 }
 
 .standardButton {
