@@ -157,7 +157,7 @@ button {
 }
 #questionInputField{
   background-color: #67b3a5b7;
-  placehol: white;
+ 
   border:none;
   border-bottom: 2px solid black;
 }
