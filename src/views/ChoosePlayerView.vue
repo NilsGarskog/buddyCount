@@ -36,19 +36,18 @@
 
 <div class="characterRow">
   <div class="characterColumn">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
-    <img src="../characters/test_character_cherry.png">
+    <img src="../Icons/Paul.png">
+    <img src="../Icons/Jerome.png">
+    <img src="../Icons/NoFace.png">
+    <img src="../Icons/Mononoke.png">
+    <img src="../Icons/ScareCrow.png">
+    <img src="../Icons/lucy.png">
+    <img src="../Icons/grodanBoll.png">
+    <img src="../Icons/Tintin.png">
+    <img src="../Icons/Milou.png">
+    <img src="../Icons/Voldermort.png">
+    <img src="../Icons/Dobby.png">
+
 
 
     <div class="joinGame">
@@ -266,8 +265,7 @@ $gray: black;
 img {
   width:10%;
   height:auto;
-  border-style:solid;
-  border-width: 0.2em;
+  box-shadow: 1em;
   cursor:pointer;
   padding: 1em;
   margin: 1em;
