@@ -20,7 +20,7 @@ name: 'CreateQPartView',
       lang: "",
       pollId: "",
       question: "",
-      answers: ["", ""],
+      answers: ["", ""],         ////Oklart om denna behövs?
       questionNumber: 0,
       data: {},
       uiLabels: {},
@@ -34,7 +34,7 @@ name: 'CreateQPartView',
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
-    socket.on("dataUpdate", (data) =>
+    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
       this.data = data
     )
     },
@@ -47,7 +47,7 @@ name: 'CreateQPartView',
       this.Qid = Math.floor(100000 + Math.random() * 900000)
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } )
     },
-    runQuestion: function () {           
+    runQuestion: function () {           //Oklart om denna behövs?
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     }
 }
