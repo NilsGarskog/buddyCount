@@ -88,7 +88,6 @@ export default {
 
       document.getElementById("labelUse").style.display = 'none';
       document.getElementById("name").style.textAlign = "center";
-      //document.getElementById("name").style.fontSize = "1.5em";
       document.getElementById("name").style.fontWeight = "700";
       document.getElementById(("name")).style.borderWidth="0.2em";
       document.getElementById("name").style.paddingBottom = "0.4em";
@@ -100,7 +99,8 @@ export default {
 
 
 
-    }
+    },
+
 
 
   }
