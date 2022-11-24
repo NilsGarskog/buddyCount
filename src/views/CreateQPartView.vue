@@ -1,7 +1,10 @@
 <template>
   <body>
     <h1>Skriv svar här</h1>
-    
+    <input type="text" v-model="question">
+        <button v-on:click="addQuestion">
+      Add question
+    </button>
   </body>
 </template>
 
@@ -19,10 +22,12 @@ name: 'CreateQPartView',
       answers: ["", ""],
       questionNumber: 0,
       data: {},
-      uiLabels: {}
+      uiLabels: {},
+      Qid: 0
     }
   },
     created: function () {
+    this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
@@ -33,11 +38,13 @@ name: 'CreateQPartView',
     )
     },
     methods: {
+
     createPoll: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
     },
     addQuestion: function () {
-      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers } )
+      this.Qid = Math.floor(100000 + Math.random() * 900000)
+      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } )
     },
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})

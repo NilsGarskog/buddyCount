@@ -2,7 +2,7 @@
 <body>
 <h1>Code: {{pollId}}</h1>
 <h2>Questions:</h2>
-{{question}}
+{{questions}}
 
 </body>
 
@@ -19,23 +19,26 @@ export default {
       lang: "",
       pollId: "",
       question: "",
-      questions: [], /* la till en tom array*/
+      questions: "", /* la till en tom array*/
       data: {},
       uiLabels: {},
     }
   },
     created: function () {
     this.pollId = this.$route.params.id
-    this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang
     socket.emit('joinPoll', this.pollId)
     socket.on("dataUpdate", (update) => {
       this.data = update.a;
       this.question = update.q;
     });
+    socket.on("questionUpdate", (update) => {
+      this.questions = update;
+    });
     socket.on("newQuestion", update => {
       this.question = update.q;
       this.data = {};
-    })
+    });
   },
     methods: {
     createPoll: function () {

@@ -48,7 +48,7 @@
 
     <div id="Buttons">
       <router-link v-bind:to="'/creatqhost/' + lang+'/'+id">
-        <button class="standardButton" role="button" v:on:click="createPoll">
+        <button class="standardButton" role="button" v-on:click="createPoll">
           <p class="buttonText">{{uiLabels.createGame}}</p>
         </button>
       </router-link>
@@ -126,7 +126,7 @@ export default {
   },
   methods: {
         createPoll: function () {
-      socket.emit("createPoll", {pollId: this.Id, lang: this.lang })
+      socket.emit("createPoll", {pollId: this.id, lang: this.lang })
     },
     togglePopup: function (type) {
       if (type === "join") {
