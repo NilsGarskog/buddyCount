@@ -1,8 +1,11 @@
 {
 	"sales-pitch": "Simply. Great. Polling.",
 	"invite": "Invite participants with this link:",
-	"createPoll": "Create poll",
-	"participatePoll": "Participate in poll",
+	"createGame": "Create game",
+	"joinGame": "Join game",
 	"question": "Question",
-	"changeLanguage": "Byt till svenska"
+	"changeLanguage": "Byt till svenska",
+	"rules1":  "Answer the questions and then guess which answer each person wrote.",
+	"rules2": "The person with the most right answers will win!",
+	"rules3": "Have fun and answer honestly."
 }
