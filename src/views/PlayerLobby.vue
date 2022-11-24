@@ -60,9 +60,9 @@ let player7 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 
 let player8 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/santa-claus_1f385.png');
 let player9 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/dog-face_1f436.png');
 let player10 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/man-vampire_1f9db-200d-2642-fe0f.png');
-
-
-let myPlayers = [player1,player2,player3,player4,player5,player6,player7,player8,player9,player10];
+let player11 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/hut_1f6d6.png');
+let player12 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/woman-golfing_1f3cc-fe0f-200d-2640-fe0f.png');
+let myPlayers = [player1,player2,player3,player4,player5,player6,player7,player8,player9,player10,player11,player12];
 
 console.log(myPlayers);
 
