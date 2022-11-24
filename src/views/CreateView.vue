@@ -199,14 +199,19 @@ button {
  
 }
 
+
 #createGameButton{
-  position:fixed;
-  margin-top:300px
+
+   position:absolute; 
+   margin-left:-50px;
+   left:50%;
+   width:100px;
+   bottom:2em;
   
 }
 
 #submitButton{
-  margin-left:10px;
+  margin-left:1em;
   
 
 }
