@@ -1,38 +1,103 @@
 <template>
-<body>
-<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+  <body>
+    <div v-if="popupTriggers.buttonTriggerJoin"> <!-- Popup för att joina spel -->
+      <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+        v-on:closeCurrentPopup="togglePopup('join')"
+      >
+        <input type="text" v-model="id" class="inputField" />
+        <router-link v-bind:to="'/poll/' + id">
+          <button class="standardButton" role="button" id="codeSubmitButton">
+            OK
+          </button>
+        </router-link>
+      </PopUp>
+    </div>
+    <div v-if="popupTriggers.buttonTriggerRules"> <!-- Popup för regler -->
+      <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+      >
+          <img src="../Icons/closeButton.png" class ="popupClose" v-on:click="togglePopup('rules')">
+           <pre> </pre>
 
-<img class="playMuteButton" :src="audioPicture" v-on:click="playSong" />
-  <div>
-  <h1 id="title">BuddyCount</h1>
-  </div>
-  
-  <div id="Buttons">
-  
-  <router-link v-bind:to="'/create/'+lang">
-  <button class="standardButton" role="button"><p class="buttonText">Create Game</p></button>
-  </router-link>
-<!--
-  <label>
-    Write poll id: 
-    <input type="text" v-model="id">
-  </label>
--->
-<hr style="height:2px;border-width:0;color:gray;background-color:gray">
-  <router-link v-bind:to="'/poll/'+id">
-  <button class="standardButton" role="button"><p class="buttonText">Join game </p></button>
-  </router-link>
-  </div>
-</body>
+          <div class="ruleText">
+            <ul>
+          <li>{{uiLabels.rules1}}</li>
+          <li>{{uiLabels.rules2}}</li>
+          <li>{{uiLabels.rules3}}</li>
+          </ul>
+          </div>
+      </PopUp>
+    </div>
+    <link
+      href="https://fonts.googleapis.com/css?family=Monoton"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <span class=topButtons> 
+    <img id="playMuteButton" :src="audioPicture" v-on:click="playSong" />
+    <img id="langBtn" :src="langImg" v-on:click="switchLanguage">
+    </span>
+    <div>
+      <h1 id="title">BuddyCount</h1>
+    </div>
+    
+
+    <div id="Buttons">
+      <router-link v-bind:to="'/create/' + lang">
+        <button class="standardButton" role="button">
+          <p class="buttonText">{{uiLabels.createGame}}</p>
+        </button>
+      </router-link>
+      <hr
+        style="
+          height: 2px;
+          border-width: 0;
+          color: gray;
+          background-color: gray;
+        "
+      />
+      <div>
+        <button
+          class="standardButton"
+          role="button"
+          v-on:click="togglePopup('join')"
+        >
+          <p class="buttonText">{{uiLabels.joinGame}}</p>
+        </button>
+      </div>
+    </div>
+    <img
+      class="rulesButton"
+      :src="rulesPicture"
+      v-on:click="togglePopup('rules')"
+    />
+  </body>
 </template>
 
 <script>
 import io from "socket.io-client";
+import PopUp from "../components/PopUp.vue";
+import { ref } from "vue";
+
 const socket = io();
 
 export default {
   name: "StartView",
-  components: {},
+  components: {
+    PopUp,
+  },
+  setup() {
+    const popupTriggers = ref({
+      buttonTriggerJoin: false,
+      buttonTriggerRules: false,
+    });
+    return {
+      popupTriggers,
+    };
+  },
   data: function () {
     return {
       uiLabels: {},
@@ -40,9 +105,10 @@ export default {
       lang: "en",
       hideNav: true,
       audioOn: false,
-      audio: new Audio(require('../Music/FunkyMusic.mp3')),
-      audioPicture: require('../Icons/Speaker.png')
-
+      audio: new Audio(require("../Music/FunkyMusic.mp3")),
+      audioPicture: require("../Icons/Speaker.png"),
+      rulesPicture: require("../Icons/daRules.png"),
+      langImg: require("../Icons/Sweden.png"),
     };
   },
   created: function () {
@@ -51,40 +117,96 @@ export default {
     });
   },
   methods: {
+    togglePopup: function (type) {
+      if (type === "join") {
+        this.popupTriggers.buttonTriggerJoin =
+          !this.popupTriggers.buttonTriggerJoin;
+      } else {
+        this.popupTriggers.buttonTriggerRules =
+          !this.popupTriggers.buttonTriggerRules;
+      }
+    },
+
     switchLanguage: function () {
-      if (this.lang === "en") this.lang = "sv";
-      else this.lang = "en";
-      socket.emit("switchLanguage", this.lang);
-    },
-    toggleNav: function () {
-      this.hideNav = !this.hideNav;
-    },
-    playSong: function(){
-      if (this.audioOn === false){
-      this.audio.play()
-      this.audioOn = true
-      this.audioPicture = require('../Icons/SpeakerOff.png')
+      if (this.lang === "en"){ 
+        this.lang = "sv"; 
+        this.langImg = require("../Icons/England.png")
       }
       else {
-      this.audio.pause()
-      this.audioOn = false
-      this.audioPicture = require('../Icons/Speaker.png')
-
+        this.lang = "en";
+        this.langImg = require("../Icons/Sweden.png")
       }
-
-    }
+      socket.emit("switchLanguage", this.lang);
+    },
+    playSong: function () {
+      if (this.audioOn === false) {
+        this.audio.play();
+        this.audioOn = true;
+        this.audioPicture = require("../Icons/SpeakerOff.png");
+      } else {
+        this.audio.pause();
+        this.audioOn = false;
+        this.audioPicture = require("../Icons/Speaker.png");
+      }
+    },
   },
 };
 </script>
-<style scoped>
-.playMuteButton{
-  display: grid;
-  height:5em;
-  width: 5em;
-  padding:1em;
 
+<style scoped>
+.inputField{
+  height: 4em;
+  width: 15em;
 }
-.buttonText{
+.popupClose{
+  height:4em;
+  width: 4em;
+  position: absolute;
+  padding: 0.2em;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}
+.ruleText{
+  font-size: 3vw;
+  text-align: left;
+  position: relative
+}
+
+ul {
+  list-style-position: outside;
+}
+.rulesButton {
+  height: 8em;
+  width: 8em;
+  padding: 2em;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  cursor: pointer;
+}
+#codeSubmitButton {
+  height: 5vh;
+  width: 8vw;
+  padding: 0;
+}
+.topButtons {
+  display: flex;
+  height: 5em;
+  width: 100%;
+  cursor: pointer;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+#playMuteButton{
+ margin-left: 1em;
+}
+#langBtn{
+  margin-right: 1em;
+}
+
+
+.buttonText {
   font-size: 1.7em;
 }
 #Buttons {
@@ -92,10 +214,7 @@ export default {
   grid-template-columns: 20em;
   justify-content: center;
 }
-.noLink {
-  text-decoration: none;
-  color: inherit;
-}
+
 body {
   position: fixed;
   background-color: #24a07b;
@@ -104,11 +223,11 @@ body {
   padding: 0;
 }
 
+
 #title {
   font-family: "Monoton";
   font-size: 10vw;
   font-synthesis: none;
-  
 }
 
 .standardButton {
