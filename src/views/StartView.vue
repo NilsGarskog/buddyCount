@@ -1,5 +1,6 @@
 <template>
   <body>
+    {{id}}
     <div v-if="popupTriggers.buttonTriggerJoin"> <!-- Popup för att joina spel -->
       <PopUp
         v-bind:PopUp="PopUp"
@@ -7,7 +8,7 @@
         v-on:closeCurrentPopup="togglePopup('join')"
       >
         <input type="text" v-model="id" class="inputField" />
-        <router-link v-bind:to="'/poll/' + id">
+        <router-link v-bind:to="'/creatqpart/' + lang+'/'+id ">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
           </button>
@@ -46,8 +47,8 @@
     
 
     <div id="Buttons">
-      <router-link v-bind:to="'/create/' + lang">
-        <button class="standardButton" role="button">
+      <router-link v-bind:to="'/creatqhost/' + lang+'/'+id">
+        <button class="standardButton" role="button" v:on:click="createPoll">
           <p class="buttonText">{{uiLabels.createGame}}</p>
         </button>
       </router-link>
@@ -118,11 +119,15 @@ export default {
     };
   },
   created: function () {
+    this.id = Math.floor(100000 + Math.random() * 900000)
     socket.on("init", (labels) => {
       this.uiLabels = labels;
     });
   },
   methods: {
+        createPoll: function () {
+      socket.emit("createPoll", {pollId: this.Id, lang: this.lang })
+    },
     togglePopup: function (type) {
       if (type === "join") {
         this.popupTriggers.buttonTriggerJoin =
