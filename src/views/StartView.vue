@@ -9,7 +9,7 @@
         <input type="text" v-model="id" class="inputField" />
         <router-link v-bind:to="'/poll/' + id">
           <button class="standardButton" role="button" id="codeSubmitButton">
-            OK
+            OK!
           </button>
         </router-link>
       </PopUp>
