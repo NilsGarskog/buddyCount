@@ -36,19 +36,19 @@
 
 <div class="characterRow">
   <div class="characterColumn">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
-    <img src="../characters/test_character_cherry.png" v-on:click="selectThisCharacter">
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
+    <img src="../characters/test_character_cherry.png" >
 
 
     <div class="joinGame">
@@ -101,9 +101,7 @@ export default {
 
 
     },
-    selectThisCharacter: function(){
 
-    }
 
 
   }
