@@ -158,7 +158,7 @@ button {
   background-color: #67b3a5b7;
 }
 .questionInput{
-  margin-top: 100px;
+  margin-top: 101px;
 }
 .showQuestions{
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
