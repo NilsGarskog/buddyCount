@@ -44,7 +44,7 @@
   </div>
 </div>
 <div class="createGame">
-  <router-link v-bind:to="'/'">
+  <router-link v-bind:to="'/chooseplayer/'">
    <!--<input type="number" v-model="questionNumber">-->
     <button v-on:click="runQuestion" id="createGameButton">
       Create Game

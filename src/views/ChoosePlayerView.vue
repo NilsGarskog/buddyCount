@@ -51,9 +51,11 @@
 
 
     <div class="joinGame">
+      <router-link v-bind:to="'/lobby/'">
       <button class="Button" id="joinGameButton">
         Join
       </button>
+      </router-link>
 
     </div>
 
