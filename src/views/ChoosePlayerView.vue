@@ -1,5 +1,6 @@
 <template>
   <body>
+  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <div class="username field">
     <input type="input" class="inputUsername" v-model="username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
     <label for="name" id="labelUse" class="labelUsername" >Username</label>
@@ -34,32 +35,39 @@
     </b>
   </div>
 
-<div class="characterRow">
-  <div class="characterColumn">
-    <img src="../Icons/Paul.png">
-    <img src="../Icons/Jerome.png">
-    <img src="../Icons/NoFace.png">
-    <img src="../Icons/Mononoke.png">
-    <img src="../Icons/ScareCrow.png">
-    <img src="../Icons/lucy.png">
-    <img src="../Icons/grodanBoll.png">
-    <img src="../Icons/Tintin.png">
-    <img src="../Icons/Milou.png">
-    <img src="../Icons/Voldermort.png">
-    <img src="../Icons/Dobby.png">
 
+  <div class="characterRow">
+    <div class="characterColumn" v-for="avatar in avatars"
+         v-bind:avatar="avatar" v-bind:key="avatar">
+    <p id="avatarName">
+      {{avatar.image}}
+    </p>
+      <img class="characters" :src="getImage(avatar.image)" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
 
-
-    <div class="joinGame">
-      <button class="Button" id="joinGameButton">
-        Join
-      </button>
-
+      <!--
+      <img src="avatar.image"/>
+-->
     </div>
-
-
+    <!--
+    <img class="characters" id="avatar1"  v-bind:src="require('../Icons/Paul.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar2"  v-bind:src="require('../Icons/Jerome.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar3"  v-bind:src="require('../Icons/NoFace.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar4"  v-bind:src="require('../Icons/Mononoke.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar5"  v-bind:src="require('../Icons/ScareCrow.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar6"  v-bind:src="require('../Icons/lucy.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar7"  v-bind:src="require('../Icons/grodanBoll.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar8"  v-bind:src="require('../Icons/Tintin.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar9"  v-bind:src="require('../Icons/Milou.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar10" v-bind:src="require('../Icons/Voldermort.png')" v-on:click="selectThisCharacter($event)">
+    <img class="characters" id="avatar11" v-bind:src="require('../Icons/Dobby.png')" v-on:click="selectThisCharacter($event)">
+-->
   </div>
-</div>
+
+
+    <button class="Button" id="joinGameButton">
+      Join
+    </button>
+
 
 
   </body>
@@ -68,16 +76,65 @@
 </template>
 
 <script>
-
+//import image from '/avatars.json'
+//import id from '/avatars.json'
 
 
 
 export default {
   name: "ChoosePlayerView",
+
   data(){
     return{
-      username:"",
-    };
+      avatars: [
+        {
+        id: "1",
+          image: "Paul",
+        },
+        {
+          id: "2",
+          image: 'Jerome'
+        },
+        {
+          id: "3",
+          image: 'NoFace'
+        },
+        {
+          id:"4",
+          image: 'Mononoke'
+        },
+        {
+          id: "5",
+          image: 'ScareCrow'
+        },
+        {
+          id: "6",
+          image: 'lucy'
+        },
+        {
+          id: "7",
+          image: 'grodanBoll'
+        },
+        {
+          id: "8",
+          image: 'Tintin'
+        },
+        {
+          id: "9",
+          image: 'Milou'
+        },
+        {
+          id: "10",
+          image: 'Voldermort'
+        },
+        {
+          id: "11",
+          image: 'Dobby'
+        }
+      ],
+      clickedAvatars:[]
+
+    }
   },
 
 
@@ -99,8 +156,19 @@ export default {
 
 
 
+
     },
 
+    selectThisCharacter(avatar){
+      this.clickedAvatars.push(avatar)
+      console.log(this.clickedAvatars);
+
+
+    },
+
+    getImage(img) {
+      return require('../Icons/'+img+ '.png');
+    }
 
 
   }
@@ -139,8 +207,7 @@ $gray: black;
 }
 
 .inputUsername {
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-  sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: righteous;
   width: 100%;
   border: 0;
   border-bottom: 0.1em solid $gray;
@@ -163,6 +230,7 @@ $gray: black;
 }
 
 .labelUsername {
+  font-family: righteous;
   position: absolute;
   top: 0;
   display: block;
@@ -195,7 +263,7 @@ $gray: black;
   }
 }
 #characterText{
-
+  font-family: righteous;
   font-size: 3vw;
   margin-top:4em;
   position:relative;
@@ -223,10 +291,10 @@ $gray: black;
 
 .Button{
   height: 4em;
-  width: 9em;
+  width: 8em;
   background-color: #70c1b3;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
+  border: 0.1em solid rgba(27, 31, 35, 0.15);
+  border-radius: 0.3em;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
   color: black;
@@ -235,8 +303,9 @@ $gray: black;
   sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 3vw;
   font-weight: 800;
-  line-height: 20px;
-  padding: 6px 16px;
+  line-height: 2em;
+  padding: 1em 2em;
+
 
 
 }
@@ -273,32 +342,44 @@ img {
 img:hover{
   transform: scale(1.1);
 }
-.characterRow {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 2em;
 
 
-}
 
-/* Create two equal columns that sits next to each other */
 .characterColumn {
-  flex: 50%;
-  padding: 0 4px;
-
+  float: left;
+  width: 33.33%;
+  padding: 5px;
 }
 
-.characterColumn  img {
-  margin-top: 8px;
-  vertical-align: middle;
+/* Clear floats after image containers */
+.characterRow::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 #joinGameButton{
 margin-bottom: 1em;
-
+  font-family: righteous;
 }
 #joinGameButton:hover{
   transform: scale(1.1);
 
+}
+#avatarName{
+  font-family: righteous;
+  font-size: 2em;
+  font-weight: 800;
+
+
+
+}
+.characters{
+
+}
+@media screen and (max-width: 500px) {
+  .characterColumn {
+    width: 100%;
+  }
 }
 
 </style>
