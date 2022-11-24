@@ -1,8 +1,25 @@
 <template>
 <body>
-<h1>Code: {{pollId}}</h1>
+    <div id="hideQuestions">
+  <img class="hideEye" :src="hidePic" v-on:click="hideQuestion" > 
+  <h3> Hide questions </h3>
+  </div>
+    <h1>Code: {{pollId}}</h1>
 <h2>Questions:</h2>
-{{questions}}
+<div class="showQuestions">
+<div v-if="!hide">
+    <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
+            {{question.q}}
+            
+  </div>
+  </div>
+  <div v-else>
+    <div v-for="(question,index) in questions"
+    v-bind:key="question">
+    Question {{index+1}}
+  </div>
+  </div>
+  </div>
 
 </body>
 
@@ -18,10 +35,12 @@ export default {
     return {
       lang: "",
       pollId: "",
-      question: "",
+      questionObject: "",
       questions: "", /* la till en tom array*/
       data: {},
       uiLabels: {},
+      hide: false,
+      hidePic: require('../Icons/eyeOpen.png')
     }
   },
     created: function () {
@@ -32,7 +51,7 @@ export default {
       this.data = update.a;
       this.question = update.q;
     });
-    socket.on("questionUpdate", (update) => {
+    socket.on("questionUpdate", (update) => {       //Funktion för att hämta fråge-array /Nils
       this.questions = update;
     });
     socket.on("newQuestion", update => {
@@ -70,5 +89,18 @@ body{
   width: 100vw;
   min-height: 100vh;
   padding: 0;
+}
+#hideQuestions{
+  display:flex;
+  flex-direction: column;
+  align-items:flex-end;
+  width: 95%;
+  margin-right: 7em;
+  margin-top: 2em;
+}
+.hideEye{
+  height:7em;
+  width: 7em;
+ 
 }
 </style>
