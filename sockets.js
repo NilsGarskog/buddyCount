@@ -14,7 +14,7 @@ function sockets(io, socket, data) {
   });
 
   /*
-  socket.on('addQuestion', function(d) {         //Bortkommenterad pga nu addQuestion, se nedan!
+  socket.on('addQuestion', function(d) {         //Bortkommenterad pga ny addQuestion, se nedan!
     data.addQuestion(d.pollId, {q: d.q, a: d.a});
     socket.emit('dataUpdate', data.getAnswers(d.pollId));
   });
@@ -31,7 +31,7 @@ function sockets(io, socket, data) {
     socket.emit('dataUpdate', data.getAnswers(pollId));
   });
 
-  socket.on('runQuestion', function(d) {
+  socket.on('runQuestion', function(d) {           //oklart om denna behövs?
     io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
   });
