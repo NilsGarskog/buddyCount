@@ -14,7 +14,7 @@ function sockets(io, socket, data) {
   });
 
   /*
-  socket.on('addQuestion', function(d) {
+  socket.on('addQuestion', function(d) {         //Bortkommenterad pga nu addQuestion, se nedan!
     data.addQuestion(d.pollId, {q: d.q, a: d.a});
     socket.emit('dataUpdate', data.getAnswers(d.pollId));
   });
@@ -46,7 +46,7 @@ function sockets(io, socket, data) {
     data.initializeData();
   });
 
-  socket.on('addQuestion',function(d) {
+  socket.on('addQuestion',function(d) {       //Funktion för att lägga till frågor och skicka ut alla frågor som finns / Nils
     data.addQuestion(d.pollId, {q: d.q, i: d.i});
     io.to(d.pollId).emit('questionUpdate', data.getAllQuestions(d.pollId));
   });

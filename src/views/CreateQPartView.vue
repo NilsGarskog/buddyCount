@@ -1,6 +1,7 @@
 <template>
   <body>
-    <h1>Skriv svar här</h1>
+    
+    <h1>Write questions here</h1>
     <input type="text" v-model="question">
         <button v-on:click="addQuestion">
       Add question
@@ -42,11 +43,11 @@ name: 'CreateQPartView',
     createPoll: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
     },
-    addQuestion: function () {
+    addQuestion: function () {           //Lagt till fråge-id mm.
       this.Qid = Math.floor(100000 + Math.random() * 900000)
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } )
     },
-    runQuestion: function () {
+    runQuestion: function () {           
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     }
 }
