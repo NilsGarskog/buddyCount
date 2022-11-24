@@ -84,6 +84,12 @@ import { ref } from "vue";
 
 const socket = io();
 
+
+
+
+
+
+
 export default {
   name: "StartView",
   components: {
