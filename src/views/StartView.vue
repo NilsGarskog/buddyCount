@@ -1,13 +1,12 @@
 <template>
   <body>
-    {{id}}
     <div v-if="popupTriggers.buttonTriggerJoin"> <!-- Popup för att joina spel -->
       <PopUp
         v-bind:PopUp="PopUp"
         v-bind:key="PopUpFonster"
         v-on:closeCurrentPopup="togglePopup('join')"
       >
-        <input type="text" v-model="id" class="inputField" />
+        <input class="codeInput" type="text" v-model="id" placeholder="input code...." />
         <router-link v-bind:to="'/creatqpart/' + lang+'/'+id ">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
@@ -37,14 +36,14 @@
       rel="stylesheet"
       type="text/css"
     />
-    <span class=topButtons> 
+    <span class=topButtons>
     <img id="playMuteButton" :src="audioPicture" v-on:click="playSong" />
     <img id="langBtn" :src="langImg" v-on:click="switchLanguage">
     </span>
     <div>
       <h1 id="title">BuddyCount</h1>
     </div>
-    
+
 
     <div id="Buttons">
       <router-link v-bind:to="'/creatqhost/' + lang+'/'+id">
@@ -84,11 +83,6 @@ import PopUp from "../components/PopUp.vue";
 import { ref } from "vue";
 
 const socket = io();
-
-
-
-
-
 
 
 export default {
@@ -139,8 +133,8 @@ export default {
     },
 
     switchLanguage: function () {
-      if (this.lang === "en"){ 
-        this.lang = "sv"; 
+      if (this.lang === "en"){
+        this.lang = "sv";
         this.langImg = require("../Icons/England.png")
       }
       else {
@@ -216,6 +210,10 @@ ul {
   margin-right: 1em;
 }
 
+.codeInput{
+  border:none;
+  border-bottom: 0.1em solid black;
+}
 
 .buttonText {
   font-size: 1.7em;

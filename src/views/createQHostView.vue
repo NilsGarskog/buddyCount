@@ -1,12 +1,19 @@
 <template>
 <body>
+  <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+  <div class ="headerContainer">
+      <div class ="gameCode">
+    <p>Code: {{pollId}}</p>
+  </div>
     <div id="hideQuestions">
   <img class="hideEye" :src="hidePic" v-on:click="hideQuestion" > 
-  <h3> Hide questions </h3>
+  <p> Hide questions </p>
   </div>
-    <h1>Code: {{pollId}}</h1>
-<h2>Questions:</h2>
-<div class="showQuestions">
+  </div>
+<h1 class ="questionTitle">Questions:</h1>
+<div class="questions">
 <div v-if="!hide">
     <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
             {{question.q}}
@@ -83,6 +90,32 @@ export default {
 
 
 <style>
+.headerContainer {
+    display:flex;
+    justify-content: space-between;
+    margin: 1em;
+    margin-top: 0em;
+}
+.questionTitle {
+font-family: 'monoton';
+font-size: 5em;
+margin-top: -1em;
+font-weight: 300;
+}
+.questions{
+  font-size: 2em;
+  font-family: Righteous;
+  padding: 1em;
+  margin-top: 0;
+}
+
+.gameCode{
+      font-size: 3em;
+      font-family: righteous;
+      font-weight: bold;
+      color: white;
+      width: 40%;
+}
 body{
   position: fixed;
   background-color: #24a07b;
