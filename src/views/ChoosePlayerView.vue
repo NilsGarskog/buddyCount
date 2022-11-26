@@ -1,36 +1,14 @@
 <template>
   <body>
+
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-  <div class="username field">
-    <input type="input" class="inputUsername" v-model="username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
+  <div class="usernameGroup">
+    <input type="input" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
     <label for="name" id="labelUse" class="labelUsername" >Username</label>
   </div>
 
-<!--<div class="dropdownAndText">
-
-  <b id="characterText">
-    Choose a character:
-  </b>
-<div class="dropdown">
-
-  <button class="btnCharacter" type="button" id="dropdownMenuButton">
-    Characters
-  </button>
-  <div class="dropdownContent">
-    <a href="#">Bild 1</a>
-    <a href="#">Bild 2</a>
-    <a href="#">Bild 3</a>
-    <a href="#">Bild 4</a>
-    <a href="#">Bild 5</a>
-
-  </div>
-
-</div>
-</div>
--->
-
   <div>
-    <b id="characterText">
+    <b id="characterText" v-on:click="addTheImage">
       Choose a character:
     </b>
   </div>
@@ -39,10 +17,16 @@
   <div class="characterRow">
     <div class="characterColumn" v-for="avatar in avatars"
          v-bind:avatar="avatar" v-bind:key="avatar">
-    <p id="avatarName">
-      {{avatar.image}}
-    </p>
-      <img class="characters" :src="getImage(avatar.image)" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
+      <p id="avatarName">
+        {{avatar.image}}
+      </p>
+      <div class="borderCharacter">
+        <div class="innerCharacter">
+          <img class="characters" :src="getImage(avatar.image)" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
+        </div>
+
+      </div>
+
 
       <!--
       <img src="avatar.image"/>
@@ -64,7 +48,7 @@
   </div>
 
 
-    <button class="Button" id="joinGameButton">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:clicked="getPlayerInfo">
       Join
     </button>
 
@@ -84,55 +68,59 @@
 export default {
   name: "ChoosePlayerView",
 
-  data(){
+  data: function(){
     return{
       avatars: [
         {
-        id: "1",
+          id: "Avatar_1",
           image: "Paul",
         },
         {
-          id: "2",
+          id: "Avatar_2",
           image: 'Jerome'
         },
         {
-          id: "3",
+          id: "Avatar_3",
           image: 'NoFace'
         },
         {
-          id:"4",
+          id:"Avatar_4",
           image: 'Mononoke'
         },
         {
-          id: "5",
+          id: "Avatar_5",
           image: 'ScareCrow'
         },
         {
-          id: "6",
+          id: "Avatar_6",
           image: 'lucy'
         },
         {
-          id: "7",
+          id: "Avatar_7",
           image: 'grodanBoll'
         },
         {
-          id: "8",
+          id: "Avatar_8",
           image: 'Tintin'
         },
         {
-          id: "9",
+          id: "Avatar_9",
           image: 'Milou'
         },
         {
-          id: "10",
+          id: "Avatar_10",
           image: 'Voldermort'
         },
         {
-          id: "11",
+          id: "Avatar_11",
           image: 'Dobby'
         }
       ],
-      clickedAvatars:[]
+      playerInfo: {
+        clickedAvatars:[],
+        username:"",
+      }
+
 
     }
   },
@@ -141,6 +129,11 @@ export default {
 
   //Metod för att ta bort placeholder
   methods: {
+
+    getPlayerInfo: function(){
+          this.playerInfo.username = document.getElementById("username");
+    },
+
     onEnter:function(){
 
       document.getElementById("labelUse").style.display = 'none';
@@ -160,25 +153,52 @@ export default {
     },
 
     selectThisCharacter(avatar){
-      this.clickedAvatars.push(avatar)
-      console.log(this.clickedAvatars);
+      if (this.playerInfo.clickedAvatars.length===0){
+        this.playerInfo.clickedAvatars.push(avatar)
+        console.log(this.playerInfo);
+        console.log(this.getImage(avatar.image));
+
+      }
+      else {
+        this.playerInfo.clickedAvatars.splice(0,1);
+        this.playerInfo.clickedAvatars.push(avatar);
+        console.log(this.playerInfo);
+        console.log(this.getImage(avatar.image));
+      }
+
 
 
     },
 
     getImage(img) {
       return require('../Icons/'+img+ '.png');
-    }
+    },
+    addTheImage() {
+      var bildfan = new Image()
+
+      bildfan.src = 'http://localhost:8080/public/icons';
+      document.body.append(bildfan);
+}
 
 
-  }
+
+  },
+  computed: {
+    correctInput() {
+      return (this.playerInfo.username != "" && this.playerInfo.clickedAvatars.length>0) ? false : true;
+
+    },
+
+
+  },
 }
 
 
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
 
 body {
   position: relative;
@@ -189,44 +209,38 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: scroll;
+  overflow-x:hidden;
+
 
 
 }
-$primary: /*#11998e*/ #a02436;
-$secondary: /*#38ef7d*/  #24a07b;
-$white: #fff;
-$gray: black;
-.username {
-  font-size: 1.5rem;
-  position: relative;
-  padding: 0.5rem 0 0;
-  margin-top: 2rem;
-  width: 50%;
+
+#characterText{
+  margin-top:8em;
+}
+
+.usernameGroup{
+  position:relative;
+  padding: 0.9375em 0 0;
+  margin-top: 0.625em;
+  width:50%
 }
 
 .inputUsername {
   font-family: righteous;
   width: 100%;
   border: 0;
-  border-bottom: 0.1em solid $gray;
+  border-bottom: 0.125em solid #70c1b3;
   outline: 0;
-  font-size: 1.3rem;
+  font-size: 2.6rem;
   color: black;
-  padding: 0.3em 0;
+  padding: 0.4375em 0;
   background: transparent;
   transition: border-color 0.2s;
-
-  &::placeholder {
-    color: transparent;
-  }
-
-  &:placeholder-shown ~ .labelUsername {
-    font-size: 1.3rem;
-    cursor: text;
-    top: 1em;
-  }
+}
+.inputUsername::placeholder{
+  color:transparent;
 }
 
 .labelUsername {
@@ -235,59 +249,37 @@ $gray: black;
   top: 0;
   display: block;
   transition: 0.2s;
-  font-size: 1.5rem;
-  color: $gray;
+  font-size: 2rem;
+  color: black;
 }
 
-.inputUsername:focus {
-  ~ .labelUsername {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    color: $primary;
-    font-weight: 700;
-  }
-  padding-bottom: 0.4em;
+.inputUsername:placeholder-shown ~.labelUsername{
+  font-size:2.6rem;
+  cursor:text;
+  top: 1.25em;
+}
+
+.inputUsername:focus{
+  padding-bottom:  0.375em;
   font-weight: 700;
-  border-width: 0.2em;
-  border-image: linear-gradient(to right, $primary, $secondary);
+  border-width: 0.1875em;
+  border-image: linear-gradient(to right,#a02449 ,#24a07b);
   border-image-slice: 1;
 }
-/* reset input */
-.inputUsername {
-  &:required,
-  &:invalid {
-    box-shadow: none;
-  }
+.inputUsername:focus~.labelUsername{
+  position:absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #a02449;
 }
+
 #characterText{
   font-family: righteous;
   font-size: 3vw;
-  margin-top:4em;
-  position:relative;
-  display: inline-block;
-  align-items: center;
-  justify-content: center;
-
 }
-/*
-.dropdown{
-  margin-top:4em;
-  /*display:flex;
-  align-items: center;
-  justify-content: center;
-
-
-  position:relative;
-  display: inline-block;
-  align-items: center;
-  justify-content: center;
-
-}
-*/
-
 
 .Button{
   height: 4em;
@@ -306,80 +298,119 @@ $gray: black;
   line-height: 2em;
   padding: 1em 2em;
 
+}
 
-
-}
-/*
-#dropdownMenuButton:hover {
-  background-color: #67b3a5b7;
-}
-.dropdownContent{
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-.dropdownContent a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-.dropdownContent a:hover {background-color: #ddd;}
-.dropdown:hover .dropdownContent {display: block;}
-.dropdown:hover .btnCharacter {background-color: #3e8e41;}
-*/
 img {
-  width:10%;
+  width:50%;
   height:auto;
-  box-shadow: 1em;
   cursor:pointer;
   padding: 1em;
   margin: 1em;
+  z-index:10;
+
 }
+
 img:hover{
   transform: scale(1.1);
 }
 
+.characterRow{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0.25em;
 
+}
 
 .characterColumn {
-  float: left;
-  width: 33.33%;
-  padding: 5px;
+  flex:25%;
+  max-width: 25%;
+  padding: 0 0.25em;
+
+
+}
+/*
+.borderCharacter{
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+*/
+
+/*
+.borderCharacter:before{
+  content: "";
+  background-image: conic-gradient(
+      #70c1b3 20deg,
+      transparent 120deg
+  );
+  width: 150%;
+  height: 150%;
+  position: absolute;
+  animation: rotate 2s linear infinite;
+
+}
+.borderCharacter::after{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #70c1b3;
+  margin-left:2em;
+
+
+}
+@keyframes rotate {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(-360deg);
+  }
+}
+ */
+
+characterColumn img{
+  margin-top: 0.5em;
+  vertical-align: middle;
+  width: 100%;
 }
 
-/* Clear floats after image containers */
-.characterRow::after {
-  content: "";
-  clear: both;
-  display: table;
-}
 #joinGameButton{
 margin-bottom: 1em;
   font-family: righteous;
 }
 #joinGameButton:hover{
   transform: scale(1.1);
-
 }
 #avatarName{
   font-family: righteous;
-  font-size: 2em;
+  font-size: 2vw;
   font-weight: 800;
-
-
+  margin-top:1em;
+  position:relative;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
 
 }
-.characters{
-
+::-webkit-scrollbar{
+  width: 0px;
 }
-@media screen and (max-width: 500px) {
-  .characterColumn {
-    width: 100%;
-  }
+/*.innerCharacter{
+  z-index: 8;
+
+ }
+ */
+button.Button:disabled{
+  opacity:0.3;
+  pointer-events: none !important;
 }
 
 </style>
