@@ -233,6 +233,7 @@ body {
   font-size: 10vw;
   font-synthesis: none;
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 .standardButton {
