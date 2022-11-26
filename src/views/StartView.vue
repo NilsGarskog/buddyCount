@@ -50,7 +50,7 @@
       </router-link>
       <hr
         style="
-          height: 1em;
+          height: 2vh;
           border: 0;
         "
       />
@@ -178,8 +178,7 @@ ul {
   list-style-position: outside;
 }
 .rulesButton {
-  height: 8em;
-  width: 8em;
+  height: 6vw;
   padding: 2em;
   position: fixed;
   bottom: 0px;
@@ -233,7 +232,7 @@ body {
   font-size: 10vw;
   font-synthesis: none;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 4vh;
 }
 
 .standardButton {
@@ -258,5 +257,9 @@ body {
 
 .standardButton:hover {
   background-color: #67b3a5b7;
+}
+
+@media screen and (max-width:50em) {
+  
 }
 </style>
