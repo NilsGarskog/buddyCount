@@ -39,12 +39,9 @@
     <span class=topButtons>
     <img id="playMuteButton" :src="audioPicture" v-on:click="playSong" />
     <img id="langBtn" :src="langImg" v-on:click="switchLanguage">
-    </span>
-    <div>
+    </span> 
+    <div class="mainContent">
       <h1 id="title">BuddyCount</h1>
-    </div>
-
-
     <div id="Buttons">
       <router-link v-bind:to="'/creatqhost/' + lang+'/'+id">
         <button class="standardButton" role="button" v-on:click="createPoll">
@@ -53,10 +50,8 @@
       </router-link>
       <hr
         style="
-          height: 2px;
-          border-width: 0;
-          color: gray;
-          background-color: gray;
+          height: 1em;
+          border: 0;
         "
       />
       <div>
@@ -69,6 +64,7 @@
         </button>
       </div>
     </div>
+        </div>
     <img
       class="rulesButton"
       :src="rulesPicture"
@@ -197,7 +193,7 @@ ul {
 }
 .topButtons {
   display: flex;
-  height: 5em;
+  height: 6vw;
   width: 100%;
   cursor: pointer;
   justify-content: space-between;
@@ -219,9 +215,7 @@ ul {
   font-size: 1.7em;
 }
 #Buttons {
-  display: grid;
-  grid-template-columns: 20em;
-  justify-content: center;
+ 
 }
 
 body {
@@ -232,30 +226,31 @@ body {
   padding: 0;
 }
 
-
+.mainContent{
+}
 #title {
   font-family: "Monoton";
   font-size: 10vw;
   font-synthesis: none;
+  margin-top: 0;
 }
 
 .standardButton {
-  height: 7em;
-  width: 15em;
+
+  width: 20vw;
   background-color: #70c1b3;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
+  border: 0.1em solid rgba(27, 31, 35, 0.15);
+  border-radius: 1em;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
   color: black;
   cursor: pointer;
-  display: inline-block;
+
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 6px 16px;
+  font-size: 1.5vw;
+  font-weight: bold;
+  padding: 0.1em 0.1em;
   position: relative;
   text-align: center;
 }

@@ -9,7 +9,6 @@
   </div>
     <div id="hideQuestions">
   <img class="hideEye" :src="hidePic" v-on:click="hideQuestion" > 
-  <p> Hide questions </p>
   </div>
   </div>
 <h1 class ="questionTitle">Questions:</h1>
@@ -130,10 +129,12 @@ body{
   width: 95%;
   margin-right: 7em;
   margin-top: 2em;
+  cursor: pointer;
 }
 .hideEye{
   height:7em;
   width: 7em;
+  cursor: pointer;
  
 }
 </style>
