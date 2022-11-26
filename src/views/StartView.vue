@@ -1,13 +1,19 @@
 <template>
   <body>
+       <link
+      href="https://fonts.googleapis.com/css?family=Monoton"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <div v-if="popupTriggers.buttonTriggerJoin"> <!-- Popup för att joina spel -->
       <PopUp
         v-bind:PopUp="PopUp"
         v-bind:key="PopUpFonster"
         v-on:closeCurrentPopup="togglePopup('join')"
       >
-        <input class="codeInput" type="text" v-model="id" placeholder="input code...." />
-        <router-link v-bind:to="'/creatqpart/' + lang+'/'+id ">
+        <input class="codeInput" type="text" v-model="joinId" placeholder="input code...." />
+        <router-link v-bind:to="'/creatqpart/' + lang+'/'+joinId ">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
           </button>
@@ -31,12 +37,12 @@
           </div>
       </PopUp>
     </div>
-    <link
-      href="https://fonts.googleapis.com/css?family=Monoton"
-      rel="stylesheet"
-      type="text/css"
-    />
     <span class=topButtons>
+          <img
+      class="rulesButtonMobile"
+      :src="rulesPicture"
+      v-on:click="togglePopup('rules')"
+    />
     <img id="playMuteButton" :src="audioPicture" v-on:click="playSong" />
     <img id="langBtn" :src="langImg" v-on:click="switchLanguage">
     </span> 
@@ -99,6 +105,7 @@ export default {
     return {
       uiLabels: {},
       id: "",
+      joinId: "",
       lang: "en",
       hideNav: true,
       audioOn: false,
@@ -171,7 +178,8 @@ export default {
 .ruleText{
   font-size: 3vw;
   text-align: left;
-  position: relative
+  position: relative;
+  margin-left: 1vw;
 }
 
 ul {
@@ -189,6 +197,7 @@ ul {
   height: 5vh;
   width: 8vw;
   padding: 0;
+  background-color: #fd8469;
 }
 .topButtons {
   display: flex;
@@ -208,13 +217,16 @@ ul {
 .codeInput{
   border:none;
   border-bottom: 0.1em solid black;
+  width:80%;
+  height: 3vh;
+  background-color: inherit;
+  font-size: 2em;
+  font-family: righteous;
+  font-weight: bold;
 }
 
 .buttonText {
   font-size: 1.7em;
-}
-#Buttons {
- 
 }
 
 body {
@@ -225,8 +237,6 @@ body {
   padding: 0;
 }
 
-.mainContent{
-}
 #title {
   font-family: "Monoton";
   font-size: 10vw;
@@ -258,8 +268,46 @@ body {
 .standardButton:hover {
   background-color: #67b3a5b7;
 }
+.rulesButtonMobile{
+  display: none;
+}
 
 @media screen and (max-width:50em) {
-  
+  .rulesButton {
+display: none;
+  }
+  .topButtons {
+    height: 5em;
+  }
+  .standardButton {
+    width: 12em;
+    font-size: 1.5em;
+  }
+  #title{
+    margin-bottom: 2em;
+    margin-top: 1em;
+    font-size: 12vw;
+  }
+  #playMuteButton {
+    display: none;
+  }
+ .rulesButtonMobile{
+   display: inline-flex;
+     width: 6em;
+    height: 6em;
+    margin-left: 1em;
+ }
+ .popupClose{
+  height:3em;
+  width: 3em;
+}
+.ruleText{
+  font-size: 1.5em;
+
+  margin-left: 0;
+}
+#codeSubmitButton {
+  width: 2.3em;
+}
 }
 </style>

@@ -50,4 +50,11 @@ export default {
  width:50%;
  position: relative;
     }
+  
+
+@media screen and (max-width:50em) {
+  .popupinner{
+  width: 80%;
+  }
+}
 </style>
