@@ -82,10 +82,9 @@ export default {
     },
 
     methods: {
-        getRandID: function () {
-            let number1 = Math.floor(Math.random()*1000);
-            let number2 = Math.floor(Math.random()*1000)
-      return number1.toString().padStart(3,'0') + ' ' + number2.toString().padStart(3,'0');
+    getRandID: function () {
+            let number1 = Math.floor(Math.random()*10000);
+      return number1.toString().padStart(4,'0');
     },
 
     getRandName: function () {
