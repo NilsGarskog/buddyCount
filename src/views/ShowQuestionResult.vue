@@ -1,5 +1,5 @@
 <template>
-<body>
+<body v-on:click="draw()">
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <h3>De rätta svaren är:</h3>
    <div class="questionResultPage">
@@ -11,7 +11,7 @@
         <img class ="avatarImage" v-bind:src = "playerans.avatar" /> {{playerans.name}} 
         </div>
         </div>
-        <div><canvas v-on:click="draw()" id="linesBetweenAnswers"></canvas></div>
+        <div><canvas id="linesBetweenAnswers"></canvas></div>
         <div class="shuffledNumbers">
         <div v-for="playerans in ShuffledAnswers"
         v-bind:playerans="playerans"
@@ -55,6 +55,7 @@ let shuffleAnswer = myPlayersAnswersClone.sort(() => Math.random() - 0.5);
 
 console.log(myPlayersAnswers);
 console.log(shuffleAnswer);
+
 
 
 export default {
@@ -127,9 +128,9 @@ ctx.stroke();
       
        if (canvas.getContext) {
                 
-        //var colors = ["#75EB00",   "#53BBF4",   "#FF85CB",   "#FF432E",   "#FFAC00",];
+                var colors = ["red",   "yellow",   "blue",   "orange",   "purple",];
                  for(let i = 0; i < this.PlayersWithAnswers.length; i++){
-                    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+                    //const randomColor = Math.floor(Math.random()*16777215).toString(16);
                     console.log(this.PlayersWithAnswers[i]);
                    let endIndex;
                    for(let j = 0; j < this.ShuffledAnswers.length; j++){
@@ -147,7 +148,7 @@ ctx.stroke();
               setInterval(function (){
                 amount += 0.0005;
                 ctx.beginPath();
-                ctx.strokeStyle = "#"+randomColor+"";
+                ctx.strokeStyle = colors[i];
                 ctx.lineWidth =10;  
                 ctx.stroke.lineCap = "round";
                 ctx.moveTo(startX, startY);
@@ -192,7 +193,7 @@ h3 {
 }
 
 .questionResultPage {
-    height: auto;
+    height: 100%;
     display:flex;
    padding-top: 2em;
 }
