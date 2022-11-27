@@ -17,75 +17,44 @@
 
 
   <div class="characterRow">
-    <div class="characterColumn" v-for="avatar in avatars"
-         v-bind:avatar="avatar" v-bind:key="avatar">
+    <div class="characterColumn" v-for="(avatar) in avatars"
+         v-bind:avatar="avatar" v-bind:key="avatar.image">
       <p id="avatarName">
         {{avatar.image}}
+
       </p>
 
 
       <div class="borderCharacter">
         <div class="innerCharacter">
 
-          <img class="characters" :src="getImage(avatar.image)" :key="avatar.image" v-on:click="selectThisCharacter(avatar); togglePopup('choose');" />
+          <img  class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar); togglePopup('choose');" />
 
+          <div v-if="popupTriggers.buttonTriggerAvatar"> <!-- Popup för Avatar-->
+            <PopUp
+                v-bind:PopUp="PopUp"
+                v-bind:key="PopUpFonster">
+
+              <img  :src="bigAvatar()" class ="popUpAvatar" v-on:click="togglePopup('choose')">
+
+
+            </PopUp>
+          </div>
 
       </div>
 
       </div>
 
 
-
-      <!--
-      <img src="avatar.image"/>
--->
     </div>
-    <div v-if="popupTriggers.buttonTriggerAvatar"> <!-- Popup för Avatar-->
-      <PopUp
-          v-bind:PopUp="PopUp"
-          v-bind:key="PopUpFonster"
-      >
-        <img src="('../Icons/Paul.png')"  class ="popUpAvatar" v-on:click="togglePopup('choose')">
-
-      </PopUp>
-    </div>
-
-
-
-    <!--
-    <img class="characters" id="avatar1"  v-bind:src="require('../Icons/Paul.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar2"  v-bind:src="require('../Icons/Jerome.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar3"  v-bind:src="require('../Icons/NoFace.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar4"  v-bind:src="require('../Icons/Mononoke.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar5"  v-bind:src="require('../Icons/ScareCrow.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar6"  v-bind:src="require('../Icons/lucy.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar7"  v-bind:src="require('../Icons/grodanBoll.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar8"  v-bind:src="require('../Icons/Tintin.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar9"  v-bind:src="require('../Icons/Milou.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar10" v-bind:src="require('../Icons/Voldermort.png')" v-on:click="selectThisCharacter($event)">
-    <img class="characters" id="avatar11" v-bind:src="require('../Icons/Dobby.png')" v-on:click="selectThisCharacter($event)">
--->
   </div>
-
-
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:clicked="getPlayerInfo">
       Join
     </button>
-
-
-
   </body>
-
-
 </template>
 
 <script>
-//import image from '/avatars.json'
-//import id from '/avatars.json'
-
-
-
-
 import PopUp from "@/components/PopUp";
 import {ref} from "vue";
 
@@ -155,22 +124,14 @@ export default {
         clickedAvatars:[],
         username:"",
       }
-
-
     }
   },
-
-
-
   //Metod för att ta bort placeholder
   methods: {
-
     getPlayerInfo: function(){
           this.playerInfo.username = document.getElementById("username");
     },
-
     onEnter:function(){
-
       document.getElementById("labelUse").style.display = 'none';
       document.getElementById("name").style.textAlign = "center";
       document.getElementById("name").style.fontWeight = "700";
@@ -178,65 +139,41 @@ export default {
       document.getElementById("name").style.paddingBottom = "0.4em";
       document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
-
-
-
-
-
-
-
     },
-
     selectThisCharacter(avatar){
       if (this.playerInfo.clickedAvatars.length===0){
         this.playerInfo.clickedAvatars.push(avatar)
         console.log(this.playerInfo);
-        console.log(this.getImage(avatar.image));
-
+       return this.playerInfo.clickedAvatars
       }
       else {
         this.playerInfo.clickedAvatars.splice(0,1);
         this.playerInfo.clickedAvatars.push(avatar);
         console.log(this.playerInfo);
-        console.log(this.getImage(avatar.image));
+        return this.playerInfo.clickedAvatars
       }
-
-
-
     },
-
-    getImage(img) {
-      return require('../Icons/'+img+ '.png');
-    },
-
     togglePopup: function (type) {
       if (type === "choose") {
         this.popupTriggers.buttonTriggerAvatar =
             !this.popupTriggers.buttonTriggerAvatar;
       }
-
+    },
+    bigAvatar:function(){
 
     },
-
-
   },
   computed: {
     correctInput() {
       return (this.playerInfo.username != "" && this.playerInfo.clickedAvatars.length>0) ? false : true;
-
-    },
-
+    }
 
   },
 }
 
-
-
 </script>
 
 <style scoped>
-
-
 body {
   position: relative;
   background-color: #24a07b;
@@ -248,22 +185,16 @@ body {
   align-items: center;
   overflow: scroll;
   overflow-x:hidden;
-
-
-
 }
-
 #characterText{
   margin-top:8em;
 }
-
 .usernameGroup{
   position:relative;
   padding: 0.9375em 0 0;
   margin-top: 0.625em;
   width:50%
 }
-
 .inputUsername {
   font-family: righteous;
   width: 100%;
@@ -279,7 +210,6 @@ body {
 .inputUsername::placeholder{
   color:transparent;
 }
-
 .labelUsername {
   font-family: righteous;
   position: absolute;
@@ -289,13 +219,11 @@ body {
   font-size: 2rem;
   color: black;
 }
-
 .inputUsername:placeholder-shown ~.labelUsername{
   font-size:2.6rem;
   cursor:text;
   top: 1.25em;
 }
-
 .inputUsername:focus{
   padding-bottom:  0.375em;
   font-weight: 700;
@@ -312,12 +240,10 @@ body {
   font-weight: 700;
   color: #a02449;
 }
-
 #characterText{
   font-family: righteous;
   font-size: 3vw;
 }
-
 .Button{
   height: 4em;
   width: 8em;
@@ -334,9 +260,7 @@ body {
   font-weight: 800;
   line-height: 2em;
   padding: 1em 2em;
-
 }
-
 img {
   width:50%;
   height:auto;
@@ -344,75 +268,20 @@ img {
   padding: 1em;
   margin: 1em;
   z-index:10;
-
 }
-
 img:hover{
   transform: scale(1.1);
 }
-
 .characterRow{
   display: flex;
   flex-wrap: wrap;
   padding: 0 0.25em;
-
 }
-
 .characterColumn {
   flex:25%;
   max-width: 25%;
   padding: 0 0.25em;
-
-
 }
-/*
-.borderCharacter{
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-
-}
-*/
-
-/*
-.borderCharacter:before{
-  content: "";
-  background-image: conic-gradient(
-      #70c1b3 20deg,
-      transparent 120deg
-  );
-  width: 150%;
-  height: 150%;
-  position: absolute;
-  animation: rotate 2s linear infinite;
-
-}
-.borderCharacter::after{
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #70c1b3;
-  margin-left:2em;
-
-
-}
-@keyframes rotate {
-  0%{
-    transform: rotate(0deg);
-  }
-  100%{
-    transform: rotate(-360deg);
-  }
-}
- */
-
 characterColumn img{
   margin-top: 0.5em;
   vertical-align: middle;
@@ -435,21 +304,13 @@ margin-bottom: 1em;
   display: inline-block;
   align-items: center;
   justify-content: center;
-
 }
 ::-webkit-scrollbar{
   width: 0px;
 }
-/*.innerCharacter{
-  z-index: 8;
-
- }
- */
 button.Button:disabled{
   opacity:0.3;
   pointer-events: none !important;
 }
-
-
 
 </style>
