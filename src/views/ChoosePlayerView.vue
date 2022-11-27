@@ -8,10 +8,12 @@
   </div>
 
   <div>
-    <b id="characterText" v-on:click="addTheImage">
+    <b id="characterText">
       Choose a character:
     </b>
   </div>
+
+
 
 
   <div class="characterRow">
@@ -20,18 +22,36 @@
       <p id="avatarName">
         {{avatar.image}}
       </p>
+
+
       <div class="borderCharacter">
         <div class="innerCharacter">
-          <img class="characters" :src="getImage(avatar.image)" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
-        </div>
+
+          <img class="characters" :src="getImage(avatar.image)" :key="avatar.image" v-on:click="selectThisCharacter(avatar); togglePopup('choose');" />
+
 
       </div>
+
+      </div>
+
 
 
       <!--
       <img src="avatar.image"/>
 -->
     </div>
+    <div v-if="popupTriggers.buttonTriggerAvatar"> <!-- Popup för Avatar-->
+      <PopUp
+          v-bind:PopUp="PopUp"
+          v-bind:key="PopUpFonster"
+      >
+        <img src="('../Icons/Paul.png')"  class ="popUpAvatar" v-on:click="togglePopup('choose')">
+
+      </PopUp>
+    </div>
+
+
+
     <!--
     <img class="characters" id="avatar1"  v-bind:src="require('../Icons/Paul.png')" v-on:click="selectThisCharacter($event)">
     <img class="characters" id="avatar2"  v-bind:src="require('../Icons/Jerome.png')" v-on:click="selectThisCharacter($event)">
@@ -65,9 +85,24 @@
 
 
 
+
+import PopUp from "@/components/PopUp";
+import {ref} from "vue";
+
 export default {
   name: "ChoosePlayerView",
 
+  components: {
+    PopUp
+  },
+  setup() {
+    const popupTriggers = ref({
+      buttonTriggerAvatar: false,
+    });
+    return {
+      popupTriggers,
+    };
+  },
   data: function(){
     return{
       avatars: [
@@ -173,13 +208,15 @@ export default {
     getImage(img) {
       return require('../Icons/'+img+ '.png');
     },
-    addTheImage() {
-      var bildfan = new Image()
 
-      bildfan.src = 'http://localhost:8080/public/icons';
-      document.body.append(bildfan);
-}
+    togglePopup: function (type) {
+      if (type === "choose") {
+        this.popupTriggers.buttonTriggerAvatar =
+            !this.popupTriggers.buttonTriggerAvatar;
+      }
 
+
+    },
 
 
   },
@@ -412,5 +449,7 @@ button.Button:disabled{
   opacity:0.3;
   pointer-events: none !important;
 }
+
+
 
 </style>
