@@ -29,7 +29,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ResultView.vue')
   },
   {
-    path: '/chooseplayer/',
+    path: '/chooseplayer/:lang/:id/:playid',
     name: 'ChoosePlayerView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -63,7 +63,8 @@ const routes = [
   },
   {
 
-    path: '/creatqpart/:lang/:id',
+    path: '/creatqpart/:lang/:id/:playid',
+
     name: 'CreateQPartView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
