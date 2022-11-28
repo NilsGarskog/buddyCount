@@ -37,8 +37,12 @@ function ScoreBoardNames (nm, av) {
 }
 
 let name1= new ScoreBoardNames('Linnea', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/smiling-face-with-heart-eyes_1f60d.png');
+let name2= new ScoreBoardNames('Hanna', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/smiling-face-with-heart-eyes_1f60d.png');
+let name3= new ScoreBoardNames('Samuel', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/smiling-face-with-heart-eyes_1f60d.png');
+let name4= new ScoreBoardNames('Isak', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/smiling-face-with-heart-eyes_1f60d.png');
+let name5= new ScoreBoardNames('Nils', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/smiling-face-with-heart-eyes_1f60d.png');
 
-let mynames= [name1];
+let mynames= [name1, name2, name3, name4, name5];
 
 
 console.log(mynames);
@@ -48,8 +52,13 @@ function ScoreBoardPoints(po) {
 }
 
 let point1= new ScoreBoardPoints(12);
+let point2= new ScoreBoardPoints(14);
+let point3= new ScoreBoardPoints(16);
+let point4= new ScoreBoardPoints(20);
+let point5= new ScoreBoardPoints(22);
 
-let mypoints= [point1];
+
+let mypoints= [point1, point2, point3, point4, point5];
 
 
 
@@ -91,10 +100,10 @@ font-weight: 300;
 }
 
 .amountofpoints {
-font-size: 3.3em;
+font-size: 3em;
  text-align: right;
  margin-right: 7em;
- margin-top: -1.2em;
+ margin-top: -6.1em;
 }
 
 </style>
