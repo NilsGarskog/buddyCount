@@ -7,6 +7,7 @@
         <h1 class="title">ScoreBoard</h1> 
     </div>
 
+  <div class="topfive">
     <div class="playerList">
     <div v-for="name in names"
       v-bind:name="name"
@@ -20,6 +21,7 @@
       v-bind:point="point"
       v-bind:key="point.amount">
       {{ point.amount }}  
+    </div>
     </div>
 </div>
 

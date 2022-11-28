@@ -37,14 +37,15 @@
 
     </div>
   </div>
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:clicked="getPlayerInfo">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); editParticipant();">
       Join
     </button>
   </body>
 </template>
 
 <script>
-
+import io from 'socket.io-client';
+const socket = io();
 
 export default {
   name: "ChoosePlayerView",
@@ -103,13 +104,43 @@ export default {
       playerInfo: {
         clickedAvatars:[],
         username:"",
-      }
+      },
+      
+      lang: "",
+      pollId: "",
+      playerId: "",
+      question: "",
+      answers: ["", ""],         ////Oklart om denna behövs?
+      questionNumber: 0,
+      data: {},
+      uiLabels: {},
+      Qid: 0
     }
+    
   },
+
+  created: function () {
+    this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang;
+    this.playerId = this.$route.params.playid;
+    socket.emit("pageLoaded", this.lang);
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
+    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
+      this.data = data
+    )
+    },
   //Metod för att ta bort placeholder
   methods: {
     getPlayerInfo: function(){
-          this.playerInfo.username = document.getElementById("username");
+          console.log(this.playerInfo)
+    },
+
+    editParticipant: function() {
+      console.log('participant edited');
+      console.log(this.playerInfo.username);
+      socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
     },
     onEnter:function(){
       document.getElementById("labelUse").style.display = 'none';
@@ -249,12 +280,14 @@ img:hover{
 }
 .characterRow{
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   padding: 0 0.25em;
 }
 .characterColumn {
   flex:25%;
-  max-width: 25%;
+  max-width: 20%;
   padding: 0 0.25em;
 }
 characterColumn img{
