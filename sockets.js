@@ -13,10 +13,12 @@ function sockets(io, socket, data) {
     socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
   });
 
-  socket.on('addQuestion', function(d) {
+  /*
+  socket.on('addQuestion', function(d) {         //Bortkommenterad pga ny addQuestion, se nedan!
     data.addQuestion(d.pollId, {q: d.q, a: d.a});
     socket.emit('dataUpdate', data.getAnswers(d.pollId));
   });
+  */
 
   socket.on('editQuestion', function(d) {
     data.editQuestion(d.pollId, d.index, {q: d.q, a: d.a});
@@ -29,7 +31,7 @@ function sockets(io, socket, data) {
     socket.emit('dataUpdate', data.getAnswers(pollId));
   });
 
-  socket.on('runQuestion', function(d) {
+  socket.on('runQuestion', function(d) {           //oklart om denna behövs?
     io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
   });
@@ -42,7 +44,12 @@ function sockets(io, socket, data) {
   socket.on('resetAll', () => {
     data = new Data();
     data.initializeData();
-  })
+  });
+
+  socket.on('addQuestion',function(d) {       //Funktion för att lägga till frågor och skicka ut alla frågor som finns / Nils
+    data.addQuestion(d.pollId, {q: d.q, i: d.i});
+    io.to(d.pollId).emit('questionUpdate', data.getAllQuestions(d.pollId));
+  });
  
 }
 
