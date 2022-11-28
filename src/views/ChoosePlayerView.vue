@@ -28,18 +28,7 @@
       <div class="borderCharacter">
         <div class="innerCharacter">
 
-          <img  class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar); togglePopup('choose');" />
-
-          <div v-if="popupTriggers.buttonTriggerAvatar"> <!-- Popup för Avatar-->
-            <PopUp
-                v-bind:PopUp="PopUp"
-                v-bind:key="PopUpFonster">
-
-              <img  :src="bigAvatar()" class ="popUpAvatar" v-on:click="togglePopup('choose')">
-
-
-            </PopUp>
-          </div>
+          <img  class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
 
       </div>
 
@@ -55,22 +44,13 @@
 </template>
 
 <script>
-import PopUp from "@/components/PopUp";
-import {ref} from "vue";
+
 
 export default {
   name: "ChoosePlayerView",
 
   components: {
-    PopUp
-  },
-  setup() {
-    const popupTriggers = ref({
-      buttonTriggerAvatar: false,
-    });
-    return {
-      popupTriggers,
-    };
+
   },
   data: function(){
     return{
@@ -140,28 +120,21 @@ export default {
       document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
     },
-    selectThisCharacter(avatar){
+    selectThisCharacter: function (avatar){
+
       if (this.playerInfo.clickedAvatars.length===0){
         this.playerInfo.clickedAvatars.push(avatar)
         console.log(this.playerInfo);
-       return this.playerInfo.clickedAvatars
+
       }
       else {
         this.playerInfo.clickedAvatars.splice(0,1);
         this.playerInfo.clickedAvatars.push(avatar);
         console.log(this.playerInfo);
-        return this.playerInfo.clickedAvatars
-      }
-    },
-    togglePopup: function (type) {
-      if (type === "choose") {
-        this.popupTriggers.buttonTriggerAvatar =
-            !this.popupTriggers.buttonTriggerAvatar;
-      }
-    },
-    bigAvatar:function(){
 
+      }
     },
+
   },
   computed: {
     correctInput() {
