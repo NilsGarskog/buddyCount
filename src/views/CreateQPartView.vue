@@ -6,6 +6,14 @@
         <button v-on:click="addQuestion">
       Add question
     </button>
+    <div class="showQuestions">
+      <div v-for="question in questions" v-bind:key="question">
+        {{question.q}}
+        <button 
+        v-on:click="delQuestion(question.i)"> - </button>
+      </div>
+    </div>
+
   </body>
 </template>
 
@@ -20,6 +28,7 @@ name: 'CreateQPartView',
       lang: "",
       pollId: "",
       question: "",
+      questions: [],
       answers: ["", ""],         ////Oklart om denna behövs?
       questionNumber: 0,
       data: {},
@@ -45,7 +54,22 @@ name: 'CreateQPartView',
     },
     addQuestion: function () {           //Lagt till fråge-id mm.
       this.Qid = Math.floor(100000 + Math.random() * 900000)
-      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } )
+      this.questions.push( {q: this.question, i: this.Qid });
+      console.log(this.question)
+      console.log(this.questions)
+      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } ) 
+      
+    },
+    delQuestion: function (questionId){
+      socket.emit("delQuestion", {pollId: this.pollId, i: questionId} ) 
+      for(let index=0; index<this.questions.length; index++){
+        if(this.questions[index].i == questionId){
+          this.questions.splice(index,1)
+          
+        }
+      }
+      
+      
     },
     runQuestion: function () {           //Oklart om denna behövs?
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})

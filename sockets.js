@@ -50,6 +50,11 @@ function sockets(io, socket, data) {
     data.addQuestion(d.pollId, {q: d.q, i: d.i});
     io.to(d.pollId).emit('questionUpdate', data.getAllQuestions(d.pollId));
   });
+
+  socket.on('delQuestion',function(d){
+    data.delQuestion(d.pollId, d.i);
+    io.to(d.pollId).emit('questionUpdate', data.getAllQuestions(d.pollId));
+  });
  
 }
 
