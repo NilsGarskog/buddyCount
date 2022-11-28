@@ -1,32 +1,11 @@
 <template>
   <body>
-  <div class="username field">
-    <input type="input" class="inputUsername" v-model="username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
+
+  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+  <div class="usernameGroup">
+    <input type="input" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
     <label for="name" id="labelUse" class="labelUsername" >Username</label>
   </div>
-
-<!--<div class="dropdownAndText">
-
-  <b id="characterText">
-    Choose a character:
-  </b>
-<div class="dropdown">
-
-  <button class="btnCharacter" type="button" id="dropdownMenuButton">
-    Characters
-  </button>
-  <div class="dropdownContent">
-    <a href="#">Bild 1</a>
-    <a href="#">Bild 2</a>
-    <a href="#">Bild 3</a>
-    <a href="#">Bild 4</a>
-    <a href="#">Bild 5</a>
-
-  </div>
-
-</div>
-</div>
--->
 
   <div>
     <b id="characterText">
@@ -34,60 +13,105 @@
     </b>
   </div>
 
-<div class="characterRow">
-  <div class="characterColumn">
-    <img src="../Icons/Paul.png">
-    <img src="../Icons/Jerome.png">
-    <img src="../Icons/NoFace.png">
-    <img src="../Icons/Mononoke.png">
-    <img src="../Icons/ScareCrow.png">
-    <img src="../Icons/lucy.png">
-    <img src="../Icons/grodanBoll.png">
-    <img src="../Icons/Tintin.png">
-    <img src="../Icons/Milou.png">
-    <img src="../Icons/Voldermort.png">
-    <img src="../Icons/Dobby.png">
 
 
 
-    <div class="joinGame">
-      <router-link v-bind:to="'/lobby/'">
-      <button class="Button" id="joinGameButton">
-        Join
-      </button>
-      </router-link>
+
+  <div class="characterRow">
+    <div class="characterColumn" v-for="(avatar) in avatars"
+         v-bind:avatar="avatar" v-bind:key="avatar.image">
+      <p id="avatarName">
+        {{avatar.image}}
+      </p>
+
+
+      <div class="borderCharacter">
+        <div class="innerCharacter">
+
+          <img  class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
+
+      </div>
+
+      </div>
+
 
     </div>
-
-
   </div>
-</div>
-
-
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:clicked="getPlayerInfo">
+      Join
+    </button>
   </body>
-
-
 </template>
 
 <script>
 
 
-
-
 export default {
   name: "ChoosePlayerView",
-  data(){
-    return{
-      username:"",
-    };
+
+  components: {
+
   },
-
-
-
+  data: function(){
+    return{
+      avatars: [
+        {
+          id: "Avatar_1",
+          image: "Paul",
+        },
+        {
+          id: "Avatar_2",
+          image: 'Jerome'
+        },
+        {
+          id: "Avatar_3",
+          image: 'NoFace'
+        },
+        {
+          id:"Avatar_4",
+          image: 'Mononoke'
+        },
+        {
+          id: "Avatar_5",
+          image: 'ScareCrow'
+        },
+        {
+          id: "Avatar_6",
+          image: 'lucy'
+        },
+        {
+          id: "Avatar_7",
+          image: 'grodanBoll'
+        },
+        {
+          id: "Avatar_8",
+          image: 'Tintin'
+        },
+        {
+          id: "Avatar_9",
+          image: 'Milou'
+        },
+        {
+          id: "Avatar_10",
+          image: 'Voldermort'
+        },
+        {
+          id: "Avatar_11",
+          image: 'Dobby'
+        }
+      ],
+      playerInfo: {
+        clickedAvatars:[],
+        username:"",
+      }
+    }
+  },
   //Metod för att ta bort placeholder
   methods: {
+    getPlayerInfo: function(){
+          this.playerInfo.username = document.getElementById("username");
+    },
     onEnter:function(){
-
       document.getElementById("labelUse").style.display = 'none';
       document.getElementById("name").style.textAlign = "center";
       document.getElementById("name").style.fontWeight = "700";
@@ -95,24 +119,35 @@ export default {
       document.getElementById("name").style.paddingBottom = "0.4em";
       document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
+    },
+    selectThisCharacter: function (avatar){
 
+      if (this.playerInfo.clickedAvatars.length===0){
+        this.playerInfo.clickedAvatars.push(avatar)
+        console.log(this.playerInfo);
 
+      }
+      else {
+        this.playerInfo.clickedAvatars.splice(0,1);
+        this.playerInfo.clickedAvatars.push(avatar);
+        console.log(this.playerInfo);
 
-
-
-
+      }
     },
 
+  },
+  computed: {
+    correctInput() {
+      return (this.playerInfo.username != "" && this.playerInfo.clickedAvatars.length>0) ? false : true;
+    }
 
-
-  }
+  },
 }
-
-
 
 </script>
 
-<!--<style lang="scss" scoped>
+
+<style scoped>
 
 body {
   position: relative;
@@ -123,112 +158,73 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
-
+  overflow: scroll;
+  overflow-x:hidden;
 }
-$primary: /*#11998e*/ #a02436;
-$secondary: /*#38ef7d*/  #24a07b;
-$white: #fff;
-$gray: black;
-.username {
-  font-size: 1.5rem;
-  position: relative;
-  padding: 0.5rem 0 0;
-  margin-top: 2rem;
-  width: 50%;
+#characterText{
+  margin-top:8em;
 }
-
+.usernameGroup{
+  position:relative;
+  padding: 0.9375em 0 0;
+  margin-top: 0.625em;
+  width:50%
+}
 .inputUsername {
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-  sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: righteous;
   width: 100%;
   border: 0;
-  border-bottom: 0.1em solid $gray;
+  border-bottom: 0.125em solid #70c1b3;
   outline: 0;
-  font-size: 1.3rem;
+  font-size: 2.6rem;
   color: black;
-  padding: 0.3em 0;
+  padding: 0.4375em 0;
   background: transparent;
   transition: border-color 0.2s;
-
-  &::placeholder {
-    color: transparent;
-  }
-
-  &:placeholder-shown ~ .labelUsername {
-    font-size: 1.3rem;
-    cursor: text;
-    top: 1em;
-  }
 }
-
+.inputUsername::placeholder{
+  color:transparent;
+}
 .labelUsername {
+  font-family: righteous;
   position: absolute;
   top: 0;
   display: block;
   transition: 0.2s;
-  font-size: 1.5rem;
-  color: $gray;
+  font-size: 2rem;
+  color: black;
 }
-
-.inputUsername:focus {
-  ~ .labelUsername {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    color: $primary;
-    font-weight: 700;
-  }
-  padding-bottom: 0.4em;
+.inputUsername:placeholder-shown ~.labelUsername{
+  font-size:2.6rem;
+  cursor:text;
+  top: 1.25em;
+}
+.inputUsername:focus{
+  padding-bottom:  0.375em;
   font-weight: 700;
-  border-width: 0.2em;
-  border-image: linear-gradient(to right, $primary, $secondary);
+  border-width: 0.1875em;
+  border-image: linear-gradient(to right,#a02449 ,#24a07b);
   border-image-slice: 1;
 }
-/* reset input */
-.inputUsername {
-  &:required,
-  &:invalid {
-    box-shadow: none;
-  }
+.inputUsername:focus~.labelUsername{
+  position:absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #a02449;
 }
 #characterText{
-
+  font-family: righteous;
   font-size: 3vw;
-  margin-top:4em;
-  position:relative;
-  display: inline-block;
-  align-items: center;
-  justify-content: center;
-
 }
-/*
-.dropdown{
-  margin-top:4em;
-  /*display:flex;
-  align-items: center;
-  justify-content: center;
-
-
-  position:relative;
-  display: inline-block;
-  align-items: center;
-  justify-content: center;
-
-}
-*/
-
-
 .Button{
   height: 4em;
-  width: 9em;
+  width: 8em;
   background-color: #70c1b3;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
+  border: 0.1em solid rgba(27, 31, 35, 0.15);
+  border-radius: 0.3em;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
   color: black;
@@ -237,70 +233,59 @@ $gray: black;
   sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 3vw;
   font-weight: 800;
-  line-height: 20px;
-  padding: 6px 16px;
-
-
+  line-height: 2em;
+  padding: 1em 2em;
 }
-/*
-#dropdownMenuButton:hover {
-  background-color: #67b3a5b7;
-}
-.dropdownContent{
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-.dropdownContent a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-.dropdownContent a:hover {background-color: #ddd;}
-.dropdown:hover .dropdownContent {display: block;}
-.dropdown:hover .btnCharacter {background-color: #3e8e41;}
-*/
 img {
-  width:10%;
+  width:50%;
   height:auto;
-  box-shadow: 1em;
   cursor:pointer;
   padding: 1em;
   margin: 1em;
+  z-index:10;
 }
 img:hover{
   transform: scale(1.1);
 }
-.characterRow {
+.characterRow{
   display: flex;
   flex-wrap: wrap;
-  padding: 0 2em;
-
-
+  padding: 0 0.25em;
 }
-
-/* Create two equal columns that sits next to each other */
 .characterColumn {
-  flex: 50%;
-  padding: 0 4px;
-
+  flex:25%;
+  max-width: 25%;
+  padding: 0 0.25em;
 }
-
-.characterColumn  img {
-  margin-top: 8px;
+characterColumn img{
+  margin-top: 0.5em;
   vertical-align: middle;
+  width: 100%;
 }
+
 #joinGameButton{
 margin-bottom: 1em;
-
+  font-family: righteous;
 }
 #joinGameButton:hover{
   transform: scale(1.1);
-
+}
+#avatarName{
+  font-family: righteous;
+  font-size: 2vw;
+  font-weight: 800;
+  margin-top:1em;
+  position:relative;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+}
+::-webkit-scrollbar{
+  width: 0px;
+}
+button.Button:disabled{
+  opacity:0.3;
+  pointer-events: none !important;
 }
 
 </style>-->
