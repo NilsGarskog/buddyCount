@@ -27,7 +27,57 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/ResultView.vue')
+  },
+  {
+    path: '/chooseplayer/',
+    name: 'ChoosePlayerView',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ChoosePlayerView.vue')
+
+  },
+  {
+    path: '/lobby/',
+    name: 'PlayerLobby',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/PlayerLobby.vue')
+  },
+  {
+    path: '/questionresult/',
+    name: 'ShowQuestionResult/',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ShowQuestionResult.vue')
+  },
+  {
+    path: '/ScoreBoard/',
+    name: 'ScoreBoardView',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ScoreBoardView.vue')
+  },
+  {
+    path: '/creatqpart/:lang/:id',
+    name: 'CreateQPartView',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/CreateQPartView.vue')
+  },
+  {
+    path: '/creatqhost/:lang/:id',
+    name: 'CreateQhostView',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/createQHostView.vue')
   }
+
 ]
 
 const router = createRouter({
