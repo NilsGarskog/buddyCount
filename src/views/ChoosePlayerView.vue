@@ -16,12 +16,12 @@
 
 
 
+
   <div class="characterRow">
     <div class="characterColumn" v-for="(avatar) in avatars"
          v-bind:avatar="avatar" v-bind:key="avatar.image">
       <p id="avatarName">
         {{avatar.image}}
-
       </p>
 
 
@@ -146,7 +146,9 @@ export default {
 
 </script>
 
+
 <style scoped>
+
 body {
   position: relative;
   background-color: #24a07b;
@@ -286,4 +288,4 @@ button.Button:disabled{
   pointer-events: none !important;
 }
 
-</style>
+</style>-->

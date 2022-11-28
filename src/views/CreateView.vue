@@ -44,7 +44,7 @@
   </div>
 </div>
 <div class="createGame">
-  <router-link v-bind:to="'/'">
+  <router-link v-bind:to="'/chooseplayer/'">
    <!--<input type="number" v-model="questionNumber">-->
     <button v-on:click="runQuestion" id="createGameButton">
       Create Game
@@ -199,14 +199,19 @@ button {
  
 }
 
+
 #createGameButton{
-  position:fixed;
-  margin-top:300px
+
+   position:absolute; 
+   margin-left:-50px;
+   left:50%;
+   width:100px;
+   bottom:2em;
   
 }
 
 #submitButton{
-  margin-left:10px;
+  margin-left:1em;
   
 
 }

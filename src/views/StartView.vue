@@ -1,13 +1,19 @@
 <template>
   <body>
+       <link
+      href="https://fonts.googleapis.com/css?family=Monoton"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <div v-if="popupTriggers.buttonTriggerJoin"> <!-- Popup för att joina spel -->
       <PopUp
         v-bind:PopUp="PopUp"
         v-bind:key="PopUpFonster"
         v-on:closeCurrentPopup="togglePopup('join')"
       >
-        <input type="text" v-model="id" class="inputField" />
-        <router-link v-bind:to="'/poll/' + id">
+        <input class="codeInput" type="text" v-model="joinId" placeholder="input code...." />
+        <router-link v-bind:to="'/creatqpart/' + lang+'/'+joinId ">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
           </button>
@@ -31,32 +37,27 @@
           </div>
       </PopUp>
     </div>
-    <link
-      href="https://fonts.googleapis.com/css?family=Monoton"
-      rel="stylesheet"
-      type="text/css"
+    <span class=topButtons>
+          <img
+      class="rulesButtonMobile"
+      :src="rulesPicture"
+      v-on:click="togglePopup('rules')"
     />
-    <span class=topButtons> 
     <img id="playMuteButton" :src="audioPicture" v-on:click="playSong" />
     <img id="langBtn" :src="langImg" v-on:click="switchLanguage">
-    </span>
-    <div>
+    </span> 
+    <div class="mainContent">
       <h1 id="title">BuddyCount</h1>
-    </div>
-    
-
     <div id="Buttons">
-      <router-link v-bind:to="'/create/' + lang">
-        <button class="standardButton" role="button">
+      <router-link v-bind:to="'/creatqhost/' + lang+'/'+id">
+        <button class="standardButton" role="button" v-on:click="createPoll">
           <p class="buttonText">{{uiLabels.createGame}}</p>
         </button>
       </router-link>
       <hr
         style="
-          height: 2px;
-          border-width: 0;
-          color: gray;
-          background-color: gray;
+          height: 2vh;
+          border: 0;
         "
       />
       <div>
@@ -69,6 +70,7 @@
         </button>
       </div>
     </div>
+        </div>
     <img
       class="rulesButton"
       :src="rulesPicture"
@@ -83,11 +85,6 @@ import PopUp from "../components/PopUp.vue";
 import { ref } from "vue";
 
 const socket = io();
-
-
-
-
-
 
 
 export default {
@@ -108,6 +105,7 @@ export default {
     return {
       uiLabels: {},
       id: "",
+      joinId: "",
       lang: "en",
       hideNav: true,
       audioOn: false,
@@ -118,11 +116,15 @@ export default {
     };
   },
   created: function () {
+    this.id = Math.floor(100000 + Math.random() * 900000)
     socket.on("init", (labels) => {
       this.uiLabels = labels;
     });
   },
   methods: {
+        createPoll: function () {
+      socket.emit("createPoll", {pollId: this.id, lang: this.lang })
+    },
     togglePopup: function (type) {
       if (type === "join") {
         this.popupTriggers.buttonTriggerJoin =
@@ -134,8 +136,8 @@ export default {
     },
 
     switchLanguage: function () {
-      if (this.lang === "en"){ 
-        this.lang = "sv"; 
+      if (this.lang === "en"){
+        this.lang = "sv";
         this.langImg = require("../Icons/England.png")
       }
       else {
@@ -176,15 +178,15 @@ export default {
 .ruleText{
   font-size: 3vw;
   text-align: left;
-  position: relative
+  position: relative;
+  margin-left: 1vw;
 }
 
 ul {
   list-style-position: outside;
 }
 .rulesButton {
-  height: 8em;
-  width: 8em;
+  height: 6vw;
   padding: 2em;
   position: fixed;
   bottom: 0px;
@@ -195,10 +197,11 @@ ul {
   height: 5vh;
   width: 8vw;
   padding: 0;
+  background-color: #fd8469;
 }
 .topButtons {
   display: flex;
-  height: 5em;
+  height: 6vw;
   width: 100%;
   cursor: pointer;
   justify-content: space-between;
@@ -211,14 +214,19 @@ ul {
   margin-right: 1em;
 }
 
+.codeInput{
+  border:none;
+  border-bottom: 0.1em solid black;
+  width:80%;
+  height: 3vh;
+  background-color: inherit;
+  font-size: 2em;
+  font-family: righteous;
+  font-weight: bold;
+}
 
 .buttonText {
   font-size: 1.7em;
-}
-#Buttons {
-  display: grid;
-  grid-template-columns: 20em;
-  justify-content: center;
 }
 
 body {
@@ -229,35 +237,77 @@ body {
   padding: 0;
 }
 
-
 #title {
   font-family: "Monoton";
   font-size: 10vw;
   font-synthesis: none;
+  margin-top: 0;
+  margin-bottom: 4vh;
 }
 
 .standardButton {
-  height: 7em;
-  width: 15em;
+
+  width: 20vw;
   background-color: #70c1b3;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
+  border: 0.1em solid rgba(27, 31, 35, 0.15);
+  border-radius: 1em;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
   color: black;
   cursor: pointer;
-  display: inline-block;
+
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 6px 16px;
+  font-size: 1.5vw;
+  font-weight: bold;
+  padding: 0.1em 0.1em;
   position: relative;
   text-align: center;
 }
 
 .standardButton:hover {
   background-color: #67b3a5b7;
+}
+.rulesButtonMobile{
+  display: none;
+}
+
+@media screen and (max-width:50em) {
+  .rulesButton {
+display: none;
+  }
+  .topButtons {
+    height: 5em;
+  }
+  .standardButton {
+    width: 12em;
+    font-size: 1.5em;
+  }
+  #title{
+    margin-bottom: 2em;
+    margin-top: 1em;
+    font-size: 12vw;
+  }
+  #playMuteButton {
+    display: none;
+  }
+ .rulesButtonMobile{
+   display: inline-flex;
+     width: 6em;
+    height: 6em;
+    margin-left: 1em;
+ }
+ .popupClose{
+  height:3em;
+  width: 3em;
+}
+.ruleText{
+  font-size: 1.5em;
+
+  margin-left: 0;
+}
+#codeSubmitButton {
+  width: 2.3em;
+}
 }
 </style>

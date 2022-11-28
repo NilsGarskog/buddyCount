@@ -19,8 +19,7 @@ export default {
   data: function () {
     return {
       question: "",
-      data: {
-      }
+      data: {}
     }
   },
   created: function () {
