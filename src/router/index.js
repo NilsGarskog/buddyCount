@@ -35,7 +35,16 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/ScoreBoardView.vue')
-  } 
+  },
+  {
+    path: '/ScoreBoard2/',
+    name: 'ScoreBoardView2',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ScoreBoardView2.vue')
+  },
+
 ]
 
 const router = createRouter({
