@@ -77,7 +77,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/createQHostView.vue')
-  }
+  },
   {
     path: '/ScoreBoard2/',
     name: 'ScoreBoardView2',
@@ -86,7 +86,14 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/ScoreBoardView2.vue')
   },
-
+{
+  path: '/answrQuestion/:lang/:id',
+  name: 'AnsweQuestionView',
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () => import(/* webpackChunkName: "about" */ '../views/AnswerQuestionView.vue')
+}
 
 ]
 
