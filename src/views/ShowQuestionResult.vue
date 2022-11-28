@@ -1,7 +1,7 @@
 <template>
 <body v-on:click="draw()">
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-    <h3>De rätta svaren är:</h3>
+    <h3>The correct answers are:</h3>
    <div class="questionResultPage">
     <div class="resultList">
         <div class="participants">
@@ -20,6 +20,9 @@
         </div>
     </div>
     </div>
+    </div>
+    <div id="nextButtonContainer">
+    <button id="nextButton"><img :src="require('../Icons/right-arrow.png')" id="arrowIcon"></button>
     </div>
     
 </body>
@@ -128,7 +131,7 @@ ctx.stroke();
       
        if (canvas.getContext) {
                 
-                var colors = ["red",   "yellow",   "blue",   "orange",   "purple",];
+                //var colors = ["red",   "yellow",   "blue",   "orange",   "purple",];
                  for(let i = 0; i < this.PlayersWithAnswers.length; i++){
                     //const randomColor = Math.floor(Math.random()*16777215).toString(16);
                     console.log(this.PlayersWithAnswers[i]);
@@ -148,7 +151,7 @@ ctx.stroke();
               setInterval(function (){
                 amount += 0.0005;
                 ctx.beginPath();
-                ctx.strokeStyle = colors[i];
+                ctx.strokeStyle = "yellow";
                 ctx.lineWidth =10;  
                 ctx.stroke.lineCap = "round";
                 ctx.moveTo(startX, startY);
@@ -176,6 +179,7 @@ ctx.stroke();
 
 body {
     background-color: #24a07b;
+    overflow: hidden;
   
 }
 
@@ -251,5 +255,32 @@ canvas {
     
 
     
+}
+
+#nextButtonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#nextButton {
+margin-right: 5em;
+margin-bottom: 5em;
+padding: 2em;
+background-color: #046B79;
+border-radius: 5em;
+border: 1px solid;
+transition: 0.2s;
+box-shadow: 0px 5px 4px #046B79;
+}
+
+#nextButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
+}
+#arrowIcon {
+height: 3em;
+width: 3em;
 }
 </style>
