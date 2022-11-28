@@ -37,7 +37,7 @@
 
     </div>
   </div>
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:clicked="getPlayerInfo">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo">
       Join
     </button>
   </body>
@@ -109,7 +109,7 @@ export default {
   //Metod för att ta bort placeholder
   methods: {
     getPlayerInfo: function(){
-          this.playerInfo.username = document.getElementById("username");
+          console.log(this.playerInfo)
     },
     onEnter:function(){
       document.getElementById("labelUse").style.display = 'none';
