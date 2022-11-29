@@ -156,6 +156,7 @@ body {
   flex-direction: column;
   align-items: center;
 
+
 }
 .wrapper{
   height:60em;
@@ -164,6 +165,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 #characterText{
   margin-top:8em;
