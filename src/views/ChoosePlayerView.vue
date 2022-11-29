@@ -221,6 +221,7 @@ align-items: center;
   padding: 0.4375em 0;
   background: transparent;
   transition: border-color 0.2s;
+  text-align: center;
 }
 .inputUsername::placeholder{
   color:transparent;
