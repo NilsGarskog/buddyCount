@@ -190,7 +190,7 @@ body {
   flex-direction: column;
   align-items: center;
   overflow: scroll;
-  overflow-x:hidden;
+ overflow-x:hidden;
 }
 #characterText{
   margin-top:8em;
