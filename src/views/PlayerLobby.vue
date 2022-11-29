@@ -1,6 +1,7 @@
 <template>
 
     <body>
+        {{players}}
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
@@ -9,7 +10,7 @@
                 <p>No. of players: {{this.players.length}}</p>
             </div>
             <div class ="gameCode">
-            <p>CODE: {{gameID}} </p>
+            <p>CODE: {{pollId}} </p>
             </div>
         </div>
         <div>
@@ -22,7 +23,7 @@
         <div v-for="player in players"
         v-bind:player="player"
         v-bind:key="player.name" >
-        <span v-on:click="removePlayer(player)"><span id="playerNameInList"> <img class ="avatarImage" v-bind:src = "player.avatar" /> {{player.name}}</span></span>
+        <span v-on:click="removePlayer(player)"><span id="playerNameInList"> <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" /> {{player.name}}</span></span>
         </div>
     </div>
         
@@ -40,34 +41,8 @@
 
 <script>
 import firstNames from '/first-names.json'
-
-
-
-function PlayerItem (nm, av){
-    this.name = nm;
-    this.avatar = av;
-}
-
-
-
-let player1 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/smiling-face-with-heart-eyes_1f60d.png');
-let player2 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/cold-face_1f976.png');
-let player3 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/clown-face_1f921.png');
-let player4 = new PlayerItem('fitta', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/front-facing-baby-chick_1f425.png');
-let player5 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/eagle_1f985.png');
-let player6 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/top-hat_1f3a9.png');
-let player7 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/grinning-cat-with-smiling-eyes_1f638.png');
-let player8 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/santa-claus_1f385.png');
-let player9 = new PlayerItem('30 cm slak :P', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/dog-face_1f436.png');
-let player10 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/man-vampire_1f9db-200d-2642-fe0f.png');
-let player11 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/hut_1f6d6.png');
-let player12 = new PlayerItem(firstNames[Math.random() * firstNames.length | 0], 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/woman-golfing_1f3cc-fe0f-200d-2640-fe0f.png');
-let myPlayers = [player1,player2,player3,player4,player5,player6,player7,player8,player9,player10,player11,player12];
-
-console.log(myPlayers);
-
-
-
+import io from 'socket.io-client';
+const socket = io();
 
 
 export default {
@@ -75,10 +50,20 @@ export default {
     data: function () {
         return {
             firstNames,
-            players: myPlayers,
-            gameID: this.getRandID(),
+            players: [],
+            pollId: "",
+            lang:""
             
         }
+    },
+    created: function () {
+    this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang
+    socket.emit('joinPoll', this.pollId)
+    socket.on("playerEdited", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
+    console.log("PlayerEdit kallas på i lobbyn")
+    this.players = update;
+    });
     },
 
     methods: {
@@ -116,6 +101,7 @@ export default {
 
 body {
     background-color:#24a07b;
+    cursor: default;
 }
 
 .headerContainer {
