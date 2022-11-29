@@ -1,7 +1,7 @@
 <template>
   <body>
-
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+  <div class="wrapper">
   <div class="usernameGroup">
     <input type="input" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
     <label for="name" id="labelUse" class="labelUsername" >Username</label>
@@ -20,9 +20,6 @@
   <div class="characterRow">
     <div class="characterColumn" v-for="(avatar) in avatars"
          v-bind:avatar="avatar" v-bind:key="avatar.image">
-      <p id="avatarName">
-        {{avatar.image}}
-      </p>
 
 
       <div class="borderCharacter">
@@ -37,15 +34,15 @@
 
     </div>
   </div>
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); editParticipant();">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:clicked="getPlayerInfo">
       Join
     </button>
+  </div>
   </body>
 </template>
 
 <script>
-import io from 'socket.io-client';
-const socket = io();
+
 
 export default {
   name: "ChoosePlayerView",
@@ -104,50 +101,19 @@ export default {
       playerInfo: {
         clickedAvatars:[],
         username:"",
-      },
-      
-      lang: "",
-      pollId: "",
-      playerId: "",
-      question: "",
-      answers: ["", ""],         ////Oklart om denna behövs?
-      questionNumber: 0,
-      data: {},
-      uiLabels: {},
-      Qid: 0
+      }
     }
-    
   },
-
-  created: function () {
-    this.pollId = this.$route.params.id
-    this.lang = this.$route.params.lang;
-    this.playerId = this.$route.params.playid;
-    socket.emit("pageLoaded", this.lang);
-    socket.on("init", (labels) => {
-      this.uiLabels = labels
-    })
-    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
-      this.data = data
-    )
-    },
   //Metod för att ta bort placeholder
   methods: {
     getPlayerInfo: function(){
-          console.log(this.playerInfo)
-    },
-
-    editParticipant: function() {
-      console.log('participant edited');
-      console.log(this.playerInfo.username);
-      socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
+          this.playerInfo.username = document.getElementById("username");
     },
     onEnter:function(){
       document.getElementById("labelUse").style.display = 'none';
       document.getElementById("name").style.textAlign = "center";
       document.getElementById("name").style.fontWeight = "700";
       document.getElementById(("name")).style.borderWidth="0.2em";
-      document.getElementById("name").style.paddingBottom = "0.4em";
       document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
     },
@@ -189,8 +155,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: scroll;
-  overflow-x:hidden;
+
+}
+.wrapper{
+  height:60em;
+  overflow:scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #characterText{
   margin-top:8em;
@@ -199,7 +172,10 @@ body {
   position:relative;
   padding: 0.9375em 0 0;
   margin-top: 0.625em;
-  width:50%
+  width:50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .inputUsername {
   font-family: righteous;
@@ -212,6 +188,8 @@ body {
   padding: 0.4375em 0;
   background: transparent;
   transition: border-color 0.2s;
+  text-align: center;
+
 }
 .inputUsername::placeholder{
   color:transparent;
@@ -224,6 +202,7 @@ body {
   transition: 0.2s;
   font-size: 2rem;
   color: black;
+
 }
 .inputUsername:placeholder-shown ~.labelUsername{
   font-size:2.6rem;
@@ -231,11 +210,13 @@ body {
   top: 1.25em;
 }
 .inputUsername:focus{
-  padding-bottom:  0.375em;
+  padding-bottom:  0.5em;
   font-weight: 700;
   border-width: 0.1875em;
   border-image: linear-gradient(to right,#a02449 ,#24a07b);
   border-image-slice: 1;
+  margin: 0;
+
 }
 .inputUsername:focus~.labelUsername{
   position:absolute;
@@ -245,6 +226,9 @@ body {
   font-size: 2rem;
   font-weight: 700;
   color: #a02449;
+
+
+
 }
 #characterText{
   font-family: righteous;
@@ -280,14 +264,12 @@ img:hover{
 }
 .characterRow{
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
   padding: 0 0.25em;
 }
 .characterColumn {
   flex:25%;
-  max-width: 20%;
+  max-width: 25%;
   padding: 0 0.25em;
 }
 characterColumn img{
@@ -313,12 +295,29 @@ margin-bottom: 1em;
   align-items: center;
   justify-content: center;
 }
-::-webkit-scrollbar{
-  width: 0px;
-}
 button.Button:disabled{
   opacity:0.3;
   pointer-events: none !important;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 20px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:#2f5049;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #70c1b3;
+}
 </style>-->
