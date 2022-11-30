@@ -93,7 +93,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .headerContainer {
     display:flex;
     justify-content: space-between;
@@ -120,6 +120,7 @@ font-weight: 300;
       color: white;
       width: 40%;
 }
+
 body{
   position: fixed;
   background-color: #24a07b;
