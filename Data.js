@@ -62,6 +62,16 @@ Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
 }
 }
 
+Data.prototype.removeParticipant = function(pollId, playerID) {
+  const poll = this.polls[pollId];
+  if(typeof poll !== 'undefined'){
+    for(let i = 0; i < poll.participants.length; i++){
+      if(poll.participants[i].playerId == playerID){
+        poll.participants.splice(i,1);
+      }
+    }
+}}
+
 Data.prototype.getAllParticipants = function(pollId) {
   const poll = this.polls[pollId];
   console.log("all participants requested for ", pollId);

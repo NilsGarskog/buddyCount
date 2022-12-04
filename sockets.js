@@ -59,6 +59,11 @@ function sockets(io, socket, data) {
   socket.on('editParticipant', function(d) {
     data.editParticipant(d.pollId, d.nm, d.av, d.playerId);
     io.to(d.pollId).emit('playerEdited', data.getAllParticipants(d.pollId));
+  });
+
+  socket.on('removeParticipant', function(d) {
+    data.removeParticipant(d.pollId, d.playerId);
+    io.to(d.pollId).emit('playerEdited', data.getAllParticipants(d.pollId));
   })
  
 }

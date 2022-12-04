@@ -23,7 +23,7 @@
         <div v-for="player in players"
         v-bind:player="player"
         v-bind:key="player.name" >
-        <span v-on:click="removePlayer(player)"><span id="playerNameInList"> <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" /> {{player.name}}</span></span>
+        <span v-on:click="removeParticipant(player)"><span id="playerNameInList"> <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" /> {{player.name}}</span></span>
         </div>
     </div>
         
@@ -78,13 +78,13 @@ export default {
         return ran_key;
     }, 
 
-    removePlayer: function (player) {
-
-        for(let i = 0; i < this.players.length; i++){
-            if(this.players[i] === player){
-                this.players.splice(i,1);
-            }
-        }
+    removeParticipant: function (player) {
+        socket.emit('removeParticipant', {pollId: this.pollId, playerId: player.playerId})
+        // for(let i = 0; i < this.players.length; i++){
+        //     if(this.players[i] === player){
+        //         this.players.splice(i,1);
+        //     }
+       // }
         
 
     }
