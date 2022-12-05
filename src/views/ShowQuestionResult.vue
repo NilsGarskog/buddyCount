@@ -149,7 +149,7 @@ ctx.stroke();
                 var amount = 0;
                 
               setInterval(function (){
-                amount += 0.0005;
+                amount += 0.0002;
                 ctx.beginPath();
                 ctx.strokeStyle = colors[i];
                 ctx.lineWidth =10;  
