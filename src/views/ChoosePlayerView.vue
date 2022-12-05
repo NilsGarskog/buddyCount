@@ -2,7 +2,7 @@
   <body>
 
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-  <div class="wrapper">
+  <div class="wrapper" v-on:click="usernameColorFix">
   <div class="usernameGroup">
     <input type="input" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
     <label for="name" id="labelUse" class="labelUsername" >Username</label>
@@ -21,10 +21,6 @@
   <div class="characterRow">
     <div class="characterColumn" v-for="(avatar) in avatars"
          v-bind:avatar="avatar" v-bind:key="avatar.image">
-      <p id="avatarName">
-        {{avatar.image}}
-      </p>
-
 
       <div class="borderCharacter">
         <div class="innerCharacter">
@@ -149,7 +145,7 @@ export default {
       document.getElementById("name").style.textAlign = "center";
       document.getElementById("name").style.fontWeight = "700";
       document.getElementById(("name")).style.borderWidth="0.2em";
-      document.getElementById("name").style.paddingBottom = "0.4em";
+      document.getElementById("name").style.paddingBottom = "0";
       document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
     },
@@ -158,6 +154,7 @@ export default {
       if (this.playerInfo.clickedAvatars.length===0){
         this.playerInfo.clickedAvatars.push(avatar)
         console.log(this.playerInfo);
+        console.log(avatar.image)
 
       }
       else {
@@ -167,6 +164,13 @@ export default {
 
       }
     },
+    usernameColorFix: function(){
+      if (this.playerInfo.username != ""){
+        document.getElementById("labelUse").style.color = "#a02449";
+        document.getElementById("name").style.paddingBottom = "0";
+        document.getElementById("labelUse").style.fontWeight = "700";
+      }
+    }
 
   },
   computed: {
@@ -193,7 +197,8 @@ body {
   align-items: center;
 }
 .wrapper {
-height: 60em;
+height: 100vh;
+  width: 100vw;
 overflow: scroll;
 overflow-x: hidden;
 display: flex;
@@ -208,7 +213,7 @@ align-items: center;
   position:relative;
   padding: 0.9375em 0 0;
   margin-top: 0.625em;
-  width:50%
+  width:50%;
 }
 .inputUsername {
   font-family: righteous;
@@ -234,27 +239,32 @@ align-items: center;
   transition: 0.2s;
   font-size: 2rem;
   color: black;
+  width: 100%;
 }
 .inputUsername:placeholder-shown ~.labelUsername{
   font-size:2.6rem;
   cursor:text;
   top: 1.25em;
+
 }
 .inputUsername:focus{
-  padding-bottom:  0.375em;
-  font-weight: 700;
-  border-width: 0.1875em;
+  padding-bottom:  0;
+
   border-image: linear-gradient(to right,#a02449 ,#24a07b);
   border-image-slice: 1;
+
+
 }
 .inputUsername:focus~.labelUsername{
   position:absolute;
   top: 0;
+  padding-bottom: 0vh;
   display: block;
   transition: 0.2s;
   font-size: 2rem;
   font-weight: 700;
   color: #a02449;
+
 }
 #characterText{
   font-family: righteous;
@@ -278,7 +288,7 @@ align-items: center;
   padding: 1em 2em;
 }
 img {
-  width:50%;
+  width:70%;
   height:auto;
   cursor:pointer;
   padding: 1em;
@@ -307,6 +317,7 @@ characterColumn img{
 }
 
 #joinGameButton{
+
 margin-bottom: 1em;
   font-family: righteous;
 }
@@ -329,6 +340,19 @@ margin-bottom: 1em;
 button.Button:disabled{
   opacity:0.3;
   pointer-events: none !important;
+}
+@media screen and (max-width:50em) {
+  .characterColumn {
+    flex:50%;
+    max-width: 30%;
+    padding: 0 0.25em;
+  }
+  characterColumn img{
+    margin-top: 0.5em;
+    vertical-align: middle;
+    width: 100%;
+  }
+
 }
 
 </style>-->
