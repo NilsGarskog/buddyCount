@@ -90,6 +90,19 @@ Data.prototype.addQuestion = function(pollId, q) {
     poll.questions.push(q);
   }
 }
+Data.prototype.delQuestion = function(pollId, questionId) {
+  const poll = this.polls[pollId];
+  console.log("question deleted from", pollId, questionId);
+  if (typeof poll !== 'undefined') {
+    for(let index=0; index< poll.questions.length;index++){
+      if(poll.questions[index].i == questionId){
+        console.log("jag har hittat frågan på plats ", index)
+        poll.questions.splice(index,1)
+     
+      }
+    }
+  }
+}
 
 Data.prototype.editQuestion = function(pollId, index, newQuestion) {
   const poll = this.polls[pollId];

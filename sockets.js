@@ -51,6 +51,12 @@ function sockets(io, socket, data) {
     io.to(d.pollId).emit('questionUpdate', data.getAllQuestions(d.pollId));
   });
 
+
+  socket.on('delQuestion',function(d){
+    data.delQuestion(d.pollId, d.i);
+    io.to(d.pollId).emit('questionUpdate', data.getAllQuestions(d.pollId));
+  });
+
   socket.on('addParticipant', function(d) {
     data.addParticipant(d.pollId, d.playerId);
     io.to(d.pollId).emit('playerAdded', data.getAllParticipants(d.pollId));
@@ -64,7 +70,8 @@ function sockets(io, socket, data) {
   socket.on('removeParticipant', function(d) {
     data.removeParticipant(d.pollId, d.playerId);
     io.to(d.pollId).emit('playerEdited', data.getAllParticipants(d.pollId));
-  })
+  });
+
  
 }
 
