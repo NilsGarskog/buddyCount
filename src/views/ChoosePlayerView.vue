@@ -112,7 +112,7 @@ export default {
 
 </script>
 
-<!--<style lang="scss" scoped>
+<style lang="scss" scoped>
 
 body {
   position: relative;
@@ -303,4 +303,4 @@ margin-bottom: 1em;
 
 }
 
-</style>-->
+</style>
