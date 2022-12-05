@@ -2,6 +2,7 @@
   <body>
 
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+  <div class="wrapper">
   <div class="usernameGroup">
     <input type="input" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
     <label for="name" id="labelUse" class="labelUsername" >Username</label>
@@ -37,14 +38,16 @@
 
     </div>
   </div>
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:clicked="getPlayerInfo">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); editParticipant();">
       Join
     </button>
+    </div>
   </body>
 </template>
 
 <script>
-
+import io from 'socket.io-client';
+const socket = io();
 
 export default {
   name: "ChoosePlayerView",
@@ -103,13 +106,43 @@ export default {
       playerInfo: {
         clickedAvatars:[],
         username:"",
-      }
+      },
+      
+      lang: "",
+      pollId: "",
+      playerId: "",
+      question: "",
+      answers: ["", ""],         ////Oklart om denna behövs?
+      questionNumber: 0,
+      data: {},
+      uiLabels: {},
+      Qid: 0
     }
+    
   },
+
+  created: function () {
+    this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang;
+    this.playerId = this.$route.params.playid;
+    socket.emit("pageLoaded", this.lang);
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
+    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
+      this.data = data
+    )
+    },
   //Metod för att ta bort placeholder
   methods: {
     getPlayerInfo: function(){
-          this.playerInfo.username = document.getElementById("username");
+          console.log(this.playerInfo)
+    },
+
+    editParticipant: function() {
+      console.log('participant edited');
+      console.log(this.playerInfo.username);
+      socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
     },
     onEnter:function(){
       document.getElementById("labelUse").style.display = 'none';
@@ -158,9 +191,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: scroll;
-  overflow-x:hidden;
 }
+.wrapper {
+height: 60em;
+overflow: scroll;
+overflow-x: hidden;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
 #characterText{
   margin-top:8em;
 }
@@ -181,6 +221,7 @@ body {
   padding: 0.4375em 0;
   background: transparent;
   transition: border-color 0.2s;
+  text-align: center;
 }
 .inputUsername::placeholder{
   color:transparent;
@@ -249,12 +290,14 @@ img:hover{
 }
 .characterRow{
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   padding: 0 0.25em;
 }
 .characterColumn {
   flex:25%;
-  max-width: 25%;
+  max-width: 20%;
   padding: 0 0.25em;
 }
 characterColumn img{

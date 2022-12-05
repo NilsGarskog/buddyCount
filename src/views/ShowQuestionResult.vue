@@ -11,7 +11,7 @@
         <img class ="avatarImage" v-bind:src = "playerans.avatar" /> {{playerans.name}} 
         </div>
         </div>
-        <div><canvas id="linesBetweenAnswers"></canvas></div>
+        <div id ="canvasContainer"><canvas height="100" width ="100" style="object-fit:contain;"></canvas></div>
         <div class="shuffledNumbers">
         <div v-for="playerans in ShuffledAnswers"
         v-bind:playerans="playerans"
@@ -45,14 +45,14 @@ let playerans2 = new PlayerWithAnswer('Samuel', 'https://emojipedia-us.s3.dualst
 let playerans3 = new PlayerWithAnswer('Isak', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/clown-face_1f921.png', Math.floor((Math.random()*100)));
 let playerans4 = new PlayerWithAnswer('Linnea', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/front-facing-baby-chick_1f425.png', Math.floor((Math.random()*100)));
 let playerans5 = new PlayerWithAnswer('Hanna', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/eagle_1f985.png', Math.floor((Math.random()*100)));
-/*let player6 = new PlayerWithAnswer('Jonas', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/top-hat_1f3a9.png',Math.floor((Math.random()*100)));
+let player6 = new PlayerWithAnswer('Jonas', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/top-hat_1f3a9.png',Math.floor((Math.random()*100)));
 let player7 = new PlayerWithAnswer('Ali', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/grinning-cat-with-smiling-eyes_1f638.png',Math.floor((Math.random()*100)));
 let player8 = new PlayerWithAnswer('Elsa', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/santa-claus_1f385.png',Math.floor((Math.random()*100)));
 let player9 = new PlayerWithAnswer('Fido', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/dog-face_1f436.png',Math.floor((Math.random()*100)));
 let player10 = new PlayerWithAnswer('Hans', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/man-vampire_1f9db-200d-2642-fe0f.png',Math.floor((Math.random()*100)));
-*/
 
-let myPlayersAnswers = [playerans1,playerans2,playerans3,playerans4,playerans5];
+
+let myPlayersAnswers = [playerans1,playerans2,playerans3,playerans4,playerans5,player6,player7,player8,player9,player10];
 let myPlayersAnswersClone = structuredClone(myPlayersAnswers);
 let shuffleAnswer = myPlayersAnswersClone.sort(() => Math.random() - 0.5);
 
@@ -131,7 +131,7 @@ ctx.stroke();
       
        if (canvas.getContext) {
                 
-                //var colors = ["red",   "yellow",   "blue",   "orange",   "purple",];
+                var colors = ["red",   "yellow",   "blue",   "orange",   "purple","pink","brown","aquamarine","black","white"];
                  for(let i = 0; i < this.PlayersWithAnswers.length; i++){
                     //const randomColor = Math.floor(Math.random()*16777215).toString(16);
                     console.log(this.PlayersWithAnswers[i]);
@@ -149,9 +149,9 @@ ctx.stroke();
                 var amount = 0;
                 
               setInterval(function (){
-                amount += 0.0005;
+                amount += 0.0002;
                 ctx.beginPath();
-                ctx.strokeStyle = "yellow";
+                ctx.strokeStyle = colors[i];
                 ctx.lineWidth =10;  
                 ctx.stroke.lineCap = "round";
                 ctx.moveTo(startX, startY);
@@ -190,7 +190,8 @@ body {
 }
 
 h3 {
-    margin-top: 2.5em;
+    margin-top: 1em;
+    margin-bottom: 2em;
     font-family: Righteous;
     font-size: 3.5em;
     color: white;
@@ -206,16 +207,16 @@ h3 {
 
     text-align: left;
     width: 100%;
-    height: 8em;
+    height: 100%;
     font-family: Righteous;
     font-weight: 100;
     font-size: 3em;
     padding-top: 0;
-    overflow: hidden;
+    /*overflow: hidden;*/
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
-    align-content: center;
+    justify-content: center;
 
 }
 
@@ -231,6 +232,7 @@ h3 {
 .shuffledNumbers {
     height: 8em;
     display: flex;
+    margin-left: 1em;
     flex-direction: column;
     justify-content: space-around;
 }
@@ -245,8 +247,9 @@ h3 {
 canvas {
    margin-right:0.5em;
    margin-left:0.5em;
-    height:8em;
-    width: 12em;
+   margin-top: -1.8em;
+    height:100%;
+    width: 100%;
     animation-name: example;
   animation-duration: 4s;
     /*right:100%;
@@ -255,6 +258,12 @@ canvas {
     
 
     
+}
+
+#canvasContainer {
+height: 100%;
+width: 12em;
+
 }
 
 #nextButtonContainer {
@@ -266,6 +275,7 @@ canvas {
 #nextButton {
 margin-right: 5em;
 margin-bottom: 5em;
+margin-top: -7em;
 padding: 2em;
 background-color: #046B79;
 border-radius: 5em;
