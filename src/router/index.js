@@ -29,7 +29,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ResultView.vue')
   },
   {
-    path: '/chooseplayer/',
+    path: '/chooseplayer/:lang/:id/:playid',
     name: 'ChoosePlayerView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -38,7 +38,7 @@ const routes = [
 
   },
   {
-    path: '/lobby/',
+    path: '/lobby/:lang/:id',
     name: 'PlayerLobby',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -62,7 +62,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ScoreBoardView.vue')
   },
   {
-    path: '/creatqpart/:lang/:id',
+
+    path: '/creatqpart/:lang/:id/:playid',
+
     name: 'CreateQPartView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -78,13 +80,32 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/createQHostView.vue')
   },
   {
+
     path: '/answerq/:lang/:id',
     name: 'AnswerQView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AnswerQView.vue')
-  }
+  },
+  {
+
+    path: '/ScoreBoard2/',
+    name: 'ScoreBoardView2',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ScoreBoardView2.vue')
+  },
+{
+  path: '/answrQuestion/:lang/:id',
+  name: 'AnsweQuestionView',
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () => import(/* webpackChunkName: "about" */ '../views/AnswerQuestionView.vue')
+}
+
 
 ]
 

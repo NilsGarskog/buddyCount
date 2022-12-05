@@ -16,15 +16,11 @@
       </div>
     </div>
 
-    <div class="createGame">
-  <router-link v-bind:to="'/chooseplayer/'">
-   
-    <button v-on:click="runQuestion" id="createGameButton">
-      Create Game
-    </button>
+
+
+    <router-link v-bind:to= " '/chooseplayer/' + lang + '/' + pollId + '/' + playerId ">
+    <button >Move on bitch!</button>
   </router-link>
-    
-  </div>
 
   </body>
 </template>
@@ -39,6 +35,7 @@ name: 'CreateQPartView',
     return {
       lang: "",
       pollId: "",
+      playerId: "",
       question: "",
       questions: [],
       answers: ["", ""],         ////Oklart om denna behövs?
@@ -51,6 +48,7 @@ name: 'CreateQPartView',
     created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
+    this.playerId = this.$route.params.playid;
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels

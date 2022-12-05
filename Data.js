@@ -24,11 +24,63 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.lang = lang;  
     poll.questions = [];
     poll.answers = [];
+    poll.participants = [];
     poll.currentQuestion = 0;              
     this.polls[pollId] = poll;
     console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
+}
+
+Data.prototype.addParticipant = function(pollId, playerId) {
+  const poll = this.polls[pollId];
+  if (typeof poll !== "undefined") {
+    let participant = {};
+      participant.playerId = playerId;
+      poll.participants.push(participant);
+      console.log('skriv poll',poll);
+  }
+}
+
+Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
+  const poll = this.polls[pollId];
+  if(typeof poll !== 'undefined'){
+  let participantEdit = {};
+  participantEdit.playerId = playerID;
+  participantEdit.name = nm;
+  participantEdit.avatar = av;
+  participantEdit.points = 0;
+  for(let i = 0; i < poll.participants.length; i++){
+    console.log(poll.participants[i].playerId);
+    if(poll.participants[i].playerId == participantEdit.playerId){
+      poll.participants[i] = participantEdit;
+    }
+  }
+  //console.log('poll',poll);
+  
+  console.log('poll', poll.participants);
+}
+}
+
+Data.prototype.removeParticipant = function(pollId, playerID) {
+  const poll = this.polls[pollId];
+  if(typeof poll !== 'undefined'){
+    for(let i = 0; i < poll.participants.length; i++){
+      if(poll.participants[i].playerId == playerID){
+        poll.participants.splice(i,1);
+      }
+    }
+}}
+
+Data.prototype.getAllParticipants = function(pollId) {
+  const poll = this.polls[pollId];
+  console.log("all participants requested for ", pollId);
+  if (typeof poll !== 'undefined'){
+    console.log("the participants in poll", pollId, "are", poll.participants)
+    return poll.participants;
+
+  }
+  return []
 }
 
 Data.prototype.addQuestion = function(pollId, q) {
