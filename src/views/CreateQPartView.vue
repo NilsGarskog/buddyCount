@@ -20,7 +20,7 @@
 
 
     <router-link v-bind:to= " '/chooseplayer/' + lang + '/' + pollId + '/' + playerId ">
-    <button >Move on bitch!</button>
+    <button v-if="this.playerId === '1'">Questions are done</button>
   </router-link>
 
   </body>
@@ -75,16 +75,6 @@ name: 'CreateQPartView',
 
     },
 
-    // mounted: function () {
-    //   this.$nextTick(function () {
-    //   console.log('mounted is called')
-    //   if (this.players[0].playerId != 1){
-    //     socket.emit('removeParticipant', {pollId: this.pollId, playerId: this.playerId})
-    //     socket.emit("addParticipant", {pollId: this.pollId, playerId: 1})
-    //     this.$router.push('/creatqpart/' + this.lang+'/'+this.pollId +'/'+ 1);
-    //   }
-    //   })
-    // },
     methods: {
 
     createPoll: function () {
