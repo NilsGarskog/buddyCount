@@ -36,9 +36,10 @@ function sockets(io, socket, data) {
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
   });
 
-  socket.on('submitAnswer', function(d) {
-    data.submitAnswer(d.pollId, d.answer);
-    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
+
+  socket.on('submitAnswer', function(d){
+    data.submitAnswer(d.pollId ,{player: d.p, answer: d.a});
+    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
   });
 
   socket.on('resetAll', () => {

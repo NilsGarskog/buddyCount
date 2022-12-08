@@ -5,16 +5,16 @@
             <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <div class ="headerContainer">
           <div class ="gameCode">
-        <p>Code: {{pollId}}</p>
+        <p>Code: {{pollId}} Player: {{playerId}}</p>
       </div>
        
       </div>
     <h1 class ="questionTitle">Your Answer</h1>
     <div class="questions">
+      
+        {{questions[nextQ].q}}
+        
     
-         {{questions[nextQ].q}}
-      
-      
       </div>
       <input type="text" v-model="answer" placeholder="Write your answer" id="answerInputField">
  <button v-on:click="addAnswer"> Svara</button>
@@ -28,27 +28,33 @@
     import io from 'socket.io-client';
     const socket = io();
     export default {
-      name: 'CreateQHostView',
+      name: 'AnswerQView',
       data: function () {
         return {
           lang: "",
           pollId: "",
           questionObject: "",
+          question:"",
           questions: "", /* la till en tom array*/
           data: {},
           answer: "",
           answers: [],
           uiLabels: {},
           nextQ: 0,
+          playerId: "",
         }
       },
         created: function () {
-        this.pollId = this.$route.params.id
-        this.lang = this.$route.params.lang
-        socket.emit('joinPoll', this.pollId)
-        socket.on("dataUpdate", (update) => {          //oklart om denna behvövs?
-          this.data = update.a;
-          this.question = update.q;
+          this.pollId = this.$route.params.id
+          this.lang = this.$route.params.lang;
+          this.playerId = this.$route.params.playid;
+          socket.emit('joinPoll', this.pollId) //Ska jag ha denna?? funkar ej utan
+          socket.emit("pageLoaded", this.lang);
+          socket.on("init", (labels) => {
+          this.uiLabels = labels
+          });
+        socket.on("dataUpdate", (data) =>   {       //Oklart om denna behövs?
+          this.data = data
         });
         socket.on("questionUpdate", (update) => {       //Funktion för att hämta fråge-array /Nils
           this.questions = update;
@@ -59,20 +65,24 @@
         });
       },
         methods: {
-        createPoll: function () {
+        /*createPoll: function () {
           socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
-        },
+        },*/
        
         addAnswer: function(){
             this.answers.push({a: this.answer, i: this.questions[this.nextQ].i}) /* Lägger svaret plus tillhörande fråge-id i en array, man bör nog lägga till ett spelar id */
-            console.log(this.answers)
+            console.log("frågorna:",this.answers)
+            socket.emit("submitAnswer", {pollId:this.pollId, i:this.questions[this.nextQ].i, p:this.playerId, a:this.answer } ) 
             this.answer = ""
             this.nextQ ++
+            console.log("speklarid", this.playerId)
+            
         }
+
 
     
        
-    },
+    }
     }
     
     </script>
