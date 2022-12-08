@@ -30,6 +30,9 @@
 
 <script>
 
+import io from 'socket.io-client';
+    const socket = io();
+
 
 
 function Names (id, num) {
@@ -57,9 +60,31 @@ export default {
   data: function () {
     return {
         players: thename, 
-        answers: correctanswer,       
+        answers: correctanswer, 
+        lang: "",
+        pollId: "",
+        questionObject: "",
+        questions: "", /* la till en tom array*/
+        data: {},
+        answer: "",
+        answers: [],
+        uiLabels: {},
+        nextQ: 0,      
     }
 },
+created: function () {
+    this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang;
+    this.playerId = this.$route.params.playid;
+    socket.emit("pageLoaded", this.lang);
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
+    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
+      this.data = data
+    )
+    },
+
     methods: {
     compareArrays: function (players,answers) {
         console.log(players,answers);
