@@ -50,6 +50,8 @@ Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
   participantEdit.name = nm;
   participantEdit.avatar = av;
   participantEdit.points = 0;
+  participantEdit.currentAnswer = 0;
+  participantEdit.currentGuess = [];
   for(let i = 0; i < poll.participants.length; i++){
     console.log(poll.participants[i].playerId);
     if(poll.participants[i].playerId == participantEdit.playerId){
@@ -151,23 +153,18 @@ Data.prototype.getAllQuestions = function(pollId){
     console.log("answers looks like ", answers, typeof answers);
   }
 }*/
-Data.prototype.submitAnswer = function(pollID, a){
+Data.prototype.submitAnswer = function(pollID, aObject){
   const poll = this.polls[pollID];
-  console.log("ansers submitted for ", pollID, a);
-  /*if (typeof poll !== 'undefined') {
-    let answers = poll.answers[poll.currentQuestion];
-    if (typeof answers !== 'object') {
-      answers = {};
-      answers[answer] = 1;
-      poll.answers.push(answers);
+  console.log("ansers submitted for ", pollID, aObject);
+  console.log("jag har id: ", aObject.player, "och har svarat ", aObject.answer)
+  if (typeof poll !== 'undefined') {
+  for(let i = 0; i <poll.participants.length; i++){
+    if(poll.participants[i].playerId == aObject.player){
+      poll.participants[i].currentAnswer = aObject.answer;
     }
-    else if (typeof answers[answer] === 'undefined')
-      answers[answer] = 1;
-    else
-      answers[answer] += 1
-    console.log("answers looks like ", answers, typeof answers);
-
-}*/
+  }
+}
+console.log(poll.participants)
 }
 
 Data.prototype.getAnswers = function(pollId) {
