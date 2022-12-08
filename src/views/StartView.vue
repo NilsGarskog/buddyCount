@@ -116,6 +116,7 @@ export default {
     };
   },
   created: function () {
+    socket.emit("pageLoaded", this.lang)
     this.id = Math.floor(100000 + Math.random() * 900000)
     socket.on("init", (labels) => {
       this.uiLabels = labels;
