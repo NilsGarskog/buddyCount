@@ -1,10 +1,10 @@
 <template>
-  <body>
+  <body v-on:click="usernameColorFix">
 
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-  <div class="wrapper" v-on:click="usernameColorFix">
+  <div class="wrapper" >
   <div class="usernameGroup">
-    <input type="input" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
+    <input type="text" autocomplete="off" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
     <label for="name" id="labelUse" class="labelUsername" >Username</label>
   </div>
 
@@ -143,14 +143,12 @@ export default {
     onEnter:function(){
       document.getElementById("labelUse").style.display = 'none';
       document.getElementById("name").style.textAlign = "center";
-      document.getElementById("name").style.fontWeight = "700";
-      document.getElementById(("name")).style.borderWidth="0.2em";
-      document.getElementById("name").style.paddingBottom = "0";
       document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
     },
     selectThisCharacter: function (avatar){
-
+    var avt = avatar.image
+    console.log(avt);
       if (this.playerInfo.clickedAvatars.length===0){
         this.playerInfo.clickedAvatars.push(avatar)
         console.log(this.playerInfo);
@@ -167,9 +165,13 @@ export default {
     usernameColorFix: function(){
       if (this.playerInfo.username != ""){
         document.getElementById("labelUse").style.color = "#a02449";
-        document.getElementById("name").style.paddingBottom = "0";
         document.getElementById("labelUse").style.fontWeight = "700";
+        document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
+        document.getElementById("name").style.borderImageSlice = "1";
+        document.getElementById("labelUse").style.top="0";
+        document.getElementById("name").style.padding ="0.675em 0 0";
       }
+
     }
 
   },
@@ -206,16 +208,14 @@ flex-direction: column;
 align-items: center;
 }
 
-#characterText{
-  margin-top:8em;
-}
 .usernameGroup{
   position:relative;
-  padding: 0.9375em 0 0;
+  padding: 0.675em 0 0;
   margin-top: 0.625em;
   width:50%;
 }
 .inputUsername {
+
   font-family: righteous;
   width: 100%;
   border: 0;
@@ -223,10 +223,11 @@ align-items: center;
   outline: 0;
   font-size: 2.6rem;
   color: black;
-  padding: 0.4375em 0;
+  padding: 0.4em 0;
   background: transparent;
   transition: border-color 0.2s;
   text-align: center;
+
 }
 .inputUsername::placeholder{
   color:transparent;
@@ -234,12 +235,13 @@ align-items: center;
 .labelUsername {
   font-family: righteous;
   position: absolute;
-  top: 0;
   display: block;
   transition: 0.2s;
   font-size: 2rem;
   color: black;
   width: 100%;
+
+
 }
 .inputUsername:placeholder-shown ~.labelUsername{
   font-size:2.6rem;
@@ -248,17 +250,15 @@ align-items: center;
 
 }
 .inputUsername:focus{
-  padding-bottom:  0;
-
   border-image: linear-gradient(to right,#a02449 ,#24a07b);
   border-image-slice: 1;
-
+  padding-bottom: 0;
 
 }
 .inputUsername:focus~.labelUsername{
   position:absolute;
   top: 0;
-  padding-bottom: 0vh;
+
   display: block;
   transition: 0.2s;
   font-size: 2rem;
@@ -269,6 +269,7 @@ align-items: center;
 #characterText{
   font-family: righteous;
   font-size: 3vw;
+
 }
 .Button{
   height: 4em;
@@ -304,6 +305,7 @@ img:hover{
   flex-wrap: wrap;
   justify-content: center;
   padding: 0 0.25em;
+
 }
 .characterColumn {
   flex:25%;
