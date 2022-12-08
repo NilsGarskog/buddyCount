@@ -134,7 +134,7 @@ Data.prototype.getAllQuestions = function(pollId){
   return []
 }
 
-Data.prototype.submitAnswer = function(pollId, answer) {
+/*Data.prototype.submitAnswer = function(pollId, answer) { //Skriver en egen sån här
   const poll = this.polls[pollId];
   console.log("answer submitted for ", pollId, answer);
   if (typeof poll !== 'undefined') {
@@ -150,6 +150,24 @@ Data.prototype.submitAnswer = function(pollId, answer) {
       answers[answer] += 1
     console.log("answers looks like ", answers, typeof answers);
   }
+}*/
+Data.prototype.submitAnswer = function(pollID, a){
+  const poll = this.polls[pollID];
+  console.log("ansers submitted for ", pollID, a);
+  /*if (typeof poll !== 'undefined') {
+    let answers = poll.answers[poll.currentQuestion];
+    if (typeof answers !== 'object') {
+      answers = {};
+      answers[answer] = 1;
+      poll.answers.push(answers);
+    }
+    else if (typeof answers[answer] === 'undefined')
+      answers[answer] = 1;
+    else
+      answers[answer] += 1
+    console.log("answers looks like ", answers, typeof answers);
+
+}*/
 }
 
 Data.prototype.getAnswers = function(pollId) {
