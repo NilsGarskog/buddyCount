@@ -169,7 +169,9 @@ ctx.stroke();
                 var amount = 0;
                 var playlen = this.PlayersWithAnswers.length;
               setInterval(function (){
+
                 amount += 0.001*(1-0.1*(playlen-1));
+
                 ctx.beginPath();
                 ctx.strokeStyle = colors[i];
                 ctx.lineWidth =10;  

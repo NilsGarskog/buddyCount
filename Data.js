@@ -62,6 +62,16 @@ Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
 }
 }
 
+Data.prototype.removeParticipant = function(pollId, playerID) {
+  const poll = this.polls[pollId];
+  if(typeof poll !== 'undefined'){
+    for(let i = 0; i < poll.participants.length; i++){
+      if(poll.participants[i].playerId == playerID){
+        poll.participants.splice(i,1);
+      }
+    }
+}}
+
 Data.prototype.getAllParticipants = function(pollId) {
   const poll = this.polls[pollId];
   console.log("all participants requested for ", pollId);
@@ -78,6 +88,19 @@ Data.prototype.addQuestion = function(pollId, q) {
   console.log("question added to", pollId, q);
   if (typeof poll !== 'undefined') {
     poll.questions.push(q);
+  }
+}
+Data.prototype.delQuestion = function(pollId, questionId) {
+  const poll = this.polls[pollId];
+  console.log("question deleted from", pollId, questionId);
+  if (typeof poll !== 'undefined') {
+    for(let index=0; index< poll.questions.length;index++){
+      if(poll.questions[index].i == questionId){
+        console.log("jag har hittat frågan på plats ", index)
+        poll.questions.splice(index,1)
+     
+      }
+    }
   }
 }
 
