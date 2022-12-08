@@ -19,7 +19,7 @@
 
 
 
-    <router-link v-bind:to= " '/chooseplayer/' + lang + '/' + pollId + '/' + playerId ">
+    <router-link v-bind:to= " '/guessQuestion/' + lang + '/' + pollId + '/' + playerId ">
     <button v-if="this.playerId === '1'">Questions are done</button>
   </router-link>
 
@@ -49,21 +49,11 @@ name: 'CreateQPartView',
   },
     created: function () {
 
-    this.pollId = this.$route.params.id
+    this.pollId = this.$route.params.id;
     this.lang = this.$route.params.lang;
     this.playerId = this.$route.params.playid;
     socket.emit('joinPoll', this.pollId)
     socket.emit("pageLoaded", this.lang);
-    socket.on("sendPlayers", (playerArray) => {
-      this.players = playerArray
-      if (this.players[0].playerId != 1){
-        socket.emit('removeParticipant', {pollId: this.pollId, playerId: this.playerId})
-        socket.emit("addParticipant", {pollId: this.pollId, playerId: 1})
-        this.$router.push('/creatqpart/' + this.lang+'/'+this.pollId +'/'+ 1);
-      }
-    })
-    socket.emit("getPlayers", this.pollId);
-
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
