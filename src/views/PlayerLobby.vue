@@ -45,6 +45,7 @@ import io from 'socket.io-client';
 const socket = io();
 
 
+
 export default {
 
     data: function () {
@@ -102,6 +103,7 @@ export default {
 body {
     background-color:#24a07b;
     cursor: default;
+
 }
 
 .headerContainer {
