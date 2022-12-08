@@ -1,4 +1,5 @@
 <template>
+
   <body v-on:click="usernameColorFix">
 
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
@@ -37,6 +38,10 @@
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); editParticipant();">
       Join
     </button>
+    <div id="chosenAvatar" v-html="chosen">
+
+
+    </div>
     </div>
   </body>
 </template>
@@ -112,7 +117,8 @@ export default {
       questionNumber: 0,
       data: {},
       uiLabels: {},
-      Qid: 0
+      Qid: 0,
+      chosenn: ("img/logo.png")
     }
     
   },
@@ -121,6 +127,7 @@ export default {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
     this.playerId = this.$route.params.playid;
+
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -161,6 +168,10 @@ export default {
         console.log(this.playerInfo);
 
       }
+      var avataren =document.getElementById("chosenAvatar");
+      console.log(avataren)
+      avataren.innerHTML="<img :src='require(img/" + avt +  ".png)' width=\"200px\" height=\"200px\" >";
+      //this.chosenn="<img src='img/logo.png' width='35px' height='35px'>";
     },
     usernameColorFix: function(){
       if (this.playerInfo.username != ""){
