@@ -104,12 +104,12 @@ const routes = [
 },
 
 {
-  path: '/answrQuestion/:lang/:id',
+  path: '/guessQuestion/:lang/:id',
   name: 'AnsweQuestionView',
   // route level code-splitting
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.
-  component: () => import(/* webpackChunkName: "about" */ '../views/AnswerQuestionView.vue')
+  component: () => import(/* webpackChunkName: "about" */ '../views/GuessQuestionView.vue')
 }
 
 
