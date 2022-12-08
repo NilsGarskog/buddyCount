@@ -72,6 +72,10 @@ function sockets(io, socket, data) {
     io.to(d.pollId).emit('playerEdited', data.getAllParticipants(d.pollId));
   });
 
+  socket.on('getPlayers', function(pollId) {
+    io.to(pollId).emit('sendPlayers', data.getAllParticipants(pollId));
+  });
+
  
 }
 
