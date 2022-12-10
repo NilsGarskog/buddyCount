@@ -26,11 +26,11 @@
   </div>
   </div>
   </div>
-  <router-link v-bind:to="'/lobby/' + lang + '/' + pollId">
+  <!-- <router-link v-bind:to="'/lobby/' + lang + '/' + pollId">
         <button role="button">
           <p class="buttonText">Start game</p>
         </button>
-      </router-link>
+      </router-link> -->
 
 </body>
 

@@ -5,8 +5,8 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <h1>Write questions here:</h1>
 
-    <input maxlength="10000" type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
-       <img src="../Icons/addButton.png" class="signButton" id="addButton" v-on:click="addQuestion">
+    <input maxlength="60" type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
+       <img src="../Icons/addButton.png" class="signButton" id="addButton" v-on:click="addQuestion" v-bind:style= "[(this.questions.length < 3) ? {opacity: 1} : {opacity: 0.3}]">
     <div class="showQuestions">
       <div v-for="question in questions" v-bind:key="question" class="writtenQuestions">
          <span class="Qtext"> {{question.q}}  </span>
@@ -68,6 +68,7 @@ name: 'CreateQPartView',
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
     },
     addQuestion: function () {           //Lagt till fråge-id mm.
+      if (this.questions.length < 3){
       this.Qid = Math.floor(100000 + Math.random() * 900000)
       if(this.question != ""){
       this.questions.push( {q: this.question, i: this.Qid });
@@ -75,6 +76,7 @@ name: 'CreateQPartView',
       console.log(this.questions)
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } ) 
       this.question=""
+      }
       }
     },
     delQuestion: function (questionId){
@@ -101,7 +103,7 @@ body{
   min-height: 100vh;
   padding: 0;
   font-family: Righteous;
-  color: white;
+  color: black;
 }
 button {
   height: 5em;
@@ -126,10 +128,11 @@ button {
 
 .continueButton {
 position: absolute;
-bottom: 0.5em;
+bottom: 3em;
 left:20px;
 right:20px;
 width: calc(100% - 40px);
+
 }
 
 .button:hover {
@@ -153,17 +156,17 @@ width: calc(100% - 40px);
   height: 3em;
   width: 3em;
   position: absolute;
+  border-radius: 1.5em;
 }
+
 .showQuestions{
   font-family: Righteous;
-  font-weight: 600;
   font-size: 1.2em;
   text-align:left;
   margin-left: 1em;
   margin-top: 2em;
   color:white;
   width: 100%;
-  vertical-align: middle;
 
 
 }
@@ -180,15 +183,10 @@ word-wrap:break-word;
   border-style: outset;
   background-color: #16534188;
  border-color: black, red;
-  height: auto;
   min-height: 2.8em !important;
  margin-right: 1.5em;
   padding: 0.4em;
   margin-top: -0.5em;
-
- 
-
-
 }
 
 #questionInputField{
@@ -212,17 +210,6 @@ input {
   text-align: center;
   overflow:visible;
  
-}
-
-
-#createGameButton{
-
-   position:absolute; 
-   margin-left:-50px;
-   left:50%;
-   width:100px;
-   bottom:2em;
-  
 }
 
 /* @media screen and (max-width:50em) {
