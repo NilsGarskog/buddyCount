@@ -5,11 +5,11 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <h1>Write questions here:</h1>
 
-    <input type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
+    <input maxlength="10000" type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
        <img src="../Icons/addButton.png" class="signButton" id="addButton" v-on:click="addQuestion">
     <div class="showQuestions">
       <div v-for="question in questions" v-bind:key="question" class="writtenQuestions">
-         {{question.q}} 
+         <span class="Qtext"> {{question.q}}  </span>
         <img src="../Icons/DeleteButton.png" class="signButton" id="delButton" v-on:click="delQuestion(question.i)">
       </div>
     </div>
@@ -17,7 +17,7 @@
 
 
     <router-link v-bind:to= " '/guessQuestion/' + lang + '/' + pollId + '/' + playerId ">
-    <button class="continueButton" v-if="this.playerId === '1'">Questions are done</button>
+    <button class="continueButton" v-if="this.playerId === '1'">Start game</button>
   </router-link>
 
   </body>
@@ -115,7 +115,7 @@ button {
   cursor: pointer;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
+  font-size: 2em;
   font-weight: 600;
   line-height: 20px;
   padding: 6px 12px;
@@ -138,20 +138,15 @@ width: calc(100% - 40px);
 
 .signButton{
 
-  border:none;
-  color: greenyellow;
   width: 2em;
-  height: 2em;
-  margin-left: 2em;
-  font-size: 1em;
-  font-weight: bold;
-  position: relative;
+
 }
 #delButton{
-  margin-right: 0px;
   right: 1em;
+  margin-top: -0.1em;
   position: absolute;
 }
+
 #addButton{
   top: 4.5em;
   right: 0.2em;
@@ -168,14 +163,31 @@ width: calc(100% - 40px);
   margin-top: 2em;
   color:white;
   width: 100%;
+  vertical-align: middle;
 
-  
+
+}
+
+.Qtext{
+position: absolute;
+margin-top: 0.3em;
+max-width:77vw;
+word-wrap:break-word;
+
 }
 .writtenQuestions{
  margin-bottom: 1em;
   border-style: outset;
   background-color: #16534188;
  border-color: black, red;
+  height: auto;
+  min-height: 2.8em !important;
+ margin-right: 1.5em;
+  padding: 0.4em;
+  margin-top: -0.5em;
+
+ 
+
 
 }
 
