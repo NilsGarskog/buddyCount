@@ -97,7 +97,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 
 body {
     background-color:#24a07b;
