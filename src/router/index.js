@@ -75,7 +75,7 @@ const routes = [
   {
 
 
-    path: '/answerq/:lang/:id',
+    path: '/answerq/:lang/:id/:playid',
     name: 'AnswerQView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -104,12 +104,21 @@ const routes = [
 },
 
 {
-  path: '/answrQuestion/:lang/:id',
+  path: '/guessQuestion/:lang/:id/:playid',
   name: 'AnsweQuestionView',
   // route level code-splitting
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.
-  component: () => import(/* webpackChunkName: "about" */ '../views/AnswerQuestionView.vue')
+  component: () => import(/* webpackChunkName: "about" */ '../views/GuessQuestionView.vue')
+},
+
+{
+  path: '/Waiting/:lang/:id/:playid',
+  name: 'AnsweQuestionView',
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () => import(/* webpackChunkName: "about" */ '../views/WaitingForPlayersView.vue')
 }
 
 
@@ -122,3 +131,4 @@ const router = createRouter({
 })
 
 export default router
+
