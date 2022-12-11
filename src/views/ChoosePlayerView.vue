@@ -38,7 +38,7 @@
 
     </div>
   </div>
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); editParticipant();">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
       Join
     </button>
     </div>
@@ -116,7 +116,8 @@ export default {
       questionNumber: 0,
       data: {},
       uiLabels: {},
-      Qid: 0
+      Qid: 0,
+      players: []
     }
     
   },
@@ -129,9 +130,18 @@ export default {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
-    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
+    socket.on("dataUpdate", (data) => {          //Oklart om denna behövs?
       this.data = data
-    )
+    })
+      socket.on("isFirst", (playerArray) => {          //Oklart om denna behövs?
+      this.players = playerArray
+      if (this.players.length === 1){
+        this.$router.push('/Waiting/' + this.lang+'/'+this.pollId +'/'+ 1);
+      }else{
+        this.$router.push('/Waiting/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+      }
+    })
+    
     },
   //Metod för att ta bort placeholder
   methods: {
@@ -139,8 +149,8 @@ export default {
           console.log(this.playerInfo)
     },
 
-    editParticipant: function() {
-      console.log('participant edited');
+    addParticipant: function() {
+      console.log('participant added');
       console.log(this.playerInfo.username);
       socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
     },

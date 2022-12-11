@@ -52,7 +52,10 @@
   @end="drag=false" 
   item-key="id">
   <template #item="{element}">
-    <div>{{element.name}} {{element.title}}</div>
+    <div class="playerNameInList">
+          <img  class="avatarImage" :src="require('../Icons/'+element.image + '.png')" :key="element.image" />
+            {{element.name}}
+    {{element.name}} {{element.title}}</div>
    </template>
 </draggable>
 

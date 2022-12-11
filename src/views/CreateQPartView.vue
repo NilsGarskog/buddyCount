@@ -4,7 +4,7 @@
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <h1>Write questions here</h1>
-    {{players}} {{this.players[0].playerId}}
+
     <input type="text" v-model="question" placeholder="Write your question" id="questionInputField">
         <button v-on:click="addQuestion" class="signButton" id="addButton">
       +
@@ -19,8 +19,8 @@
 
 
 
-    <router-link v-bind:to= " '/chooseplayer/' + lang + '/' + pollId + '/' + playerId ">
-    <button >Move on bitch!</button>
+    <router-link v-bind:to= " '/guessQuestion/' + lang + '/' + pollId + '/' + playerId ">
+    <button v-if="this.playerId === '1'">Questions are done</button>
   </router-link>
 
   </body>
@@ -49,16 +49,11 @@ name: 'CreateQPartView',
   },
     created: function () {
 
-    this.pollId = this.$route.params.id
+    this.pollId = this.$route.params.id;
     this.lang = this.$route.params.lang;
     this.playerId = this.$route.params.playid;
     socket.emit('joinPoll', this.pollId)
     socket.emit("pageLoaded", this.lang);
-    socket.on("sendPlayers", (playerArray) => {
-      this.players = playerArray
-    })
-    socket.emit("getPlayers", this.pollId);
-
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
@@ -67,18 +62,9 @@ name: 'CreateQPartView',
     )
 
 
+
     },
 
-    mounted: function () {
-      this.$nextTick(function () {
-      console.log('mounted is called')
-      if (this.players[0].playerId != 1){
-        socket.emit('removeParticipant', {pollId: this.pollId, playerId: this.playerId})
-        socket.emit("addParticipant", {pollId: this.pollId, playerId: 1})
-        this.$router.push('/creatqpart/' + this.lang+'/'+this.pollId +'/'+ 1);
-      }
-      })
-    },
     methods: {
 
     createPoll: function () {

@@ -30,59 +30,84 @@
 
 <script>
 
+// import io from 'socket.io-client';
+//     const socket = io();
 
 
-function Names (id, num) {
-    this.name= id;
-    this.answerednumber= num;
-}
 
-let name1 = new Names(1233, 12);
+// function Names (id, num) {
+//     this.name= id;
+//     this.answerednumber= num;
+// }
 
-let thename= [name1];
+// let name1 = new Names(1233, 12);
 
-function theanswer (id, nb) {
-    this.name= id;
-    this.correctnumber= nb;
+// let thename= [name1];
+
+// function theanswer (id, nb) {
+//     this.name= id;
+//     this.correctnumber= nb;
     
-}
+// }
 
-let answer1= new theanswer(1233,12);
+// let answer1= new theanswer(1233,12);
 
-let correctanswer= [answer1];
+// let correctanswer= [answer1];
 
-export default {
-  name: "CheckCorrectAnswer",
-  components: {},
-  data: function () {
-    return {
-        players: thename, 
-        answers: correctanswer,       
-    }
-},
-    methods: {
-    compareArrays: function (players,answers) {
-        console.log(players,answers);
-    if(players.length!=answers.length){
-        console.log("hej");
-        return false;
-    }
-    else {
-        // check every element of the two arrays
-       for(var i=0;i<answers.length;i++){
-           if(answers[i].correctnumber!=players[i].answerednumber){
-                console.log("hej2");
-               return false;}
-               else {
-                console.log(true);
-           return true;
-        }
-        }
-       }
+// export default {
+//   name: "CheckCorrectAnswer",
+//   components: {},
+//   data: function () {
+//     return {
+//         players: thename, 
+//         answers: correctanswer, 
+//         lang: "",
+//         pollId: "",
+//         questionObject: "",
+//         questions: "", /* la till en tom array*/
+//         data: {},
+//         answer: "",
+//         answers: [],
+//         uiLabels: {},
+//         nextQ: 0,      
+//     }
+// },
+// created: function () {
+//     this.pollId = this.$route.params.id
+//     this.lang = this.$route.params.lang;
+//     this.playerId = this.$route.params.playid;
+//     socket.emit("pageLoaded", this.lang);
+//     socket.on("init", (labels) => {
+//       this.uiLabels = labels
+//     })
+//     socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
+//       this.data = data
+//     )
+//     },
+
+//     methods: {
+//     compareArrays: function (players,answers) {
+//         console.log(players,answers);
+//     if(players.length!=answers.length){
+//         console.log("hej");
+//         return false;
+//     }
+//     else {
+//         // check every element of the two arrays
+//        for(var i=0;i<answers.length;i++){
+//            if(answers[i].correctnumber!=players[i].answerednumber){
+//                 console.log("hej2");
+//                return false;}
+//                else {
+//                 console.log(true);
+//            return true;
+//         }
+//         }
+//        }
         
-        }
-    }
-}
+//         }
+//     }
+// }
 
 
 </script>

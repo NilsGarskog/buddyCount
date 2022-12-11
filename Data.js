@@ -32,35 +32,35 @@ Data.prototype.createPoll = function(pollId, lang="en") {
   return this.polls[pollId];
 }
 
-Data.prototype.addParticipant = function(pollId, playerId) {
-  const poll = this.polls[pollId];
-  if (typeof poll !== "undefined") {
-    let participant = {};
-      participant.playerId = playerId;
-      poll.participants.push(participant);
-      console.log('skriv poll',poll);
-  }
-}
+// Data.prototype.addParticipant = function(pollId, playerId) {
+//   const poll = this.polls[pollId];
+//   if (typeof poll !== "undefined") {
+//     let participant = {};
+//       participant.playerId = playerId;
+//       poll.participants.push(participant);
+//       console.log('skriv poll',poll);
+//   }
+// }
 
 Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
   const poll = this.polls[pollId];
   if(typeof poll !== 'undefined'){
-  let participantEdit = {};
-  participantEdit.playerId = playerID;
-  participantEdit.name = nm;
-  participantEdit.avatar = av;
-  participantEdit.points = 0;
-  for(let i = 0; i < poll.participants.length; i++){
-    console.log(poll.participants[i].playerId);
-    if(poll.participants[i].playerId == participantEdit.playerId){
-      poll.participants[i] = participantEdit;
-    }
+  let participant = {};
+  if (poll.participants.length === 0){
+    participant.playerId = 1;
+  }else{
+    participant.playerId = playerID;
   }
-  //console.log('poll',poll);
-  
-  console.log('poll', poll.participants);
+  participant.name = nm;
+  participant.avatar = av;
+  participant.points = 0;
+  participant.currentAnswer = 0;
+  participant.currentGuess = [];
+  poll.participants.push(participant);
+  }
+
 }
-}
+
 
 Data.prototype.removeParticipant = function(pollId, playerID) {
   const poll = this.polls[pollId];
@@ -134,7 +134,7 @@ Data.prototype.getAllQuestions = function(pollId){
   return []
 }
 
-Data.prototype.submitAnswer = function(pollId, answer) {
+/*Data.prototype.submitAnswer = function(pollId, answer) { //Skriver en egen sån här
   const poll = this.polls[pollId];
   console.log("answer submitted for ", pollId, answer);
   if (typeof poll !== 'undefined') {
@@ -150,6 +150,19 @@ Data.prototype.submitAnswer = function(pollId, answer) {
       answers[answer] += 1
     console.log("answers looks like ", answers, typeof answers);
   }
+}*/
+Data.prototype.submitAnswer = function(pollID, aObject){
+  const poll = this.polls[pollID];
+  console.log("ansers submitted for ", pollID, aObject);
+  console.log("jag har id: ", aObject.player, "och har svarat ", aObject.answer)
+  if (typeof poll !== 'undefined') {
+  for(let i = 0; i <poll.participants.length; i++){
+    if(poll.participants[i].playerId == aObject.player){
+      poll.participants[i].currentAnswer = aObject.answer;
+    }
+  }
+}
+console.log(poll.participants)
 }
 
 Data.prototype.getAnswers = function(pollId) {
