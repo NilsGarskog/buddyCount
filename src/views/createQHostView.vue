@@ -16,6 +16,7 @@
 <div v-if="!hide">
     <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
             {{question.q}}
+            <hr style="width:50%;">
             
   </div>
   </div>
@@ -23,14 +24,15 @@
     <div v-for="(question,index) in questions"
     v-bind:key="question">
     Question {{index+1}}
+    <hr style="width:50%;">
   </div>
   </div>
   </div>
-  <router-link v-bind:to="'/lobby/' + lang + '/' + pollId">
+  <!-- <router-link v-bind:to="'/lobby/' + lang + '/' + pollId">
         <button role="button">
           <p class="buttonText">Start game</p>
         </button>
-      </router-link>
+      </router-link> -->
 
 </body>
 

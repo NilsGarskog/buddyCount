@@ -164,7 +164,7 @@ export default {
 
 <style scoped>
 .inputField{
-  height: 4em;
+  height: 5em;
   width: 15em;
 }
 .popupClose{
@@ -219,7 +219,7 @@ ul {
   border:none;
   border-bottom: 0.1em solid black;
   width:80%;
-  height: 3vh;
+  height: 4vh;
   background-color: inherit;
   font-size: 2em;
   font-family: righteous;

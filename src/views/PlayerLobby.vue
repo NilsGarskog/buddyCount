@@ -97,12 +97,14 @@ export default {
 
 
 
-<style>
+<style scoped>
 
 body {
     background-color:#24a07b;
     cursor: default;
-
+    width: 100%;
+    position: fixed;  
+    min-height: 100vh;
 }
 
 .headerContainer {

@@ -3,24 +3,21 @@
     <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-    <h1>Write questions here</h1>
+    <h1>Write questions here:</h1>
 
-    <input type="text" v-model="question" placeholder="Write your question" id="questionInputField">
-        <button v-on:click="addQuestion" class="signButton" id="addButton">
-      +
-    </button>
+    <input maxlength="60" type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
+       <img src="../Icons/addButton.png" class="signButton" id="addButton" v-on:click="addQuestion" v-bind:style= "[(this.questions.length < 3) ? {opacity: 1} : {opacity: 0.3}]">
     <div class="showQuestions">
-      <div v-for="question in questions" v-bind:key="question">
-        {{question.q}}
-        <button 
-        v-on:click="delQuestion(question.i)" class="signButton" id="delButton"> - </button>
+      <div v-for="question in questions" v-bind:key="question" class="writtenQuestions">
+         <span class="Qtext"> {{question.q}}  </span>
+        <img src="../Icons/DeleteButton.png" class="signButton" id="delButton" v-on:click="delQuestion(question.i)">
       </div>
     </div>
 
 
 
     <router-link v-bind:to= " '/guessQuestion/' + lang + '/' + pollId + '/' + playerId ">
-    <button v-if="this.playerId === '1'">Questions are done</button>
+    <button class="continueButton" v-if="this.playerId === '1'">Start game</button>
   </router-link>
 
   </body>
@@ -71,6 +68,7 @@ name: 'CreateQPartView',
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
     },
     addQuestion: function () {           //Lagt till fråge-id mm.
+      if (this.questions.length < 3){
       this.Qid = Math.floor(100000 + Math.random() * 900000)
       if(this.question != ""){
       this.questions.push( {q: this.question, i: this.Qid });
@@ -78,6 +76,7 @@ name: 'CreateQPartView',
       console.log(this.questions)
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } ) 
       this.question=""
+      }
       }
     },
     delQuestion: function (questionId){
@@ -96,7 +95,7 @@ name: 'CreateQPartView',
 }
 </script>
 
-<style>
+<style scoped>
 body{
     position: fixed;
   background-color: #24a07b;
@@ -104,11 +103,11 @@ body{
   min-height: 100vh;
   padding: 0;
   font-family: Righteous;
-  color: white;
+  color: black;
 }
 button {
   height: 5em;
-  width: 9em;
+  width: 14em;
   background-color: #78df73;
   border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 20px;
@@ -116,15 +115,24 @@ button {
   box-sizing: border-box;
   color: black;
   cursor: pointer;
-  display: inline-block;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
+  font-size: 2em;
   font-weight: 600;
   line-height: 20px;
   padding: 6px 12px;
   position: relative;
-  text-align: center;
+  text-align:center;
+
+}
+
+.continueButton {
+position: absolute;
+bottom: 3em;
+left:20px;
+right:20px;
+width: calc(100% - 40px);
+
 }
 
 .button:hover {
@@ -132,40 +140,64 @@ button {
 }
 
 .signButton{
-  background-color: green;
-  border-radius: 50%;
-  border:none;
-  color: greenyellow;
+
   width: 2em;
-  height: 2em;
-  margin-left: 2em;
-  font-size: 1em;
-  font-weight: bold;
+
 }
 #delButton{
-  background-color: red;
-  color: rgb(231, 166, 68);
+  right: 1em;
+  margin-top: -0.1em;
+  position: absolute;
 }
+
+#addButton{
+  top: 4.5em;
+  right: 0.2em;
+  height: 3em;
+  width: 3em;
+  position: absolute;
+  border-radius: 1.5em;
+}
+
 .showQuestions{
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
-  font-weight: 600;
-  align-items: center;
-  text-align:right;
+  font-family: Righteous;
+  font-size: 1.2em;
+  text-align:left;
+  margin-left: 1em;
   margin-top: 2em;
-  margin-right: 34em;
   color:white;
-  
+  width: 100%;
+
+
 }
+
+.Qtext{
+position: absolute;
+margin-top: 0.3em;
+max-width:77vw;
+word-wrap:break-word;
+
+}
+.writtenQuestions{
+ margin-bottom: 1em;
+  border-style: outset;
+  background-color: #16534188;
+ border-color: black, red;
+  min-height: 2.8em !important;
+ margin-right: 1.5em;
+  padding: 0.4em;
+  margin-top: -0.5em;
+}
+
 #questionInputField{
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
+  font-family: Righteous;
+  font-size: 1.5em;
   font-weight: 600;
   background-color: #67b3a5b7;
   border:none;
   border-bottom: 2px solid black;
+  width: 60%;
+  
 }
 input {
     
@@ -180,14 +212,19 @@ input {
  
 }
 
-
-#createGameButton{
-
-   position:absolute; 
-   margin-left:-50px;
-   left:50%;
-   width:100px;
-   bottom:2em;
+/* @media screen and (max-width:50em) {
+.showQuestions{
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 1em;
+  font-weight: 600;
+  align-items: center;
+  text-align:left;
+  margin-top: 2em;
+  margin-right: 1em;
+  margin-left: 1em;
+  color:white;
   
 }
+} */
 </style>
