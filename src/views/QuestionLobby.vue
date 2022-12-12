@@ -2,22 +2,21 @@
 <body>
 <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
 <div class="questions">
-  <div v-if="!hide">
-    <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
-      {{question.q}}
+  <div>
+    <div v-for= "(question,index) in questions" v-bind:key="index"> <!--En loop över de "fråge objekten""-->
+     <h1 id="firstQ" v-if="!hide" >
+    Question {{index+1}}: {{question.q}}
+     </h1>
+      <h1 v-else>
+        Question {{1+index++}}: {{question.q}}
+      </h1>
 
-    </div>
-  </div>
-  <div v-else>
-    <div v-for="(question,index) in questions"
-         v-bind:key="question">
-      Question {{index+1}}
     </div>
   </div>
 </div>
 
 <div class="timeLeft">
-  <h1>
+  <h1 v-on:click="hideQuestion">
     Time left:
   </h1>
   <div class="timer">
@@ -61,6 +60,7 @@
 <script>
 import io from 'socket.io-client';
 const socket = io();
+
 export default {
   name: "QuestionLobby",
   data: function () {
@@ -71,6 +71,7 @@ export default {
       questions: "", /* la till en tom array*/
       data: {},
       uiLabels: {},
+      hide:false
     }
   },
 
@@ -92,7 +93,18 @@ export default {
     });
   },
   methods:{
+    hideQuestion: function(){
+      if(this.hide){
+        this.hide=false
+        document.getElementById("firstQ").style.display="none";
+      }
+      else{
+        this.hide = true
 
+      }
+
+
+    }
   }
 
 }

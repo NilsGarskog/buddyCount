@@ -26,7 +26,7 @@
       <div class="borderCharacter">
         <div class="innerCharacter">
 
-          <img  class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
+          <img  id="avatarer" class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
 
       </div>
 
@@ -35,12 +35,16 @@
 
     </div>
   </div>
+    <div class="bottomArea">
+
+
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); editParticipant();">
       Join
     </button>
-    <div id="chosenAvatar" v-html="chosen">
+    <div id="chosenAvatar" >
 
 
+    </div>
     </div>
     </div>
   </body>
@@ -118,7 +122,6 @@ export default {
       data: {},
       uiLabels: {},
       Qid: 0,
-      chosenn: ("img/logo.png")
     }
     
   },
@@ -170,8 +173,8 @@ export default {
       }
       var avataren =document.getElementById("chosenAvatar");
       console.log(avataren)
-      avataren.innerHTML="<img :src='require(img/" + avt +  ".png)' width=\"200px\" height=\"200px\" >";
-      //this.chosenn="<img src='img/logo.png' width='35px' height='35px'>";
+      avataren.innerHTML="<img id='pictureAvatar' src='img/"+avt+".png' width=\"100em\" height=\"100em\" >";
+
     },
     usernameColorFix: function(){
       if (this.playerInfo.username != ""){
@@ -218,7 +221,10 @@ display: flex;
 flex-direction: column;
 align-items: center;
 }
-
+#chosenAvatar{
+  border-radius: 2em;
+  background-color: #00acae;
+}
 .usernameGroup{
   position:relative;
   padding: 0.675em 0 0;
@@ -284,7 +290,7 @@ align-items: center;
 }
 .Button{
   height: 4em;
-  width: 8em;
+  width: 9em;
   background-color: #70c1b3;
   border: 0.1em solid rgba(27, 31, 35, 0.15);
   border-radius: 0.3em;
@@ -299,7 +305,7 @@ align-items: center;
   line-height: 2em;
   padding: 1em 2em;
 }
-img {
+.characters{
   width:70%;
   height:auto;
   cursor:pointer;
@@ -307,7 +313,7 @@ img {
   margin: 1em;
   z-index:10;
 }
-img:hover{
+.characters:hover{
   transform: scale(1.1);
 }
 .characterRow{
@@ -323,12 +329,18 @@ img:hover{
   max-width: 20%;
   padding: 0 0.25em;
 }
-characterColumn img{
+characterColumn characters{
   margin-top: 0.5em;
   vertical-align: middle;
   width: 100%;
 }
 
+.bottomArea{
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+}
 #joinGameButton{
 
 margin-bottom: 1em;
@@ -360,7 +372,7 @@ button.Button:disabled{
     max-width: 30%;
     padding: 0 0.25em;
   }
-  characterColumn img{
+  characterColumn characters{
     margin-top: 0.5em;
     vertical-align: middle;
     width: 100%;
