@@ -6,7 +6,7 @@
 
   <div class="usernameGroup">
     <input type="text" autocomplete="off" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
-    <label for="name" id="labelUse" class="labelUsername" >Username</label>
+    <label for="name" id="labelUse" class="labelUsername" >Name </label>
   </div>
 
   <div>
@@ -231,6 +231,7 @@ body {
 }
 .container {
   overflow: auto;
+  overflow-y: hidden;
   display: flex;
   scroll-snap-type: x mandatory;
   width: 30%;
@@ -238,21 +239,6 @@ body {
   margin-top:5em;
   background-color: rgba(255, 255, 255, 0.096);
 
-}
-/* width */
-::-webkit-scrollbar {
-  width: 1em;
-}
-
-
-
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #fd8469;
-  border-radius: 10%;
-  width: 2em;
-  height: 2em;
 }
 
 .box {
