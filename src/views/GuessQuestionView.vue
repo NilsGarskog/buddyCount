@@ -63,10 +63,10 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+ import draggable from 'vuedraggable'
 
 export default {
-name: "AnswerQuestionView",
+name: "GuessQuestionView",
         components: {
             draggable,
         },
