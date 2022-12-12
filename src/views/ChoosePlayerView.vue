@@ -6,7 +6,7 @@
   <div class="wrapper" >
   <div class="usernameGroup">
     <input type="text" autocomplete="off" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
-    <label for="name" id="labelUse" class="labelUsername" >Username</label>
+    <label for="name" id="labelUse" class="labelUsername" >Input username here</label>
   </div>
 
   <div>
