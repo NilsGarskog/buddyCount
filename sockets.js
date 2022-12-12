@@ -82,8 +82,8 @@ function sockets(io, socket, data) {
     socket.emit('allQuestions', data.getAllQuestions(pollId));
   });
 
-  socket.on('goToQuestion', function(pollId) {
-    io.to(pollId).emit('goToQuestions');
+  socket.on('goToNextPage', function(pollId) {
+    io.to(pollId).emit('goToNextPage');
   });
 
  

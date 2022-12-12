@@ -7,11 +7,7 @@ const routes = [
     name: 'Start',
     component: StartView
   },
-    {
-    path: '/poll/:id',
-    name: 'PollView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/PollView.vue')
-  },
+
   {
     path: '/create/:lang',
     name: 'CreateView',
@@ -19,14 +15,6 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/CreateView.vue')
-  },
-  {
-    path: '/result/:id',
-    name: 'ResultView',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/ResultView.vue')
   },
   {
     path: '/chooseplayer/:lang/:id/:playid',
@@ -130,7 +118,15 @@ const routes = [
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.
   component: () => import(/* webpackChunkName: "about" */ '../views/WaitingForPlayersView.vue')
-}
+},
+{
+  path: '/AnswerQHost/:lang/:id',
+  name: 'AnswerHostView',
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () => import(/* webpackChunkName: "about" */ '../views/AnswerQHView.vue')
+},
 
 
 

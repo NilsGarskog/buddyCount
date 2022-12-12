@@ -31,13 +31,13 @@ created: function () {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
-    socket.on("goToQuestions", () => {
+    socket.on("goToNextPage", () => {
       this.$router.push('/creatqpart/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
     })
 },
 methods: {
     goToQuestion: function(){
-        socket.emit('goToQuestion', this.pollId)
+        socket.emit('goToNextPage', this.pollId)
     }
 }
 }
