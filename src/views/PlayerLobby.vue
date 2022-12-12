@@ -45,6 +45,7 @@ import io from 'socket.io-client';
 const socket = io();
 
 
+
 export default {
 
     data: function () {
@@ -64,6 +65,9 @@ export default {
     console.log("PlayerEdit kallas på i lobbyn")
     this.players = update;
     });
+    socket.on("goToQuestions", () => {
+      this.$router.push('/creatqhost/' + this.lang+'/'+this.pollId);
+    })
     },
 
     methods: {
@@ -79,14 +83,10 @@ export default {
     }, 
 
     removeParticipant: function (player) {
-        socket.emit('removeParticipant', {pollId: this.pollId, playerId: player.playerId})
-        // for(let i = 0; i < this.players.length; i++){
-        //     if(this.players[i] === player){
-        //         this.players.splice(i,1);
-        //     }
-       // }
+        if(player.playerId != 1){
+            socket.emit('removeParticipant', {pollId: this.pollId, playerId: player.playerId})
+        }
         
-
     }
     }
 
@@ -97,11 +97,14 @@ export default {
 
 
 
-<style>
+<style scoped>
 
 body {
     background-color:#24a07b;
     cursor: default;
+    width: 100%;
+    position: fixed;  
+    min-height: 100vh;
 }
 
 .headerContainer {

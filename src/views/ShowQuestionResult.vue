@@ -1,5 +1,5 @@
 <template>
-<body v-on:click="draw()">
+<body>
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <h3>The correct answers are:</h3>
    <div class="questionResultPage">
@@ -11,7 +11,7 @@
         <img class ="avatarImage" v-bind:src = "playerans.avatar" /> {{playerans.name}} 
         </div>
         </div>
-        <div id ="canvasContainer"><canvas height="100" width ="100" style="object-fit:contain;"></canvas></div>
+        <div id ="canvasContainer" ><canvas height="100" width="100" style="object-fit:contain;"></canvas></div>
         <div class="shuffledNumbers">
         <div v-for="playerans in ShuffledAnswers"
         v-bind:playerans="playerans"
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-
 
 
 function PlayerWithAnswer (nm, av, ans){
@@ -71,6 +70,7 @@ data: function () {
         
     }
 }, 
+
 
 /*created: function () {
     this.draw();
@@ -117,7 +117,7 @@ ctx.stroke();
     },*/
 
     draw: function () {
-        
+        //var shuffle = document.querySelector(".shuffledNumbers");
        //get DPI
     let dpi = window.devicePixelRatio;
        var canvas = document.querySelector('canvas');
@@ -143,13 +143,35 @@ ctx.stroke();
                   
                    }
                 let startX = 0;
-                let startY = ((canvas.height)/(this.PlayersWithAnswers.length)*(i+1))-70;
+                let startY = ((canvas.height)/(this.PlayersWithAnswers.length-1)*(i));
+                let endY = (canvas.height)/(this.PlayersWithAnswers.length-1)*(endIndex);
                 let endX = canvas.width;
-                let endY = (canvas.height)/(this.PlayersWithAnswers.length)*(endIndex+1)-70;
-                var amount = 0;
+                if(i==0){
+                    startY = 20;
+                }
+                else if(i == this.PlayersWithAnswers.length){
+                    startY = canvas.height-20;
+                }
+                else{
+                    startY = ((canvas.height)/(this.PlayersWithAnswers.length-1)*(i));
+                } 
+             
                 
+                if(endIndex == 0){
+                    endY = 20;
+                }
+                else if(endIndex == this.PlayersWithAnswers.length-1){
+                    endY = canvas.height-20;
+                }
+                else {
+                    endY = (canvas.height)/(this.PlayersWithAnswers.length-1)*(endIndex);
+                } 
+                var amount = 0;
+                var playlen = this.PlayersWithAnswers.length;
               setInterval(function (){
-                amount += 0.0005;
+
+                amount += 0.001*(1-0.1*(playlen-1));
+
                 ctx.beginPath();
                 ctx.strokeStyle = colors[i];
                 ctx.lineWidth =10;  
@@ -168,7 +190,10 @@ ctx.stroke();
         
         }
            }
-}
+},
+mounted: function(){
+    this.draw();
+},
 
 
 
@@ -179,7 +204,7 @@ ctx.stroke();
 
 body {
     background-color: #24a07b;
-    overflow: hidden;
+   overflow: hidden;
   
 }
 
@@ -191,7 +216,7 @@ body {
 
 h3 {
     margin-top: 1em;
-    margin-bottom: 2em;
+    margin-bottom: 0em;
     font-family: Righteous;
     font-size: 3.5em;
     color: white;
@@ -217,24 +242,27 @@ h3 {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    align-content: center;
+   /* border: 1px solid black;*/
 
 }
 
 .participants {
 
-    height: 8em;
+    /*height: 8em;*/
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     font-family: righteous;
     font-weight: bold;
+    margin-right: 1em;
 }
 .shuffledNumbers {
-    height: 8em;
+    /*height: 8em;*/
     display: flex;
     margin-left: 1em;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 /*@keyframes example {
@@ -245,24 +273,20 @@ h3 {
 
 
 canvas {
-   margin-right:0.5em;
-   margin-left:0.5em;
-   margin-top: -1.8em;
-    height:100%;
-    width: 100%;
-    animation-name: example;
-  animation-duration: 4s;
-    /*right:100%;
-    /*animation-name: example;
-    animation-duration: 5s;*/
     
-
-    
+  width: 12em;
+  height: 90%;
+  /*border: 1px solid red;*/
+  display: block;
+  margin-top: 0.5em;
 }
 
 #canvasContainer {
-height: 100%;
+/*height: 100%;*/
 width: 12em;
+display:flex;
+justify-content: center;
+/*border: 1px solid blue;*/
 
 }
 

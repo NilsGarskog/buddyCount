@@ -13,8 +13,8 @@
         v-on:closeCurrentPopup="togglePopup('join')"
       >
         <input class="codeInput" type="text" v-model="joinId" placeholder="input code...." />
-        <router-link v-bind:to="'/creatqpart/' + lang+'/'+joinId +'/'+this.id">
-          <button v-on:click="addParticipant()" class="standardButton" role="button" id="codeSubmitButton">
+        <router-link v-bind:to="'/chooseplayer/' + lang+'/'+joinId +'/'+this.id">
+          <button class="standardButton" role="button" id="codeSubmitButton">
             OK
           </button>
         </router-link>
@@ -49,7 +49,7 @@
     <div class="mainContent">
       <h1 id="title">BuddyCount</h1>
     <div id="Buttons">
-      <router-link v-bind:to="'/creatqhost/' + lang+'/'+id">
+      <router-link v-bind:to="'/lobby/' + lang+'/'+id">
         <button class="standardButton" role="button" v-on:click="createPoll">
           <p class="buttonText">{{uiLabels.createGame}}</p>
         </button>
@@ -116,6 +116,7 @@ export default {
     };
   },
   created: function () {
+    socket.emit("pageLoaded", this.lang)
     this.id = Math.floor(100000 + Math.random() * 900000)
     socket.on("init", (labels) => {
       this.uiLabels = labels;
@@ -133,11 +134,6 @@ export default {
         this.popupTriggers.buttonTriggerRules =
           !this.popupTriggers.buttonTriggerRules;
       }
-    },
-
-    addParticipant: function () {
-      console.log('participant added')
-      socket.emit("addParticipant", {pollId: this.joinId, playerId: this.id})
     },
 
     switchLanguage: function () {
@@ -168,7 +164,7 @@ export default {
 
 <style scoped>
 .inputField{
-  height: 4em;
+  height: 5em;
   width: 15em;
 }
 .popupClose{
@@ -223,7 +219,7 @@ ul {
   border:none;
   border-bottom: 0.1em solid black;
   width:80%;
-  height: 3vh;
+  height: 4vh;
   background-color: inherit;
   font-size: 2em;
   font-family: righteous;
