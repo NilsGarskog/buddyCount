@@ -3,25 +3,24 @@
       <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
             <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
             <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-      <div class ="headerContainer">
-          <div class ="gameCode">
-        <p>Code: {{pollId}} Player: {{playerId}}</p>
-      </div>
-       
-      </div>
-    <h1 class ="questionTitle">Your Answer</h1>
+
     <div class="questions">
       
         {{questions[nextQ].q}}
-        
-    
       </div>
-      <input type="text" v-model="answer" placeholder="Write your answer" id="answerInputField">
+      <div class="fieldPos">
+      <div class="answerField">
+        <img src="../Icons/minusButton.png" class="signButton" id="subButton" >
+      <input v-model="answer" min="0" type="number" id="answerInputField">
+        <img src="../Icons/addButton.png" class="signButton" id="addButton" >
+      </div>
+      </div>
+
  <button v-on:click="addAnswer"> Svara</button>
 
-    </body>
+  </body>
     
-    </template>
+</template>
     
     
     <script>
@@ -37,7 +36,7 @@
           question:"",
           questions: "", /* la till en tom array*/
           data: {},
-          answer: "",
+          answer: 0,
           answers: [],
           uiLabels: {},
           nextQ: 0,
@@ -53,16 +52,10 @@
           socket.on("init", (labels) => {
           this.uiLabels = labels
           });
-        socket.on("dataUpdate", (data) =>   {       //Oklart om denna behövs?
-          this.data = data
-        });
-        socket.on("questionUpdate", (update) => {       //Funktion för att hämta fråge-array /Nils
+        socket.on("allQuestions", (update) => {       //Funktion för att hämta fråge-array /Nils
           this.questions = update;
         });
-        socket.on("newQuestion", update => {          //oklart om denna behövs?
-          this.question = update.q;
-          this.data = {};
-        });
+        socket.emit('getQuestions', this.pollId)
       },
         methods: {
         /*createPoll: function () {
@@ -89,18 +82,7 @@
     
     
     <style>
-    .headerContainer {
-        display:flex;
-        justify-content: space-between;
-        margin: 1em;
-        margin-top: 0em;
-    }
-    .questionTitle {
-    font-family: 'monoton';
-    font-size: 5em;
-    margin-top: -1em;
-    font-weight: 300;
-    }
+
     .questions{
       font-size: 2em;
       font-family: Righteous;
@@ -108,13 +90,6 @@
       margin-top: 0;
     }
     
-    .gameCode{
-          font-size: 3em;
-          font-family: righteous;
-          font-weight: bold;
-          color: white;
-          width: 40%;
-    }
     body{
       position: fixed;
       background-color: #24a07b;
@@ -127,22 +102,38 @@
     width: 400px;
     padding: 0 20px;
 }
-::placeholder{
-  color:rgba(255, 255, 255, 0.516);
-  
-  text-align: center;
-  overflow:visible;
- 
+
+.fieldPos{
+  display: flex;
+  justify-content: center;
 }
+.answerField{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-style: hidden;
+  border-color: black, red;
+  width: 90%;
+  border-radius: 3em;
+  background-color: #16534188;
+}
+
 #answerInputField{
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #67b3a5b7;
+  font-family: "Monoton";
+  font-size: 5em;
+  background-color: inherit;
   border:none;
-  border-bottom: 2px solid black;
+  width:30%;
+  text-align: center;
+
 }
+.signButton{
+  width: 4em;
+  height: 4em;
+
+
+}
+
 button {
   height: 3em;
   width: 6em;

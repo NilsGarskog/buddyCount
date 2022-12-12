@@ -16,7 +16,7 @@
 
 
 
-    <router-link v-bind:to= " '/guessQuestion/' + lang + '/' + pollId + '/' + playerId ">
+    <router-link v-bind:to= " '/answerq/' + lang + '/' + pollId + '/' + playerId ">
     <button class="continueButton" v-if="this.playerId === '1'">Start game</button>
   </router-link>
 

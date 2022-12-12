@@ -78,6 +78,10 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('sendPlayers', data.getAllParticipants(pollId));
   });
 
+  socket.on('getQuestions', function(pollId) {
+    socket.emit('allQuestions', data.getAllQuestions(pollId));
+  });
+
   socket.on('goToQuestion', function(pollId) {
     io.to(pollId).emit('goToQuestions');
   });
