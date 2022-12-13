@@ -1,10 +1,17 @@
 <template>
     <body >
+        <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css' >
 
-    <button v-on:click="checkAnswer">
-        Tryck här
-    </button>
-    poäng: {{points}}
+        <div>
+        <h1 class="title">Bra jobbat!!</h1> 
+        </div>
+        <div class="amountOfPoints">
+            <button v-on:click="checkAnswer">
+                Tryck här
+            </button>
+             Du har just nu: {{points}} poäng
+        </div>
         
     </body>
 
@@ -40,12 +47,14 @@ import io from 'socket.io-client';
         
         lang: "",
         pollId: "",
+        playerId: "",
         questionObject: "",
         questions: "", /* la till en tom array*/
         data: {},
         uiLabels: {}, 
         points: 0,
-        playersA: [player1A,player2A,player3A],
+        //playersA: [player1A,player2A,player3A],
+        playersAnswers: [],
         player1G:[[
         {q:1, gO: {p:1,g:1}},
         {q:1, gO: {p:2,g:2}},
@@ -69,6 +78,7 @@ created: function () {
    this.pollId = this.$route.params.id
    this.lang = this.$route.params.lang;
    this.playerId = this.$route.params.playid;
+   socket.emit('joinPoll', this.pollId);
    socket.emit("pageLoaded", this.lang);
    socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -102,4 +112,23 @@ checkAnswer: function() {
 
 
 </script>
+
+<style>
+body {
+    background-color: #24a07b;
+    font-family:Righteous ;
+  
+}
+.title {
+font-size: 4em;
+margin-top: 2em;
+font-weight: 300;
+}
+.amountOfPoints{
+font-size: 2em;
+margin-top: 2em;
+font-weight: 300;
+}
+
+</style>
 
