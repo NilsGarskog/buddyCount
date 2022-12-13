@@ -195,12 +195,24 @@ Data.prototype.getAnswers = function(pollId){
   if (typeof poll !== 'undefined'){
     for(let i=0; i<poll.participants.length; i++){
       poll.answers[i] = { playerId: poll.participants[i].playerId, answerObject: poll.participants[i].currentAnswer}
+      console.log("skriv ut varje svarsobjekt:", poll.answers[i])
     }
-
+    console.log("Funkar det med answers??", poll.answers)
+    return poll.answers;
   }
+  
   return[]
 }
+Data.prototype.getAllAnswers = function(pollId){
+  const poll = this.polls[pollId];
+  console.log("all answers requested for ", pollId);
+  if (typeof poll !== 'undefined'){
+    console.log("the answers in poll", pollId, "is", poll.answers)
+    return poll.answers;
 
+  }
+  return []
+}
 module.exports = Data;
 
 

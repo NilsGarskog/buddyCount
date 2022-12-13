@@ -44,7 +44,6 @@ function sockets(io, socket, data) {
 
   socket.on('playerAnswer',function(d){
     data.playerAnswer(d.pollId, {playerId: d.player, answerObject: d.answers});
-    console.log("Kommer frågorna till socket?", d.answers)
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
   });
   socket.on('resetAll', () => {
@@ -85,6 +84,10 @@ function sockets(io, socket, data) {
 
   socket.on('getQuestions', function(pollId) {
     socket.emit('allQuestions', data.getAllQuestions(pollId));
+  });
+
+  socket.on('getAnswers', function(pollId){
+    socket.emit('allAnswers', data.getAllAnswers(pollId))
   });
 
   socket.on('goToNextPage', function(pollId) {

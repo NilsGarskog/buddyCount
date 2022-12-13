@@ -68,7 +68,8 @@
           uiLabels: {},
           currentQ: 0,
           playerId: "",
-          loaded: false
+          loaded: false,
+          answerTest: [],
         }
       },
         created: function () {
@@ -77,7 +78,11 @@
           this.questions = update;
           this.loaded = true;
         });
+        socket.on("allAnswers", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
+          this.answerTest = update;
+        });
         socket.emit('getQuestions', this.pollId)
+        socket.emit('getAnswers', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
           this.lang = this.$route.params.lang;
           this.playerId = this.$route.params.playid;
           socket.emit('joinPoll', this.pollId); //Ska jag ha denna?? funkar ej utan
@@ -114,6 +119,7 @@
             this.answers.push({q:Qid,a:this.answer})
             socket.emit('playerAnswer', {pollId: this.pollId ,player: this.playerId, answers: this.answers } )
             this.togglePopup()
+            console.log("Skriv ut answerTest: ", this.answerTest[0].answerObject) //Denna kan tas bort sen
           }
           else{
             this.answers.push({q:Qid,a:this.answer})
