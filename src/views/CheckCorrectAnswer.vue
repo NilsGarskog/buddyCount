@@ -56,7 +56,7 @@ import io from 'socket.io-client';
         //playersA: [player1A,player2A,player3A],
         playersAnswers: [],
         player1G:[[
-        {q:1, gO: {p:1,g:1}},
+        {playerId: 4, q:1, gO: [{p:1,g:1}, {p:2,g:2},{p:3,g:3} ]}, //såhär ska det nog se ut, ändra lite i loopen sen
         {q:1, gO: {p:2,g:2}},
         {q:1, gO: {p:3,g:3}}
     ],
