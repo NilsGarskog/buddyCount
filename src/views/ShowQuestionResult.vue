@@ -174,8 +174,8 @@ ctx.stroke();
 
                 ctx.beginPath();
                 ctx.strokeStyle = colors[i];
-                ctx.lineWidth =10;  
-                ctx.stroke.lineCap = "round";
+                ctx.lineWidth =7;  
+                ctx.lineCap = 'round';
                 ctx.moveTo(startX, startY);
                 ctx.lineTo(startX + (endX - startX)*amount, startY + (endY - startY)*amount);
                 ctx.stroke();

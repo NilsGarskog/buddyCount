@@ -6,7 +6,7 @@
     <div v-for="(player) in players"
          v-bind:players="players" v-bind:key="player.image">
             <span class="playerNameInList">
-          <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image" draggable="true"/>
+          <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image"/>
             {{player.name}}
             <div class="dropZone">
               
@@ -16,40 +16,18 @@
     </div>
   </section>
 
-  <!-- <div class="gridwrapper">
-    <div class="playerGrid">
-       <div v-for="(player) in players"
-         v-bind:players="players" v-bind:key="player.image">
-      <div class="avatar1"> <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image" draggable="true"/></div>
-      <div class="name1">{{player.name}}</div>
-      <div class="dropBox1">dropBox</div>
-      <div class="avatar2"></div>
-      <div class="name2"></div>
-      <div class="dropBox2"></div>
-      </div>
-    </div>
-  </div>
-    {{players}}{{items}} -->
-
-  <draggable 
- >
- 
-</draggable>
-
-<br>
-<br>
 
  
     </body>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+
 
 export default {
 name: "AnswerQuestionView",
         components: {
-            draggable,
+            
         },
 
 data: function () {
