@@ -4,6 +4,7 @@
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
+      {{answerArray}}
       <!-- <div class="classTable">
         <table>
     <tr>
@@ -45,7 +46,7 @@
       </div>
     </div>
   </section>
-  <button v-if="randomAnswers.length===0"> Send </button>
+  <button v-if="randomAnswers.length===0" v-on:click="sendFnc()"> Send </button>
 
 
     </body>
@@ -73,6 +74,7 @@ data: function () {
       pollId:"",
       lang:"",
       playerId:"",
+      answerArray:[],
       players:[],
         // players: [
         // { playerId: 1, name: "Nils", avatar: [ { "id": "Avatar_1", "image": "Paul" } ], points: 0, currentAnswer: 0, currentGuess: [] }
@@ -89,8 +91,8 @@ data: function () {
       {PlayerId: 1, Answer:20},
       {PlayerId: 123456, Answer:4},
       {PlayerId: 654321, Answer:2},
-      {PlayerId: 135791, Answer:15},
-      {PlayerId: 123654, Answer:1},
+      // {PlayerId: 135791, Answer:15},
+      // {PlayerId: 123654, Answer:1},
 
     ],
     GuessArray:[],
@@ -136,6 +138,14 @@ onSelect: function(selectedOption) {
       
       }
 },
+sendFnc: function(){
+  console.log("send!")
+  for (var i = 0, l = this.GuessArray.length; i < l; i++){
+    var obj = {playerID: this.GuessArray[i].playerId, guess: this.GuessArray[i].Guess }
+    this.answerArray.push(obj);
+  }
+  socket.emit("PlayerGuessAnswer", {playerId: this.playerId, QId: "STOOPA IN QID HÄR", answers: this.GuessArray})
+}
 },
 
 
