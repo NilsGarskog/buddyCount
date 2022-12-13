@@ -8,9 +8,16 @@
             <span class="playerNameInList">
           <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image" draggable="true"/>
             {{player.name}}
-            <div class="dropZone">
-              
-               </div>
+            <form id="Guesses">
+              <select width=300 
+                      style="width: 350px">
+                <option value='blue'>Blue</option>
+                <option value='green'>Green</option>
+                <option value='red'>Red</option>
+                <option value='yellow'>Yellow</option>
+                <option value='' selected>Select a Color</option>
+              </select>
+            </form>
             </span>
     </div>
     </div>
@@ -31,7 +38,7 @@
   </div>
     {{players}}{{items}} -->
 
-  <draggable 
+  <!-- <draggable 
   v-model="items" 
   group="people" 
   @start="drag=true" 
@@ -57,18 +64,18 @@
             {{element.name}}
     {{element.name}} {{element.title}}</div>
    </template>
-</draggable>
+</draggable> -->
 
     </body>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+// import draggable from 'vuedraggable'
 
 export default {
-name: "AnswerQuestionView",
+name: "GuessQuestionView",
         components: {
-            draggable,
+            // draggable,
         },
 data: function () {
     return {
