@@ -22,12 +22,12 @@
 </template>
 
 <script>
-
+import vSelect from 'vue-select'
 
 export default {
 name: "AnswerQuestionView",
         components: {
-            
+            vSelect,
         },
 
 data: function () {
