@@ -4,12 +4,14 @@
       {{randomAnswers}}
       {{GuessArray}}
       {{playerId}}
+      <div class="classTable">
         <table>
     <tr>
       <th>Player</th>
       <th>Guess</th>
     </tr>
     <tr v-for="player in GuessArray" :key="player.name">
+      <td>{{ player.name }}</td>
       <td>{{ player.name }}</td>
       <td>
         <v-select
@@ -21,6 +23,7 @@
       </td>
     </tr>
   </table>
+  </div>
   <button v-if="randomAnswers.length===0"> Send </button>
   
   <section class="playerListContainer">
@@ -117,24 +120,24 @@ onSelect: function(selectedOption) {
 }
 
 
-function randomAns (ans, randAns){
+function randomAns (ans, randAns, id){
   for (var i = 0, l = ans.length; i < l; i++){
-    //  if (ans[i].PlayerId != id){
+      if (ans[i].PlayerId != id){
     randAns.push(ans[i].Answer)
-    //  }
+      }
   }
   randAns.sort(() => Math.random() - 0.5);
   return randAns
 }
 
-function createGuessArr (players){
+function createGuessArr (players, id){
   var GuessArray = []
   
   for (var i = 0, l = players.length; i < l; i++){
-      // if (players[i].playerId != id){
-    var obj = {playerId: players[i].playerId, name: players[i].name, avatarImg: players[i].avatar[0].image, Guess:""}
-      //  }
-    GuessArray.push(obj)
+       if (players[i].playerId != id){
+        var obj = {playerId: players[i].playerId, name: players[i].name, avatarImg: players[i].avatar[0].image, Guess:""}
+        GuessArray.push(obj)
+        }
 }
   return GuessArray
 }
@@ -144,6 +147,13 @@ function createGuessArr (players){
 </script>
 
 <style scoped>
+.classTable{
+  width:90%;
+  border-style: solid;
+  background-color: white;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+}
+
 table {
   display: table;
   width: 100%;
