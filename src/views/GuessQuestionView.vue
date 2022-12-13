@@ -3,6 +3,7 @@
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
       {{randomAnswers}}
       {{GuessArray}}
+      {{playerId}}
         <table>
     <tr>
       <th>Player</th>
@@ -38,6 +39,7 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 
 
+
 export default {
   
 name: "GuessQuestionView",
@@ -47,16 +49,19 @@ name: "GuessQuestionView",
 data: function () {
     return {
       drag: false,
+      pollId:"",
+      lang:"",
+      playerId:"",
         players: [
-        { "playerId": 1, "name": "Nils", "avatar": [ { "id": "Avatar_1", "image": "Paul" } ], "points": 0, "currentAnswer": 0, "currentGuess": [] }
+        { playerId: 1, name: "Nils", avatar: [ { "id": "Avatar_1", "image": "Paul" } ], points: 0, currentAnswer: 0, currentGuess: [] }
         ,
-        { "playerId": 123456, "name": "Samuel", "avatar": [ { "id": "Avatar_2", "image": "Jerome" } ], "points": 0, "currentAnswer": 0, "currentGuess": [] }
+        { playerId: 123456, name: "Samuel", avatar: [ { "id": "Avatar_2", "image": "Jerome" } ], points: 0, currentAnswer: 0, currentGuess: [] }
         ,
-        { "playerId": 654321, "name": "Karin", "avatar": [ { "id": "Avatar_3", "image": "NoFace" } ], "points": 0, "currentAnswer": 0, "currentGuess": [] }
+        { playerId: 654321, name: "Karin", avatar: [ { "id": "Avatar_3", "image": "NoFace" } ], points: 0, currentAnswer: 0, currentGuess: [] }
         ,
-        { "playerId": 135791, "name": "Pelle", "avatar": [ { "id": "Avatar_4", "image": "Mononoke" } ], "points": 0, "currentAnswer": 0, "currentGuess": [] }
+        { playerId: 135791, name: "Pelle", avatar: [ { "id": "Avatar_4", "image": "Mononoke" } ], points: 0, currentAnswer: 0, currentGuess: [] }
         ,
-        { "playerId": 123654, "name": "Lotta", "avatar": [ { "id": "Avatar_5", "image": "ScareCrow" } ], "points": 0, "currentAnswer": 0, "currentGuess": [] }
+        { playerId: 123654, name: "Lotta", avatar: [ { "id": "Avatar_5", "image": "ScareCrow" } ], points: 0, currentAnswer: 0, currentGuess: [] }
               ],
       answers:[
       {PlayerId: 1, Answer:20},
@@ -72,8 +77,11 @@ data: function () {
     }
 },
 created: function() {
-  this.randomAnswers = randomAns(this.answers, this.randomAnswers)
-  this.GuessArray = createGuessArr(this.players)
+  this.pollId = this.$route.params.id;
+this.lang = this.$route.params.lang;
+this.playerId = this.$route.params.playid;
+  this.randomAnswers = randomAns(this.answers, this.randomAnswers, this.playerId)
+  this.GuessArray = createGuessArr(this.players, this.playerId)
 
 
 },
@@ -111,7 +119,9 @@ onSelect: function(selectedOption) {
 
 function randomAns (ans, randAns){
   for (var i = 0, l = ans.length; i < l; i++){
+    //  if (ans[i].PlayerId != id){
     randAns.push(ans[i].Answer)
+    //  }
   }
   randAns.sort(() => Math.random() - 0.5);
   return randAns
@@ -119,8 +129,11 @@ function randomAns (ans, randAns){
 
 function createGuessArr (players){
   var GuessArray = []
+  
   for (var i = 0, l = players.length; i < l; i++){
+      // if (players[i].playerId != id){
     var obj = {playerId: players[i].playerId, name: players[i].name, avatarImg: players[i].avatar[0].image, Guess:""}
+      //  }
     GuessArray.push(obj)
 }
   return GuessArray
