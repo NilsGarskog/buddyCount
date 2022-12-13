@@ -3,20 +3,28 @@
 <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
 <div class="questions">
   <div>
-    <div v-for= "(question,index) in questions" v-bind:key="index"> <!--En loop över de "fråge objekten""-->
-     <h1 id="firstQ" v-if="!hide" >
-    Question {{index+1}}: {{question.q}}
-     </h1>
-      <h1 v-else>
-        Question {{1+index++}}: {{question.q}}
-      </h1>
+    <div v-if="loaded===true"> <!--En loop över de "fråge objekten""-->
+     <h1 id="firstQ" v-on:click="nextQuestion">
+    Question {{this.nextQ+1}}: {{questions[nextQ].q}}
 
+     </h1>
     </div>
   </div>
 </div>
 
-<div class="timeLeft">
-  <h1 v-on:click="hideQuestion">
+<div class="playerListContainer">
+
+  <div class = "playerList" v-for="player in showPlayers"
+       v-bind:player="player"
+       v-bind:key="player.name">
+    <div class="innerCharacter">
+      <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />
+    </div>
+  </div>
+</div>
+
+<div class="timeLeft" v-on:click="nextQ">
+  <h1 id="tid">
     Time left:
   </h1>
   <div class="timer">
@@ -53,25 +61,32 @@
     <span id="endQuestionLobby">0</span>
   </div>
 </div>
-<div id="Timer"></div>
 </body>
 </template>
 
 <script>
 import io from 'socket.io-client';
 const socket = io();
-
 export default {
   name: "QuestionLobby",
   data: function () {
     return {
       lang: "",
       pollId: "",
+      playerId:'',
       questionObject: "",
+      question:"",
       questions: "", /* la till en tom array*/
       data: {},
       uiLabels: {},
-      hide:false
+      hide:false,
+      nextQ: 0,
+      showPlayers: "",
+      player: "",
+      loaded: false,
+      timerId: setInterval(this.answerSubmit, 1000),
+      timeLeft: 30,
+      sendAnswer: false
     }
   },
 
@@ -79,49 +94,68 @@ export default {
   created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang
-    socket.emit('joinPoll', this.pollId)
-    socket.on("dataUpdate", (update) => {          //oklart om denna behvövs?
-      this.data = update.a;
-      this.question = update.q;
+    this.playerId = this.$route.params.playid;
+    socket.emit('joinPoll', this.pollId);
+    socket.emit("pageLoaded", this.lang);
+    //Spelarinfo
+    socket.on("sendPlayers", (update) => {
+      this.showPlayers = update;
     });
-    socket.on("questionUpdate", (update) => {       //Funktion för att hämta fråge-array /Nils
+    socket.emit("getPlayers",this.pollId)
+    //frågeinfo
+    socket.on("allQuestions", (update) => {       //Funktion för att hämta fråge-array /Nils
       this.questions = update;
+      this.loaded=true;
     });
-    socket.on("newQuestion", update => {          //oklart om denna behövs?
-      this.question = update.q;
-      this.data = {};
-    });
+    socket.emit('getQuestions',this.pollId)
+
+    // gå till resultat
+    socket.emit("goToShowQResultatet",this.pollId)
   },
+
   methods:{
-    hideQuestion: function(){
-      if(this.hide){
-        this.hide=false
-        document.getElementById("firstQ").style.display="none";
-      }
-      else{
-        this.hide = true
 
-      }
+    nextQuestion: function(){
+      this.nextQ++
+    },
+    answerSubmit: function(timerId){
+      if (this.timeLeft == 0) {
+        if(!this.sendAnswer)
+        {
+          console.log("slut")
+          //socket.emit("answerSubmit",{pollId: this.pollId,thePlayer: this.playerId})
+          socket.on("goToShowQResultss", () => {
+            this.$router.push('/questionresult/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+          })
+          clearTimeout(timerId);
+          timerId = null;
+          this.sendAnswer = true;
+        }
 
+      } else {
+        console.log(this.timeLeft)
+        return this.timeLeft--;
+      }
 
     }
-  }
+  },
+
 
 }
-var timeLeft = 30;
+//var timeLeft = 30;
+//var timerId = setInterval(countdownOrSubmit, 1000);
 
-var timerId = setInterval(countdown, 1000);
+//function countdownOrSubmit() {
+//  if (timeLeft == 0) {
+ //   clearTimeout(timerId);
+   // console.log("slut")
 
-function countdown() {
-  if (timeLeft == 0) {
-    clearTimeout(timerId);
-    console.log("slut")
     
-  } else {
-    console.log(timeLeft)
-    timeLeft--;
-  }
-}
+ // } else {
+   // console.log(timeLeft)
+    //timeLeft--;
+ // }
+//}
 </script>
 
 <style scoped>
@@ -130,7 +164,7 @@ body{
   position: absolute;
   background-color: #24a07b;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   padding: 0;
   color:black;
   font-family: righteous;
@@ -150,29 +184,38 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: center;
-
+  font-size: 1.4vh;
+  font-weight: 700;
+  font-family: Righteous;
 }
 .timer{
-  margin-left: 15em;
+
+  width: 7.5em;
+  height:4em;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 1vh;
+  font-weight: 700;
+  font-family: Righteous;
 }
 
 span {
   color: black;
-  font-size: 4rem;
+  font-size: 3vh;
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
   line-height: 1;
   filter: blur(0.2rem);
-  display: block;
   transition: all 1.5s ease;
   opacity: 0;
   filter: blur(0.6rem);
   position: absolute;
-  top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
-
+  margin:0;
+  bottom: -1vh;
 }
 
 
@@ -324,4 +367,63 @@ span:nth-child(31) {
     filter: blur(0.3rem);
   }
 }
+/*.playerList{
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-evenly;
+
+}
+
+.playerListContainer {
+  display: flex;
+  justify-content: center;
+  max-height: 20vh;
+
+}
+*/
+.playerListContainer{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 0.25em;
+  align-content: space-evenly;
+
+}
+.playerList{
+  flex:25%;
+  max-width: 20%;
+  padding: 0 0.25em;
+  margin-bottom: 3em;
+}
+playerList characters{
+  margin-top: 0.5em;
+  vertical-align: middle;
+  width: 100%;
+}
+.avatarImage{
+  opacity: 0.3;
+  width:15vh;
+  height: auto;
+
+}
+#firstQ{
+  font-size: 1em;
+  font-weight: 700;
+  font-family: Righteous;
+  word-wrap: break-word;
+}
+#tid{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin:0;
+}
+
+
 </style>

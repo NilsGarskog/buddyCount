@@ -175,6 +175,15 @@ Data.prototype.getAnswers = function(pollId) {
   }
   return {}
 }
+Data.prototype.answerSubmit = function(pollId, thePlayer) {
+  const poll = this.polls[pollId];
+  console.log("här är dom:", pollId, thePlayer);
+  if (typeof poll !== 'undefined') {
+
+  }
+
+}
+
 module.exports = Data;
 
 

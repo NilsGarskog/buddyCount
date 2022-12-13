@@ -85,6 +85,15 @@ function sockets(io, socket, data) {
   socket.on('goToQuestion', function(pollId) {
     io.to(pollId).emit('goToQuestions');
   });
+  socket.on('goToShowQResult', function(d) {
+    //io.to(pollId).emit('goToShowQResults');
+    data.answerSubmit(d.pollId ,d.playerId);
+    io.to(d.pollId).emit('goToShowQResults', data.answerSubmit(d.pollId))
+  });
+  socket.on('goToShowQResultatet', function(pollId) {
+    io.to(pollId).emit('goToShowQResultss');
+
+  });
 
  
 }

@@ -65,13 +65,12 @@
         addAnswer: function(){
             this.answers.push({a: this.answer, i: this.questions[this.nextQ].i}) /* Lägger svaret plus tillhörande fråge-id i en array, man bör nog lägga till ett spelar id */
             console.log("frågorna:",this.answers)
-            socket.emit("submitAnswer", {pollId:this.pollId, i:this.questions[this.nextQ].i, p:this.playerId, a:this.answer } ) 
+            socket.emit("submitAnswer", {pollId:this.pollId, i:this.questions[this.nextQ].i, p:this.playerId, a:this.answer } )
             this.answer = ""
             this.nextQ ++
             console.log("speklarid", this.playerId)
-            
-        }
 
+        },
 
     
        
