@@ -1,121 +1,188 @@
 <template>
   <body>
+        <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
+
+      <!-- <div class="classTable">
+        <table>
+    <tr>
+      <th>Player</th>
+      <th>Guess</th>
+    </tr>
+    <tr v-for="player in GuessArray" :key="player.name">
+      <td>{{ player.name }}</td>
+      <td><img  class="avatarImage" :src="require('../Icons/'+player.avatarImg + '.png')" :key="player.image" /></td>
+      <td>
+        <v-select
+          :options="randomAnswers"
+          :modelValue="player.Guess"
+          @option:selected="(selectedOption) => onSelect(selectedOption)"
+          @update:modelValue="(Guess) => updateGuess(player, Guess)"
+        />
+      </td>
+    </tr>
+  </table>
+  </div>
+  <button v-if="randomAnswers.length===0"> Send </button> -->
+  
   <section class="playerListContainer">
     <div class="playerList">
-    <div v-for="(player) in players"
-         v-bind:players="players" v-bind:key="player.image">
-            <span class="playerNameInList">
-          <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image" draggable="true"/>
-            {{player.name}}
-            <div class="dropZone">
-              
-               </div>
-            </span>
-    </div>
-    </div>
-  </section>
-
-  <!-- <div class="gridwrapper">
-    <div class="playerGrid">
-       <div v-for="(player) in players"
-         v-bind:players="players" v-bind:key="player.image">
-      <div class="avatar1"> <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image" draggable="true"/></div>
-      <div class="name1">{{player.name}}</div>
-      <div class="dropBox1">dropBox</div>
-      <div class="avatar2"></div>
-      <div class="name2"></div>
-      <div class="dropBox2"></div>
+    <div v-for="player in GuessArray" :key="player.name">
+      <span class="playerNameInList">
+        <img  class="avatarImage" :src="require('../Icons/'+player.avatarImg + '.png')" :key="player.image" />
+        {{player.name}}
+        <span class="dropDownMenu">
+        <v-select
+          class="dropDownStyle"
+          :options="randomAnswers"
+          :modelValue="player.Guess"
+          @option:selected="(selectedOption) => onSelect(selectedOption)"
+          @update:modelValue="(Guess) => updateGuess(player, Guess)"
+        />
+        </span>
+      </span>
       </div>
     </div>
-  </div>
-    {{players}}{{items}} -->
+    <button v-if="randomAnswers.length===0"> Send </button>
+  </section>
 
-  <draggable 
-  v-model="items" 
-  group="people" 
-  @start="drag=true" 
-  @end="drag=false" 
-  item-key="id">
-  <template #item="{element}">
-    <div>{{element.title}} {{element.name}}</div>
-   </template>
-</draggable>
-
-<br>
-<br>
-
- <draggable 
-  v-model="players" 
-  group="people" 
-  @start="drag=true" 
-  @end="drag=false" 
-  item-key="id">
-  <template #item="{element}">
-    <div class="playerNameInList">
-          <img  class="avatarImage" :src="require('../Icons/'+element.image + '.png')" :key="element.image" />
-            {{element.name}}
-    {{element.name}} {{element.title}}</div>
-   </template>
-</draggable>
 
     </body>
+    
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
+
+
 
 export default {
-name: "AnswerQuestionView",
+  
+name: "GuessQuestionView",
         components: {
-            draggable,
+            vSelect,
         },
 data: function () {
     return {
       drag: false,
+      pollId:"",
+      lang:"",
+      playerId:"",
         players: [
-        {
-          id: "Avatar_1",
-          image: "Paul",
-          name: "Nils"
-        },
-        {
-          id: "Avatar_2",
-          image: 'Jerome',
-          name: "Pedro"
-        },
-        {
-          id: "Avatar_3",
-          image: 'NoFace',
-          name: "Karin"
-        },
-        {
-          id:"Avatar_4",
-          image: 'Mononoke',
-          name: "Pelle"
-        },
-        {
-          id: "Avatar_5",
-          image: 'ScareCrow',
-          name: "Lotta"
-        },
+        { playerId: 1, name: "Nils", avatar: [ { "id": "Avatar_1", "image": "Paul" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        ,
+        { playerId: 123456, name: "Samuel", avatar: [ { "id": "Avatar_2", "image": "Jerome" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        ,
+        { playerId: 654321, name: "Karin", avatar: [ { "id": "Avatar_3", "image": "NoFace" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        ,
+        { playerId: 135791, name: "Pelle", avatar: [ { "id": "Avatar_4", "image": "Mononoke" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        ,
+        { playerId: 123654, name: "Lotta", avatar: [ { "id": "Avatar_5", "image": "ScareCrow" } ], points: 0, currentAnswer: 0, currentGuess: [] }
               ],
-      items:[
-      { id: 1, title: '24'},
-      { id: 2, title: '54'},
-      { id: 3, title: '11'},
-      { id: 4, title: '2'},
-      { id: 5, title: '3'},
+      answers:[
+      {PlayerId: 1, Answer:20},
+      {PlayerId: 123456, Answer:4},
+      {PlayerId: 654321, Answer:2},
+      {PlayerId: 135791, Answer:15},
+      {PlayerId: 123654, Answer:1},
 
-    ]
+    ],
+    GuessArray:[],
+    randomAnswers:[],
 
     }
 },
+created: function() {
+  this.pollId = this.$route.params.id;
+this.lang = this.$route.params.lang;
+this.playerId = this.$route.params.playid;
+  this.randomAnswers = randomAns(this.answers, this.randomAnswers, this.playerId)
+  this.GuessArray = createGuessArr(this.players, this.playerId)
+
+
+},
+events: { 'option:selected': function (selectedOption) {console.log("TESTIS!" + selectedOption) } },
+methods: {
+    updateGuess: function(player,Guess) {
+      console.log(Guess)
+      if (player.Guess != "" && player.Guess != null){
+        this.randomAnswers.push(player.Guess)
+      }
+      else if (Guess === null){
+        this.randomAnswers.push(player.Guess)
+      }
+      player.Guess = Guess
+    },
+onSelect: function(selectedOption) {
+
+      let index = null;
+      for (var i = 0, l = this.randomAnswers.length; i < l; i++){
+        if (selectedOption === this.randomAnswers[i]){
+           index = i
+        }
+      }
+      if (index != null){
+      this.randomAnswers.splice(index,1)
+      
+      }
+},
+},
+
+
+
 }
+
+
+function randomAns (ans, randAns, id){
+  for (var i = 0, l = ans.length; i < l; i++){
+      if (ans[i].PlayerId != id){
+    randAns.push(ans[i].Answer)
+      }
+  }
+  randAns.sort(() => Math.random() - 0.5);
+  return randAns
+}
+
+function createGuessArr (players, id){
+  var GuessArray = []
+  
+  for (var i = 0, l = players.length; i < l; i++){
+       if (players[i].playerId != id){
+        var obj = {playerId: players[i].playerId, name: players[i].name, avatarImg: players[i].avatar[0].image, Guess:""}
+        GuessArray.push(obj)
+        }
+}
+  return GuessArray
+}
+
+
 
 </script>
 
 <style scoped>
+
+
+.dropDownMenu{
+  font-size: 0.5em;
+  min-width: 7em;
+  margin-top: 0.4em;
+}
+.classTable{
+  width:90%;
+  border-style: solid;
+  background-color: white;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+}
+
+table {
+  display: table;
+  width: 100%;
+}
+
 body{
   position: fixed;
   background-color: #24a07b;
@@ -123,70 +190,7 @@ body{
   min-height: 100vh;
   padding: 0;
   cursor: default;
-}
-
-.gridwrapper {
-  height:50%;
-}
-
-.playerGrid{
-  display: grid;
-
-  grid-template-columns: 0.3fr 1fr 0.3fr 0.3fr 1fr 0.3fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-
-    gap: 0px;
-   height: 50%;
-
-}
-
-.avatar1 {
-  grid-column-start: 1;
-  grid-column-end: 2;
-
-  grid-row-start: 1;
-  grid-row-end: 6;
-
-}
-
-.name1 {
-    grid-column-start: 2;
-  grid-column-end: 3;
-
-  grid-row-start: 1;
-  grid-row-end: 6;
-}
-
-.dropBox1 {
-      grid-column-start: 3;
-  grid-column-end: 4;
-
-  grid-row-start: 1;
-  grid-row-end: 6;
-}
-
-.avatar2 {
-        grid-column-start: 4;
-  grid-column-end: 5;
-
-  grid-row-start: 1;
-  grid-row-end: 6;
-}
-
-.name2 {
-          grid-column-start: 5;
-  grid-column-end: 6;
-
-  grid-row-start: 1;
-  grid-row-end: 6;
-}
-
-.dropBox1 {
-            grid-column-start: 6;
-  grid-column-end: 7;
-
-  grid-row-start: 1;
-  grid-row-end: 6;
+  font-family: Righteous;
 }
 
 
@@ -198,7 +202,7 @@ body{
     font-weight: 100;
     font-size: 3em;
     padding-top: 0;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -207,25 +211,20 @@ body{
 
 .playerListContainer {
     display: flex;
-
-    
+    height: auto;
 }
 .avatarImage {
     width: 1em;
     height: 1em;
-
 }
-.dropZone{
-  background-color: grey;
-  width: 1em;
-
-
-  
+.heading{
+  font-family: Righteous;
 }
+
 
 .playerNameInList {
   display: flex;
-
+  height:auto;
   justify-content: space-between;
   margin-bottom: 0.5em;
   

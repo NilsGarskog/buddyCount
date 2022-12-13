@@ -17,7 +17,7 @@
 
 
     <router-link v-bind:to= " '/answerq/' + lang + '/' + pollId + '/' + playerId ">
-    <button class="continueButton" v-if="this.playerId === '1'">Start game</button>
+    <button class="continueButton" v-if="this.playerId === '1'" v-on:click = continueEmit()>Start game</button>
   </router-link>
 
   </body>
@@ -57,6 +57,9 @@ name: 'CreateQPartView',
     socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
       this.data = data
     )
+    socket.on("goToNextPage", () => {
+      this.$router.push('/answerq/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+    })
 
 
 
@@ -66,6 +69,9 @@ name: 'CreateQPartView',
 
     createPoll: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
+    },
+      continueEmit: function(){
+      socket.emit('goToNextPage', this.pollId)
     },
     addQuestion: function () {           //Lagt till fråge-id mm.
       if (this.questions.length < 3){

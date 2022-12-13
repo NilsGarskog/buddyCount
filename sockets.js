@@ -37,11 +37,15 @@ function sockets(io, socket, data) {
   });
 
 
-  socket.on('submitAnswer', function(d){
+  socket.on('submitAnswer', function(d){ //tror inte vi använder denna längre
     data.submitAnswer(d.pollId ,{player: d.p, answer: d.a});
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
   });
 
+  socket.on('playerAnswer',function(d){
+    data.playerAnswer(d.pollId, {playerId: d.player, answerObject: d.answers});
+    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
+  });
   socket.on('resetAll', () => {
     data = new Data();
     data.initializeData();
@@ -82,8 +86,12 @@ function sockets(io, socket, data) {
     socket.emit('allQuestions', data.getAllQuestions(pollId));
   });
 
-  socket.on('goToQuestion', function(pollId) {
-    io.to(pollId).emit('goToQuestions');
+  socket.on('getAnswers', function(pollId){
+    socket.emit('allAnswers', data.getAllAnswers(pollId))
+  });
+
+  socket.on('goToNextPage', function(pollId) {
+    io.to(pollId).emit('goToNextPage');
   });
   socket.on('goToShowQResult', function(d) {
     //io.to(pollId).emit('goToShowQResults');
