@@ -109,8 +109,6 @@ export default {
     });
     socket.emit('getQuestions',this.pollId)
 
-    // gå till resultat
-    socket.emit("goToShowQResultatet",this.pollId)
   },
 
   methods:{
@@ -123,10 +121,10 @@ export default {
         if(!this.sendAnswer)
         {
           console.log("slut")
-          //socket.emit("answerSubmit",{pollId: this.pollId,thePlayer: this.playerId})
-          socket.on("goToShowQResultss", () => {
-            this.$router.push('/questionresult/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
-          })
+          socket.emit("answerSubmit",{pollId: this.pollId,thePlayer: this.playerId})
+          //socket.on("goToShowQResultss", () => {
+            //this.$router.push('/questionresult/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+          //})
           clearTimeout(timerId);
           timerId = null;
           this.sendAnswer = true;
