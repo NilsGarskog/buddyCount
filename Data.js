@@ -54,7 +54,7 @@ Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
   participant.name = nm;
   participant.avatar = av;
   participant.points = 0;
-  participant.currentAnswer = 0;
+  participant.currentAnswer = [];
   participant.currentGuess = [];
   poll.participants.push(participant);
   }
@@ -151,7 +151,7 @@ Data.prototype.getAllQuestions = function(pollId){
     console.log("answers looks like ", answers, typeof answers);
   }
 }*/
-Data.prototype.submitAnswer = function(pollID, aObject){
+Data.prototype.submitAnswer = function(pollID, aObject){ // tror inte vi använder denna längre
   const poll = this.polls[pollID];
   console.log("ansers submitted for ", pollID, aObject);
   console.log("jag har id: ", aObject.player, "och har svarat ", aObject.answer)
@@ -165,7 +165,21 @@ Data.prototype.submitAnswer = function(pollID, aObject){
 console.log(poll.participants)
 }
 
-Data.prototype.getAnswers = function(pollId) {
+Data.prototype.playerAnswer=function(pollId, playerAObject){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined') {
+    for(let i = 0; i <poll.participants.length; i++){
+      if(poll.participants[i].playerId == playerAObject.playerId){
+        poll.participants[i].currentAnswer = playerAObject.answerObject;
+        console.log("Spelar ID: ", playerAObject.playerId, "Svar: ", playerAObject.answerObject)
+      }
+    }
+  }
+  console.log("Deltagare: ",poll.participants, "skriv ut object", poll.participants[0].currentAnswer  )
+  
+}
+
+/*Data.prototype.getAnswers = function(pollId) {
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined') {
     const answers = poll.answers[poll.currentQuestion];
@@ -174,7 +188,19 @@ Data.prototype.getAnswers = function(pollId) {
     }
   }
   return {}
+}*/
+
+Data.prototype.getAnswers = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    for(let i=0; i<poll.participants.length; i++){
+      poll.answers[i] = { playerId: poll.participants[i].playerId, answerObject: poll.participants[i].currentAnswer}
+    }
+
+  }
+  return[]
 }
+
 module.exports = Data;
 
 

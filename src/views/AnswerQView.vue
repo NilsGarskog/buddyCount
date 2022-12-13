@@ -80,7 +80,7 @@
         socket.emit('getQuestions', this.pollId)
           this.lang = this.$route.params.lang;
           this.playerId = this.$route.params.playid;
-          socket.emit('joinPoll', this.pollId) //Ska jag ha denna?? funkar ej utan
+          socket.emit('joinPoll', this.pollId); //Ska jag ha denna?? funkar ej utan
           socket.emit("pageLoaded", this.lang);
           socket.on("init", (labels) => {
           this.uiLabels = labels

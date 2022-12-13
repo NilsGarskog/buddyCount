@@ -37,11 +37,16 @@ function sockets(io, socket, data) {
   });
 
 
-  socket.on('submitAnswer', function(d){
+  socket.on('submitAnswer', function(d){ //tror inte vi använder denna längre
     data.submitAnswer(d.pollId ,{player: d.p, answer: d.a});
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
   });
 
+  socket.on('playerAnswer',function(d){
+    data.playerAnswer(d.pollId, {playerId: d.player, answerObject: d.answers});
+    console.log("Kommer frågorna till socket?", d.answers)
+    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
+  });
   socket.on('resetAll', () => {
     data = new Data();
     data.initializeData();
