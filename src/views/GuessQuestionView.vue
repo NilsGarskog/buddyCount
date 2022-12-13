@@ -4,7 +4,6 @@
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
-
       <!-- <div class="classTable">
         <table>
     <tr>
@@ -45,8 +44,8 @@
       </span>
       </div>
     </div>
-    <button v-if="randomAnswers.length===0"> Send </button>
   </section>
+  <button v-if="randomAnswers.length===0"> Send </button>
 
 
     </body>
@@ -57,6 +56,8 @@
 
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
+import io from 'socket.io-client';
+const socket = io();
 
 
 
@@ -72,17 +73,18 @@ data: function () {
       pollId:"",
       lang:"",
       playerId:"",
-        players: [
-        { playerId: 1, name: "Nils", avatar: [ { "id": "Avatar_1", "image": "Paul" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        ,
-        { playerId: 123456, name: "Samuel", avatar: [ { "id": "Avatar_2", "image": "Jerome" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        ,
-        { playerId: 654321, name: "Karin", avatar: [ { "id": "Avatar_3", "image": "NoFace" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        ,
-        { playerId: 135791, name: "Pelle", avatar: [ { "id": "Avatar_4", "image": "Mononoke" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        ,
-        { playerId: 123654, name: "Lotta", avatar: [ { "id": "Avatar_5", "image": "ScareCrow" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-              ],
+      players:[],
+        // players: [
+        // { playerId: 1, name: "Nils", avatar: [ { "id": "Avatar_1", "image": "Paul" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        // ,
+        // { playerId: 123456, name: "Samuel", avatar: [ { "id": "Avatar_2", "image": "Jerome" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        // ,
+        // { playerId: 654321, name: "Karin", avatar: [ { "id": "Avatar_3", "image": "NoFace" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        // ,
+        // { playerId: 135791, name: "Pelle", avatar: [ { "id": "Avatar_4", "image": "Mononoke" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        // ,
+        // { playerId: 123654, name: "Lotta", avatar: [ { "id": "Avatar_5", "image": "ScareCrow" } ], points: 0, currentAnswer: 0, currentGuess: [] }
+        //       ],
       answers:[
       {PlayerId: 1, Answer:20},
       {PlayerId: 123456, Answer:4},
@@ -98,14 +100,18 @@ data: function () {
 },
 created: function() {
   this.pollId = this.$route.params.id;
-this.lang = this.$route.params.lang;
-this.playerId = this.$route.params.playid;
+  this.lang = this.$route.params.lang;
+  this.playerId = this.$route.params.playid;
+  socket.emit('joinPoll', this.pollId)
+  socket.on("sendPlayers", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
+    console.log("inside sendplayers")
+    this.players = update;
+    this.GuessArray = createGuessArr(this.players, this.playerId)
+    });
+  socket.emit('getPlayers', this.pollId)
+
   this.randomAnswers = randomAns(this.answers, this.randomAnswers, this.playerId)
-  this.GuessArray = createGuessArr(this.players, this.playerId)
-
-
 },
-events: { 'option:selected': function (selectedOption) {console.log("TESTIS!" + selectedOption) } },
 methods: {
     updateGuess: function(player,Guess) {
       console.log(Guess)
@@ -228,5 +234,24 @@ body{
   justify-content: space-between;
   margin-bottom: 0.5em;
   
+}
+button {
+  height: 5em;
+  width: 14em;
+  background-color: #78df73;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 20px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 20px;
+  position: relative;
+  text-align:center;
+
 }
 </style>
