@@ -1,10 +1,11 @@
 <template>
   <body>
+        <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
-      {{randomAnswers}}
-      {{GuessArray}}
-      {{playerId}}
-      <div class="classTable">
+
+      <!-- <div class="classTable">
         <table>
     <tr>
       <th>Player</th>
@@ -12,7 +13,7 @@
     </tr>
     <tr v-for="player in GuessArray" :key="player.name">
       <td>{{ player.name }}</td>
-      <td>{{ player.name }}</td>
+      <td><img  class="avatarImage" :src="require('../Icons/'+player.avatarImg + '.png')" :key="player.image" /></td>
       <td>
         <v-select
           :options="randomAnswers"
@@ -24,16 +25,32 @@
     </tr>
   </table>
   </div>
-  <button v-if="randomAnswers.length===0"> Send </button>
+  <button v-if="randomAnswers.length===0"> Send </button> -->
   
   <section class="playerListContainer">
     <div class="playerList">
-    
+    <div v-for="player in GuessArray" :key="player.name">
+      <span class="playerNameInList">
+        <img  class="avatarImage" :src="require('../Icons/'+player.avatarImg + '.png')" :key="player.image" />
+        {{player.name}}
+        <span class="dropDownMenu">
+        <v-select
+          class="dropDownStyle"
+          :options="randomAnswers"
+          :modelValue="player.Guess"
+          @option:selected="(selectedOption) => onSelect(selectedOption)"
+          @update:modelValue="(Guess) => updateGuess(player, Guess)"
+        />
+        </span>
+      </span>
+      </div>
     </div>
+    <button v-if="randomAnswers.length===0"> Send </button>
   </section>
 
 
     </body>
+    
 </template>
 
 <script>
@@ -147,6 +164,13 @@ function createGuessArr (players, id){
 </script>
 
 <style scoped>
+
+
+.dropDownMenu{
+  font-size: 0.5em;
+  min-width: 7em;
+  margin-top: 0.4em;
+}
 .classTable{
   width:90%;
   border-style: solid;
@@ -166,6 +190,7 @@ body{
   min-height: 100vh;
   padding: 0;
   cursor: default;
+  font-family: Righteous;
 }
 
 
@@ -177,7 +202,7 @@ body{
     font-weight: 100;
     font-size: 3em;
     padding-top: 0;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -186,19 +211,20 @@ body{
 
 .playerListContainer {
     display: flex;
-
-    
+    height: auto;
 }
 .avatarImage {
     width: 1em;
     height: 1em;
-
+}
+.heading{
+  font-family: Righteous;
 }
 
 
 .playerNameInList {
   display: flex;
-
+  height:auto;
   justify-content: space-between;
   margin-bottom: 0.5em;
   
