@@ -8,7 +8,8 @@
          v-bind:players="players" v-bind:key="player.image">
             <span class="playerNameInList">
           <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image"/>
-            {{player.name}}
+          
+            <span id="name">{{player.name}}</span>
             <div class="dropZone">
             
                </div>
@@ -18,7 +19,7 @@
   </section>
     <div  class="drop2zone">
       <div v-for="item in items"
-      v-bind:items="items" v-bind:key="item.title">
+      v-bind:items="items" v-bind:key="item.title" v-bind:id="item.id">
       <component :is="interact" />
       <div class="dropZone" id="numberCont">
     <span v-on:click="print()" class="draggable"> {{item.title}}</span>
@@ -47,7 +48,7 @@ interact('.draggable')
     // keep the element within the area of it's parent
       modifiers: [
       interact.modifiers.restrictRect({
-        restriction: ['.numberCont','dropZone'],
+        restriction: 'dropZone',
         endOnly: true
       })
     ],  
@@ -104,20 +105,21 @@ interact('.dropZone').dropzone({
   ondragenter: function (event) {
     var draggableElement = event.relatedTarget
     var dropzoneElement = event.target
+    console.log(draggableElement)
 
     // feedback the possibility of a drop
     dropzoneElement.classList.add('drop-target')
     draggableElement.classList.add('can-drop')
-    draggableElement.textContent = 'In'
+    //draggableElement.textContent = 'In'
   },
   ondragleave: function (event) {
     // remove the drop feedback style
     event.target.classList.remove('drop-target')
     event.relatedTarget.classList.remove('can-drop')
-    event.relatedTarget.textContent = 'Dragged out'
+    //event.relatedTarget.textContent = 'Dragged out'
   },
   ondrop: function (event) {
-    event.relatedTarget.textContent = 'Dropped'
+    console.log(event.relatedTarget)
     console.log("dropped in zone")
     
   },
@@ -304,12 +306,13 @@ body{
 .avatarImage {
     width: 1em;
     height: 1em;
+    margin-right:0.5em;
 
 }
 .dropZone{
   background-color: grey;
   width: 2em;
-  height: 2em;
+  
 
 
   
@@ -345,6 +348,10 @@ body{
 
   justify-content: space-between;
   margin-bottom: 0.5em;
-  
+
+}
+
+#name {
+  width:100%;
 }
 </style>
