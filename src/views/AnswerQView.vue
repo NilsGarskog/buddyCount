@@ -129,7 +129,7 @@
             this.currentQ +=1;
             this.answer = 0;
           }
-          socket.emit('playerGuess',this.pollId)
+
 
         }
        

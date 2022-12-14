@@ -109,9 +109,6 @@ export default {
     });
     socket.emit('getQuestions',this.pollId)
 
-    socket.on("goToNextPage", () => {
-      this.$router.push('/questionresult/' + this.lang+'/'+this.pollId);
-    })
   },
 
   methods:{
@@ -124,9 +121,10 @@ export default {
         if(!this.sendAnswer)
         {
           console.log("slut")
-          //rätt
-          //socket.emit("goToNextPage", this.pollId)
-
+          socket.emit("answerSubmit",{pollId: this.pollId,thePlayer: this.playerId})
+          //socket.on("goToShowQResultss", () => {
+            //this.$router.push('/questionresult/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+          //})
           clearTimeout(timerId);
           timerId = null;
           this.sendAnswer = true;
@@ -136,9 +134,6 @@ export default {
         console.log(this.timeLeft)
         return this.timeLeft--;
       }
-
-    },
-    showPlayerGuessed: function(){
 
     }
   },
