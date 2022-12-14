@@ -34,7 +34,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/PlayerLobby.vue')
   },
   {
-    path: '/questionresult/:lang/:id/:playid',
+    path: '/questionresult/:lang/:id',
     name: 'ShowQuestionResult/',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route

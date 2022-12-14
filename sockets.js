@@ -96,14 +96,19 @@ function sockets(io, socket, data) {
   socket.on('goToNextPage', function(pollId) {
     io.to(pollId).emit('goToNextPage');
   });
-  socket.on('goToShowQResult', function(d) {
-    //io.to(pollId).emit('goToShowQResults');
-    data.answerSubmit(d.pollId ,d.playerId);
-    io.to(d.pollId).emit('goToShowQResults', data.answerSubmit(d.pollId))
-  });
-  socket.on('goToShowQResultatet', function(pollId) {
-    io.to(pollId).emit('goToShowQResultss');
 
+  socket.on('playerGuess', function(d){
+      io.to(d.pollId).emit('goToNextPage')
+
+  });
+
+
+  socket.on('playerAnswer',function(d){
+    data.playerAnswer(d.pollId, {playerId: d.player, answerObject: d.answers});
+    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
+    if (data.answerSubmit(d.pollId) === true){     //kikar om alla har svart på frågorna
+      io.to(d.pollId).emit('goToNextPage')
+    }
   });
   socket.on('getCurrentQuestion', function(pollId) {
     io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));

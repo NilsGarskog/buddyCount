@@ -21,7 +21,7 @@
 
   <div class="characterRow">
     <div class="characterColumn" v-for="(avatar) in avatars"
-         v-bind:avatar="avatar" v-bind:key="avatar.image">
+         v-bind:avatar="avatar" v-bind:key="avatar.image" v-bind:id="avatars.id">
 
       <div class="borderCharacter">
         <div class="innerCharacter">

@@ -212,6 +212,7 @@ Data.prototype.getAllAnswers = function(pollId){
   }
   return []
 }
+
 Data.prototype.getCurrentQnA = function(pollId){
   const poll = this.polls[pollId];
   let returnArray=[]
@@ -271,6 +272,7 @@ Data.prototype.getGuesses = function(pollId){
   
   return[]
 }
+
 
 
 module.exports = Data;
