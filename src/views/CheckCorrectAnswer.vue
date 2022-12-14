@@ -103,20 +103,18 @@ created: function () {
 
     methods: {
 checkAnswer: function() {
-    for(let guessedQ of this.player1G){
-        for(let player of guessedQ){
-            for(let playerA of this.playersA){
-                if(playerA.pID == player.gO.p){
-                    for(let answerObject of playerA.answers){
-                        if(answerObject.q == guessedQ[0].q){
-                            if(answerObject.a == player.gO.g){
-                                this.points++
-                                console.log(this.points)
-                            }
-                        }
+    for(let element of this.GuessObj){
+        if(element.playerId== this.playerId){
+            for(let GO of element.guessObject){
+                let guessP= GO.playerID;
+                for(let AO of this.answerTest){
+                    if( AO.playerId==guessP){
+                        if( AO.answer==GO.guess)
+                        this.points++;
+                        console.log("mina poäng är:", this.points)
                     }
                 }
-            }
+            }  
         }
     }
 }
