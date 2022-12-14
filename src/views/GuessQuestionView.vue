@@ -373,6 +373,8 @@ body{
   border: 1px solid white;
   box-shadow: 0px 5px 4px #046B79;
   width: 3em;
+  -ms-touch-action: none;
+  touch-action: none;
 }
 
 .draggable {
