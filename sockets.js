@@ -125,6 +125,9 @@ function sockets(io, socket, data) {
     socket.emit("CurrentGuesses", data.getGuesses(pollId));
   });
 
+  socket.on("getAnswerForResult", function(pollId){
+    socket.emit("AnswersForResult", data.getAnswersforResult(pollId))
+  });
  
 }
 

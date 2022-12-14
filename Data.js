@@ -203,8 +203,26 @@ Data.prototype.getAnswers = function(pollId){
     return poll.answers;
   }
   
-  return[]
+  return []
 }
+
+Data.prototype.getAnswersforResult = function(pollId){
+  const poll = this.polls[pollId];
+  let arrayofAnswers = [];
+  if (typeof poll !== 'undefined'){
+   
+    for(let i =0; i < poll.answers.length; i++){
+      let currentAnswers = {playerId: poll.answers[i].playerId, answer: poll.answers[i].answerObject[poll.currentRound].a};
+    arrayofAnswers.push(currentAnswers)
+    console.log("Current answer: ", currentAnswers)
+    }
+    console.log("Lista med svar:", arrayofAnswers)
+    return arrayofAnswers
+  }
+  return []
+
+}
+
 Data.prototype.getAllAnswers = function(pollId){
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined'){

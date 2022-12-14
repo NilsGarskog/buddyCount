@@ -84,11 +84,9 @@
             this.questions = update;
             this.loaded = true;
           });
-          socket.on("allAnswers", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
-            this.answerTest = update;
-          });
+          
           socket.emit('getQuestions', this.pollId)
-          socket.emit('getAnswers', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
+          
           socket.emit("pageLoaded", this.lang);
           socket.on("init", (labels) => {
             this.uiLabels = labels

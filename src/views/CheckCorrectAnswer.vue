@@ -5,6 +5,7 @@
 
         <div>
         {{GuessObj}}
+        Svar: {{answerTest}}
         <h1 class="title">Bra jobbat!!</h1> 
         </div>
         <div class="amountOfPoints">
@@ -72,7 +73,8 @@ import io from 'socket.io-client';
     //     {q:3, gO: {p:3, g:9}}
     // ]
     // ],
-    GuessObj:[]    
+    GuessObj:[],
+    answerTest: []    
     }
 
 },
@@ -86,6 +88,10 @@ created: function () {
    socket.on("CurrentGuesses", (guessOBJ) => {
       this.GuessObj = guessOBJ
   })
+  socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
+            this.answerTest = update;
+          });
+    socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
   socket.emit("getCurrentGuess", this.pollId)
    socket.on("init", (labels) => {
       this.uiLabels = labels
