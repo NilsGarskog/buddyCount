@@ -10,8 +10,8 @@
           <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image"/>
           
             <span id="name">{{player.name}}</span>
-            <div class="dropZone">
-            
+            <component :is="interact" />
+            <div class="dropZone" v-bind:id="player.id">
                </div>
             </span>
     </div>
@@ -21,11 +21,14 @@
       <div v-for="item in items"
       v-bind:items="items" v-bind:key="item.title" v-bind:id="item.id">
       <component :is="interact" />
-      <div class="dropZone" id="numberCont">
-    <span v-on:click="print()" class="draggable"> {{item.title}}</span>
-  </div>
+      <div class="dropZone" id="numberCont">  
+    <span v-on:mouseover="showButton()" class="draggable"> 
+      {{item.title}}
+    </span>
     </div>
     </div>
+    </div>
+    <button v-if="showButtonBoolean">HEJ</button>
   
  
 
@@ -39,6 +42,11 @@
   import interact from "interactjs";
 
 
+  const interval = setInterval(function() {
+   this.showButton();
+ }, 5000);
+
+clearInterval(interval);
 
 // target elements with the "draggable" class
 interact('.draggable')
@@ -48,7 +56,7 @@ interact('.draggable')
     // keep the element within the area of it's parent
       modifiers: [
       interact.modifiers.restrictRect({
-        restriction: 'dropZone',
+        restriction: '.dropzone',
         endOnly: true
       })
     ],  
@@ -77,13 +85,15 @@ function dragMoveListener (event) {
   // keep the dragged position in the data-x/data-y attributes
   var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
   var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-  console.log('event')
+  //console.log('event')
   // translate the element
   target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
 
   // update the posiion attributes
   target.setAttribute('data-x', x)
   target.setAttribute('data-y', y)
+  //console.log(event)
+  //console.log(event.currentTarget.innerHTML)
 }
 
 // this function is used later in the resizing and gesture demos
@@ -92,6 +102,7 @@ window.dragMoveListener = dragMoveListener
 // enable draggables to be dropped into this
 interact('.dropZone').dropzone({
   // only accept elements matching this CSS selector
+  accept: '.draggable',
   // Require a 75% element overlap for a drop to be possible
   overlap: 0.75,
 
@@ -100,13 +111,17 @@ interact('.dropZone').dropzone({
   ondropactivate: function (event) {
     // add active dropzone feedback
     event.target.classList.add('drop-active')
+    //console.log(event)
     
   },
   ondragenter: function (event) {
     var draggableElement = event.relatedTarget
     var dropzoneElement = event.target
-    console.log(draggableElement)
-
+    //console.log(event)
+    
+    /* if(event.currentTarget.id != "numberCont"){
+      event.currentTarget.innerHTML = "";
+    } */
     // feedback the possibility of a drop
     dropzoneElement.classList.add('drop-target')
     draggableElement.classList.add('can-drop')
@@ -117,10 +132,23 @@ interact('.dropZone').dropzone({
     event.target.classList.remove('drop-target')
     event.relatedTarget.classList.remove('can-drop')
     //event.relatedTarget.textContent = 'Dragged out'
+    if(event.currentTarget.id != "numberCont"){
+      event.currentTarget.innerHTML = "";
+    }
+   //console.log(event.currentTarget.innerHTML)
   },
   ondrop: function (event) {
-    console.log(event.relatedTarget)
-    console.log("dropped in zone")
+    //event.relatedTarget.textContent = 'Dropped'
+  
+    console.log(event)
+    if(event.currentTarget.id != "numberCont"){
+      event.currentTarget.innerHTML += event.relatedTarget.innerHTML
+      //event.currentTarget.style.color="transparent"
+    }
+    console.log(event.currentTarget.innerHTML)
+   /*  this.showButton(); */
+    
+
     
   },
    ondropdeactivate: function (event) {
@@ -130,20 +158,20 @@ interact('.dropZone').dropzone({
   } 
 })
 
-interact('.drag-drop')
+/*  interact('.draggable')
   .draggable({
     inertia: true,
     modifiers: [
       interact.modifiers.restrictRect({
-        restriction: 'parent',
-        endOnly: false
+        restriction: '.dropZone',
+        endOnly: true
       })
     ],
     autoScroll: true,
     // dragMoveListener from the dragging demo above
     listeners: { move: dragMoveListener }
-  })
-
+  }) */
+ 
 export default {
 name: "AnswerQuestionView",
         components: {
@@ -151,9 +179,8 @@ name: "AnswerQuestionView",
         },
 
 created(){
-  
+ /*  this.timerstart()*/
 },
-
 
 data: function () {
     return {
@@ -192,7 +219,9 @@ data: function () {
       { id: 4, title: '2'},
       { id: 5, title: '3'},
 
-    ]
+    ],
+    showButtonBoolean: false,
+    //timerobj: null,
 
     }
 },
@@ -200,8 +229,37 @@ data: function () {
 methods: {
   print: function(){
     console.log("click")
+  },
+
+/*   timerstart() {
+    this.timerobj = setInterval(() => {
+      this.showButton()
+    },3000)
+  },
+ */
+  showButton: function(){
+    console.log('hej')
+    let noEmpty = true;
+    for(let i = 0; i<this.players.length;i++){
+      let playId = "#"+this.players[i].id;
+      //console.log(playId)
+      let dropDiv = document.querySelector(playId);
+      console.log(i,dropDiv.innerHTML);
+      if(dropDiv.innerHTML === ""){
+        //console.log('empty')
+        noEmpty = false;
+      }   
+    }
+    if(noEmpty){
+      this.showButtonBoolean = true;
+    }
+    //console.log(noEmpty)
   }
-}
+},
+/* beforeUnmount(){
+  clearInterval(this.timerstart)
+}, */
+
 
 }
 
@@ -310,28 +368,31 @@ body{
 
 }
 .dropZone{
-  background-color: grey;
-  width: 2em;
-  
+  background-color: #046B79;
+  color: white;
+  border: 1px solid white;
+  box-shadow: 0px 5px 4px #046B79;
+  width: 3em;
+}
 
-
-  
+.draggable {
+  cursor:pointer;
 }
 
 .drop2zone {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  
-}
-
-
-.draggable{
 
 }
+
+
+
 
 #numberCont {
-  background-color:gray;
+  background-color:#046B79;
+  border: 1px solid white;
+  box-shadow: 0px 5px 4px #046B79;
   height:2em;
   width: 2em;
   display:flex;
@@ -354,4 +415,5 @@ body{
 #name {
   width:100%;
 }
+
 </style>
