@@ -27,7 +27,8 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.participants = [];
     poll.guesses = [];
     poll.currentQuestion = 0;
-    poll.playersAnswered = 0;   
+    poll.playersAnswered = 0;
+    poll.playerGuessed = 0;   
     poll.currentRound = 0;           
     this.polls[pollId] = poll;
     console.log("poll created", pollId, poll);
@@ -246,6 +247,20 @@ Data.prototype.checkAmountAnswered = function(pollId) {
       }
   }
 }
+
+Data.prototype.checkAmountguessed = function(pollId) {
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined') {
+    poll.playerGuessed +=1;
+      if(poll.playerGuessed === poll.participants.length){
+        poll.playerGuessed = 0;
+        return true
+      }else{
+        return false
+      }
+  }
+}
+
 Data.prototype.guessSubmit = function(pollId, GuessObj) {
   const poll = this.polls[pollId];
   console.log("inside of guessSubmit the GuessObj is", GuessObj)

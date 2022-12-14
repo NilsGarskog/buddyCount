@@ -6,6 +6,8 @@
     <div v-if="loaded===true"> <!--En loop över de "fråge objekten""-->
      <h1 id="firstQ" v-on:click="nextQuestion">
     Question {{this.nextQ+1}}: {{questions[nextQ].q}}
+    {{donePlayers}}
+    {{question}}
 
      </h1>
     </div>
@@ -85,8 +87,9 @@ export default {
       player: "",
       loaded: false,
       timerId: setInterval(this.answerSubmit, 1000),
-      timeLeft: 30,
-      sendAnswer: false
+      timeLeft: 60,
+      sendAnswer: false,
+      donePlayers: []
     }
   },
 
@@ -101,8 +104,18 @@ export default {
     socket.on("sendPlayers", (update) => {
       this.showPlayers = update;
     });
+    socket.on("currentQuestion", (QnAobj) => {
+      this.question = QnAobj.question;
+    });
+    socket.emit("getCurrentQuestion", this.pollId)
+    socket.on("playerDoneGuess", (playerId) => {
+      this.donePlayers.push(playerId);
+    });
     socket.emit("getPlayers",this.pollId)
     //frågeinfo
+    socket.on("goToResultPage", () => { 
+      this.$router.push('/questionresult/' + this.lang+'/'+this.pollId);
+    });
     socket.on("allQuestions", (update) => {       //Funktion för att hämta fråge-array /Nils
       this.questions = update;
       this.loaded=true;
@@ -121,10 +134,8 @@ export default {
         if(!this.sendAnswer)
         {
           console.log("slut")
-          socket.emit("answerSubmit",{pollId: this.pollId,thePlayer: this.playerId})
-          //socket.on("goToShowQResultss", () => {
-            //this.$router.push('/questionresult/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
-          //})
+          socket.emit("goToResult",this.pollId)
+          
           clearTimeout(timerId);
           timerId = null;
           this.sendAnswer = true;

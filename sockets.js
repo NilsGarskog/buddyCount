@@ -110,6 +110,15 @@ function sockets(io, socket, data) {
   });
   socket.on("PlayerGuessAnswer", function(obj) {
     data.guessSubmit(obj.pollId ,obj.guessObj);
+    if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har svart på frågorna
+      io.to(obj.pollId).emit('goToResultPage')
+    }
+    console.log("the playerId is", obj.guessObj.playerId)
+    io.to(obj.pollId).emit('playerDoneGuess', obj.guessObj.playerId)
+
+  });
+  socket.on('goToResult', function(pollId) {
+    io.to(pollId).emit('goToResultPage');
   });
 
   socket.on("getCurrentGuess", function(pollId) {

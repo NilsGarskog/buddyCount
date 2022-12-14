@@ -100,6 +100,9 @@ created: function() {
       this.loadedOnce = true;
     }
     });
+  socket.on("goToResultPage", () => { 
+    this.$router.push('/CheckCorrectAnswer/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+    });
 },
 methods: {
     updateGuess: function(player,Guess) {
@@ -133,9 +136,7 @@ sendFnc: function(){
   }
   socket.emit("PlayerGuessAnswer", {pollId: this.pollId, guessObj: {playerId: this.playerId, guess: this.answerArray}})
 },
-testFNC: function(){
-  socket.emit("getCurrentQuestion", this.pollId)
-}
+
 },
 
 
