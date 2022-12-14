@@ -1,5 +1,6 @@
 <template>
   <body>
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
   <section class="playerListContainer">
     <div class="playerList">
@@ -14,15 +15,17 @@
             </span>
     </div>
     </div>
-
-    <div class="drop2zone">
+  </section>
+    <div  class="drop2zone">
       <div v-for="item in items"
       v-bind:items="items" v-bind:key="item.title">
       <component :is="interact" />
-    <span class="draggable"> {{item.title}}</span>
+      <div class="dropZone" id="numberCont">
+    <span v-on:click="print()" class="draggable"> {{item.title}}</span>
+  </div>
     </div>
     </div>
-  </section>
+  
  
 
  
@@ -31,12 +34,8 @@
 
 <script>
 /*import vSelect from 'vue-select'*/
-import '@interactjs/auto-start'
-import '@interactjs/actions/drag'
-import '@interactjs/actions/resize'
-import '@interactjs/modifiers'
-import '@interactjs/dev-tools'
-import interact from '@interactjs/interact'
+
+  import interact from "interactjs";
 
 
 
@@ -46,12 +45,12 @@ interact('.draggable')
     // enable inertial throwing
     inertia: true,
     // keep the element within the area of it's parent
-    /* modifiers: [
+      modifiers: [
       interact.modifiers.restrictRect({
-        restriction: 'parent',
+        restriction: ['.numberCont','dropZone'],
         endOnly: true
       })
-    ], */
+    ],  
     // enable autoScroll
     autoScroll: true,
 
@@ -77,7 +76,7 @@ function dragMoveListener (event) {
   // keep the dragged position in the data-x/data-y attributes
   var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
   var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
+  console.log('event')
   // translate the element
   target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
 
@@ -89,7 +88,59 @@ function dragMoveListener (event) {
 // this function is used later in the resizing and gesture demos
 window.dragMoveListener = dragMoveListener
 
+// enable draggables to be dropped into this
+interact('.dropZone').dropzone({
+  // only accept elements matching this CSS selector
+  // Require a 75% element overlap for a drop to be possible
+  overlap: 0.75,
 
+  // listen for drop related events:
+
+  ondropactivate: function (event) {
+    // add active dropzone feedback
+    event.target.classList.add('drop-active')
+    
+  },
+  ondragenter: function (event) {
+    var draggableElement = event.relatedTarget
+    var dropzoneElement = event.target
+
+    // feedback the possibility of a drop
+    dropzoneElement.classList.add('drop-target')
+    draggableElement.classList.add('can-drop')
+    draggableElement.textContent = 'In'
+  },
+  ondragleave: function (event) {
+    // remove the drop feedback style
+    event.target.classList.remove('drop-target')
+    event.relatedTarget.classList.remove('can-drop')
+    event.relatedTarget.textContent = 'Dragged out'
+  },
+  ondrop: function (event) {
+    event.relatedTarget.textContent = 'Dropped'
+    console.log("dropped in zone")
+    
+  },
+   ondropdeactivate: function (event) {
+    // remove active dropzone feedback
+    event.target.classList.remove('drop-active')
+    event.target.classList.remove('drop-target')
+  } 
+})
+
+interact('.drag-drop')
+  .draggable({
+    inertia: true,
+    modifiers: [
+      interact.modifiers.restrictRect({
+        restriction: 'parent',
+        endOnly: false
+      })
+    ],
+    autoScroll: true,
+    // dragMoveListener from the dragging demo above
+    listeners: { move: dragMoveListener }
+  })
 
 export default {
 name: "AnswerQuestionView",
@@ -143,6 +194,13 @@ data: function () {
 
     }
 },
+
+methods: {
+  print: function(){
+    console.log("click")
+  }
+}
+
 }
 
 </script>
@@ -155,6 +213,7 @@ body{
   min-height: 100vh;
   padding: 0;
   cursor: default;
+  font-family: Righteous;
 }
 
 .gridwrapper {
@@ -225,7 +284,7 @@ body{
 .playerList {
     text-align: left;
     width: 100%;
-    height: 100%;
+    height: auto;
     font-family: Righteous;
     font-weight: 100;
     font-size: 3em;
@@ -249,16 +308,36 @@ body{
 }
 .dropZone{
   background-color: grey;
-  width: 1em;
+  width: 2em;
+  height: 2em;
 
 
   
 }
 
+.drop2zone {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  
+}
+
+
 .draggable{
-  height:2em;
-  width:2em;
+
+}
+
+#numberCont {
   background-color:gray;
+  height:2em;
+  width: 2em;
+  display:flex;
+  margin: 1em;
+  font-size:2em;
+  justify-content: center;
+  align-items: center;
+  
+
 }
 
 .playerNameInList {

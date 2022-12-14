@@ -1,5 +1,5 @@
 <template>
-<!--   <body>
+  <body>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
   <section class="playerListContainer">
     <div class="playerList">
@@ -56,11 +56,11 @@
    </template>
 </draggable>
 
-    </body> -->
+    </body>
 </template>
 
 <script>
-/* import draggable from 'vuedraggable'
+import draggable from 'vuedraggable'
 
 export default {
 name: "AnswerQuestionView",
@@ -109,7 +109,7 @@ data: function () {
     }
 },
 }
- */
+
 </script>
 
 <style scoped>
