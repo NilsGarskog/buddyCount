@@ -108,6 +108,13 @@ function sockets(io, socket, data) {
   socket.on('getCurrentQuestion', function(pollId) {
     io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
   });
+  socket.on("PlayerGuessAnswer", function(obj) {
+    data.guessSubmit(obj.pollId ,obj.guessObj);
+  });
+
+  socket.on("getCurrentGuess", function(pollId) {
+    socket.emit("CurrentGuesses", data.getGuesses(pollId));
+  });
 
  
 }

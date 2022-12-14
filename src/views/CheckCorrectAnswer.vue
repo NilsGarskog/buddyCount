@@ -4,6 +4,7 @@
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css' >
 
         <div>
+        {{GuessObj}}
         <h1 class="title">Bra jobbat!!</h1> 
         </div>
         <div class="amountOfPoints">
@@ -54,24 +55,26 @@ import io from 'socket.io-client';
         uiLabels: {}, 
         points: 0,
         //playersA: [player1A,player2A,player3A],
-        playersAnswers: [],
-        player1G:[[
-        {playerId: 4, q:1, gO: [{p:1,g:1}, {p:2,g:2},{p:3,g:3} ]}, //såhär ska det nog se ut, ändra lite i loopen sen
-        {q:1, gO: {p:2,g:2}},
-        {q:1, gO: {p:3,g:3}}
-    ],
-    [
-        {q:2, gO: {p:1, g:4}},
-        {q:2, gO: {p:2, g:5}},
-        {q:2, gO: {p:3, g:6}}
-    ],
-    [
-        {q:3, gO: {p:1, g:7}},
-        {q:3, gO: {p:2, g:8}},
-        {q:3, gO: {p:3, g:9}}
-    ]
-    ]    
+    //     playersAnswers: [],
+    //     player1G:[[
+    //     {playerId: 4, q:1, gO: [{p:1,g:1}, {p:2,g:2},{p:3,g:3} ]}, //såhär ska det nog se ut, ändra lite i loopen sen
+    //     {q:1, gO: {p:2,g:2}},
+    //     {q:1, gO: {p:3,g:3}}
+    // ],
+    // [
+    //     {q:2, gO: {p:1, g:4}},
+    //     {q:2, gO: {p:2, g:5}},
+    //     {q:2, gO: {p:3, g:6}}
+    // ],
+    // [
+    //     {q:3, gO: {p:1, g:7}},
+    //     {q:3, gO: {p:2, g:8}},
+    //     {q:3, gO: {p:3, g:9}}
+    // ]
+    // ],
+    GuessObj:[]    
     }
+
 },
 
 created: function () {
@@ -80,6 +83,10 @@ created: function () {
    this.playerId = this.$route.params.playid;
    socket.emit('joinPoll', this.pollId);
    socket.emit("pageLoaded", this.lang);
+   socket.on("CurrentGuesses", (guessOBJ) => {
+      this.GuessObj = guessOBJ
+  })
+  socket.emit("getCurrentGuess", this.pollId)
    socket.on("init", (labels) => {
       this.uiLabels = labels
   })

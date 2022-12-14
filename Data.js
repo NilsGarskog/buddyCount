@@ -25,6 +25,7 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.participants = [];
+    poll.guesses = [];
     poll.currentQuestion = 0;
     poll.playersAnswered = 0;   
     poll.currentRound = 0;           
@@ -231,7 +232,6 @@ Data.prototype.getCurrentQnA = function(pollId){
 Data.prototype.answerSubmit = function(pollId, thePlayer) {
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined') {
-
   }
 
 }
@@ -246,6 +246,32 @@ Data.prototype.checkAmountAnswered = function(pollId) {
       }
   }
 }
+Data.prototype.guessSubmit = function(pollId, GuessObj) {
+  const poll = this.polls[pollId];
+  console.log("inside of guessSubmit the GuessObj is", GuessObj)
+  if (typeof poll !== 'undefined') {
+    for(let i = 0; i <poll.participants.length; i++){
+      if(poll.participants[i].playerId == GuessObj.playerId){
+        poll.participants[i].currentGuess = GuessObj.guess
+        console.log("inside of guessSubmit the participants are", poll.participants[i])
+  }
+}
+}
+}
+
+Data.prototype.getGuesses = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    for(let i=0; i<poll.participants.length; i++){
+      poll.guesses[i] = { playerId: poll.participants[i].playerId, guessObject: poll.participants[i].currentGuess}
+      console.log("inside of getGuesses the poll.guesses[i] is", poll.guesses[i])
+    }
+    return poll.guesses;
+  }
+  
+  return[]
+}
+
 
 module.exports = Data;
 

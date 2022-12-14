@@ -4,6 +4,7 @@
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
+      {{GuessArray}}
       <!-- <div class="classTable">
         <table>
     <tr>
@@ -74,25 +75,6 @@ data: function () {
       playerId:"",
       answerArray:[],
       players:[],
-        // players: [
-        // { playerId: 1, name: "Nils", avatar: [ { "id": "Avatar_1", "image": "Paul" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        // ,
-        // { playerId: 123456, name: "Samuel", avatar: [ { "id": "Avatar_2", "image": "Jerome" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        // ,
-        // { playerId: 654321, name: "Karin", avatar: [ { "id": "Avatar_3", "image": "NoFace" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        // ,
-        // { playerId: 135791, name: "Pelle", avatar: [ { "id": "Avatar_4", "image": "Mononoke" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        // ,
-        // { playerId: 123654, name: "Lotta", avatar: [ { "id": "Avatar_5", "image": "ScareCrow" } ], points: 0, currentAnswer: 0, currentGuess: [] }
-        //       ],
-      answers:[
-      {PlayerId: 1, Answer:20},
-      {PlayerId: 123456, Answer:4},
-      {PlayerId: 654321, Answer:2},
-      // {PlayerId: 135791, Answer:15},
-      // {PlayerId: 123654, Answer:1},
-
-    ],
     GuessArray:[],
     randomAnswers:[],
     Qobj:{},
@@ -149,7 +131,7 @@ sendFnc: function(){
     var obj = {playerID: this.GuessArray[i].playerId, guess: this.GuessArray[i].Guess }
     this.answerArray.push(obj);
   }
-  socket.emit("PlayerGuessAnswer", {playerId: this.playerId, QId: "STOOPA IN QID HÄR", answers: this.GuessArray})
+  socket.emit("PlayerGuessAnswer", {pollId: this.pollId, guessObj: {playerId: this.playerId, guess: this.answerArray}})
 },
 testFNC: function(){
   socket.emit("getCurrentQuestion", this.pollId)
