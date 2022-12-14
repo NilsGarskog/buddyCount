@@ -15,32 +15,18 @@
     </b>
   </div>
 
-  <!-- <div class="characterRow">
-    <div class="characterColumn" v-for="(avatar) in avatars"
-         v-bind:avatar="avatar" v-bind:key="avatar.image">
-
-      <div class="borderCharacter">
-        <div class="innerCharacter">
-
-          <img  id="avatarer" class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
-
-      </div>
-
-      </div>
-
-
-    </div>
-  </div> -->
-
 
 <div class="FlexCenter">
   <div class="container">
+    <div class="emptyFiller"></div>
   <div v-for="(avatar) in avatars" v-bind:avatar="avatar" v-bind:key="avatar.image" >
   <div class="box"><img  id="avatarer" class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/></div>
 </div>
 </div>
-
 </div>
+<div class="profile">
+  <h1>Your profile</h1>
+  </div>
  <div class="bottomArea">
     
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
@@ -224,6 +210,13 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+.profile{
+  border-style: solid;
+  margin-top:2em;
+  min-height: 20%;
+  min-width: 80%;
+}
 .FlexCenter{
   display: flex;
   justify-content: center;
@@ -290,8 +283,10 @@ body {
   font-size: 2rem;
   color: black;
   width: 100%;
-
-
+}
+.emptyFiller{
+ min-height: 2em; 
+  min-width: 6em; 
 }
 .inputUsername:placeholder-shown ~.labelUsername{
   font-size:2.6rem;
