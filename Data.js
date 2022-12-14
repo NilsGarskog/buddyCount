@@ -26,7 +26,8 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.answers = [];
     poll.participants = [];
     poll.currentQuestion = 0;
-    poll.playersAnswered = 0;              
+    poll.playersAnswered = 0;   
+    poll.currentRound = 0;           
     this.polls[pollId] = poll;
     console.log("poll created", pollId, poll);
   }
@@ -196,9 +197,7 @@ Data.prototype.getAnswers = function(pollId){
   if (typeof poll !== 'undefined'){
     for(let i=0; i<poll.participants.length; i++){
       poll.answers[i] = { playerId: poll.participants[i].playerId, answerObject: poll.participants[i].currentAnswer}
-      console.log("skriv ut varje svarsobjekt:", poll.answers[i])
     }
-    console.log("Funkar det med answers??", poll.answers)
     return poll.answers;
   }
   
@@ -206,17 +205,31 @@ Data.prototype.getAnswers = function(pollId){
 }
 Data.prototype.getAllAnswers = function(pollId){
   const poll = this.polls[pollId];
-  console.log("all answers requested for ", pollId);
   if (typeof poll !== 'undefined'){
-    console.log("the answers in poll", pollId, "is", poll.answers)
     return poll.answers;
 
   }
   return []
 }
+Data.prototype.getCurrentQnA = function(pollId){
+  const poll = this.polls[pollId];
+  let returnArray=[]
+  if (typeof poll !== 'undefined'){
+    let questionWid = poll.questions[poll.currentRound];
+    let question = questionWid.q
+    let Qid = questionWid.i
+    for(let i=0; i<poll.participants.length; i++){
+      let Pid = poll.answers[i].playerId
+      let answer= poll.answers[i].answerObject[poll.currentRound].a
+      let obj = {playerId: Pid, answer: answer}
+      returnArray.push(obj)
+      }
+      return {question: question, answersArray: returnArray}
+    }
+  }
+
 Data.prototype.answerSubmit = function(pollId, thePlayer) {
   const poll = this.polls[pollId];
-  console.log("här är dom:", pollId, thePlayer);
   if (typeof poll !== 'undefined') {
 
   }

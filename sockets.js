@@ -105,6 +105,9 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('goToShowQResultss');
 
   });
+  socket.on('getCurrentQuestion', function(pollId) {
+    io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
+  });
 
  
 }

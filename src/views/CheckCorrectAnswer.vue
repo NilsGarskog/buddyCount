@@ -22,20 +22,20 @@
 import io from 'socket.io-client';
      const socket = io();
 
-    let player1A = {pID:1, answers:
-        [{q:1,a:1},
-        {q:2, a:2},
-        {q:3, a:3}]} 
+    // let player1A = {pID:1, answers:
+    //     [{q:1,a:1},
+    //     {q:2, a:2},
+    //     {q:3, a:3}]} 
 
-    let player2A= {pID:2, answers:
-        [{q:1,a:4},
-        {q:2, a:5},
-        {q:3, a:6}]} 
+    // let player2A= {pID:2, answers:
+    //     [{q:1,a:4},
+    //     {q:2, a:5},
+    //     {q:3, a:6}]} 
 
-    let player3A= {pID:3, answers:
-        [{q:1,a:7},
-        {q:2, a:8},
-        {q:3, a:9}]} 
+    // let player3A= {pID:3, answers:
+    //     [{q:1,a:7},
+    //     {q:2, a:8},
+    //     {q:3, a:9}]} 
 
     
  export default {

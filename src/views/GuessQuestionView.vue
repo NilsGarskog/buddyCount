@@ -3,8 +3,7 @@
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-      <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
-      {{answerArray}}
+      <h1 class="heading">{{Qobj.question}} </h1>
       <!-- <div class="classTable">
         <table>
     <tr>
@@ -47,7 +46,6 @@
     </div>
   </section>
   <button v-if="randomAnswers.length===0" v-on:click="sendFnc()"> Send </button>
-
 
     </body>
     
@@ -97,6 +95,8 @@ data: function () {
     ],
     GuessArray:[],
     randomAnswers:[],
+    Qobj:{},
+    loadedOnce:false,
 
     }
 },
@@ -105,14 +105,19 @@ created: function() {
   this.lang = this.$route.params.lang;
   this.playerId = this.$route.params.playid;
   socket.emit('joinPoll', this.pollId)
-  socket.on("sendPlayers", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
-    console.log("inside sendplayers")
-    this.players = update;
-    this.GuessArray = createGuessArr(this.players, this.playerId)
+  socket.on("currentQuestion", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
+    this.Qobj = update
+    socket.emit('getPlayers', this.pollId)
     });
-  socket.emit('getPlayers', this.pollId)
-
-  this.randomAnswers = randomAns(this.answers, this.randomAnswers, this.playerId)
+  socket.emit("getCurrentQuestion", this.pollId)
+  socket.on("sendPlayers", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
+    this.players = update;
+    if (this.loadedOnce === false){
+      this.GuessArray = createGuessArr(this.players, this.playerId)
+      this.randomAnswers = randomAns(this.Qobj.answersArray, this.randomAnswers, this.playerId)
+      this.loadedOnce = true;
+    }
+    });
 },
 methods: {
     updateGuess: function(player,Guess) {
@@ -145,6 +150,9 @@ sendFnc: function(){
     this.answerArray.push(obj);
   }
   socket.emit("PlayerGuessAnswer", {playerId: this.playerId, QId: "STOOPA IN QID HÄR", answers: this.GuessArray})
+},
+testFNC: function(){
+  socket.emit("getCurrentQuestion", this.pollId)
 }
 },
 
@@ -154,9 +162,10 @@ sendFnc: function(){
 
 
 function randomAns (ans, randAns, id){
+  console.log(ans.length)
   for (var i = 0, l = ans.length; i < l; i++){
-      if (ans[i].PlayerId != id){
-    randAns.push(ans[i].Answer)
+      if (ans[i].playerId != id){
+    randAns.push(ans[i].answer)
       }
   }
   randAns.sort(() => Math.random() - 0.5);
