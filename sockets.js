@@ -45,6 +45,9 @@ function sockets(io, socket, data) {
   socket.on('playerAnswer',function(d){
     data.playerAnswer(d.pollId, {playerId: d.player, answerObject: d.answers});
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
+    if (data.checkAmountAnswered(d.pollId) === true){     //kikar om alla har svart på frågorna
+      io.to(d.pollId).emit('goToNextPage')
+    }
   });
   socket.on('resetAll', () => {
     data = new Data();
@@ -106,6 +109,16 @@ function sockets(io, socket, data) {
     if (data.answerSubmit(d.pollId) === true){     //kikar om alla har svart på frågorna
       io.to(d.pollId).emit('goToNextPage')
     }
+  });
+  socket.on('getCurrentQuestion', function(pollId) {
+    io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
+  });
+  socket.on("PlayerGuessAnswer", function(obj) {
+    data.guessSubmit(obj.pollId ,obj.guessObj);
+  });
+
+  socket.on("getCurrentGuess", function(pollId) {
+    socket.emit("CurrentGuesses", data.getGuesses(pollId));
   });
 
  
