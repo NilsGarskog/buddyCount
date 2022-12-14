@@ -73,22 +73,25 @@
         }
       },
         created: function () {
-                    this.pollId = this.$route.params.id
-          socket.on("allQuestions", (update) => {       //Funktion för att hämta fråge-array /Nils
-          this.questions = update;
-          this.loaded = true;
-        });
-        socket.on("allAnswers", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
-          this.answerTest = update;
-        });
-        socket.emit('getQuestions', this.pollId)
-        socket.emit('getAnswers', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
+          this.pollId = this.$route.params.id
           this.lang = this.$route.params.lang;
           this.playerId = this.$route.params.playid;
-          socket.emit('joinPoll', this.pollId); //Ska jag ha denna?? funkar ej utan
+          socket.emit('joinPoll', this.pollId);
+          socket.on("goToNextPage", () => {
+            this.$router.push('/guessQuestion/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+          })
+          socket.on("allQuestions", (update) => {       //Funktion för att hämta fråge-array /Nils
+            this.questions = update;
+            this.loaded = true;
+          });
+          socket.on("allAnswers", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
+            this.answerTest = update;
+          });
+          socket.emit('getQuestions', this.pollId)
+          socket.emit('getAnswers', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
           socket.emit("pageLoaded", this.lang);
           socket.on("init", (labels) => {
-          this.uiLabels = labels
+            this.uiLabels = labels
           });
 
       },
@@ -117,8 +120,8 @@
         sendBTNfunc: function(Qid) {
           if (this.questions.length === this.currentQ +1){
             this.answers.push({q:Qid,a:this.answer})
-            socket.emit('playerAnswer', {pollId: this.pollId ,player: this.playerId, answers: this.answers } )
             this.togglePopup()
+            socket.emit('playerAnswer', {pollId: this.pollId ,player: this.playerId, answers: this.answers } )
             console.log("Skriv ut answerTest: ", this.answerTest[0].answerObject) //Denna kan tas bort sen
           }
           else{

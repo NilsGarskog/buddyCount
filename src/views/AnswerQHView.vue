@@ -21,9 +21,9 @@ created: function () {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
-    // socket.on("goToNextPage", () => {
-    //   this.$router.push('/creatqpart/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
-    // })
+    socket.on("goToNextPage", () => {
+    this.$router.push('/QuestionLobby/' + this.lang+'/'+this.pollId);
+    })
 },
 methods: {
 

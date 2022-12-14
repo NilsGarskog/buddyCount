@@ -25,7 +25,8 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.participants = [];
-    poll.currentQuestion = 0;              
+    poll.currentQuestion = 0;
+    poll.playersAnswered = 0;              
     this.polls[pollId] = poll;
     console.log("poll created", pollId, poll);
   }
@@ -220,6 +221,17 @@ Data.prototype.answerSubmit = function(pollId, thePlayer) {
 
   }
 
+}
+Data.prototype.checkAmountAnswered = function(pollId) {
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined') {
+    poll.playersAnswered +=1;
+      if(poll.playersAnswered === poll.participants.length){
+        return true
+      }else{
+        return false
+      }
+  }
 }
 
 module.exports = Data;
