@@ -24,9 +24,13 @@
 </div>
 </div>
 </div>
-<div class="profile">
-  <h1>Your profile</h1>
+<div class="profileContainer">
+  <p id="profileHeadingText">Your profile</p>
+  <div class="nameAndProfile">
+  <div id="profile"></div>
+  <div id="profileName"> {{playerInfo.username}}</div>
   </div>
+</div>
  <div class="bottomArea">
     
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
@@ -169,7 +173,7 @@ export default {
         console.log(this.playerInfo);
 
       }
-      var avataren =document.getElementById("chosenAvatar");
+      var avataren =document.getElementById("profile");
       console.log(avataren)
       avataren.innerHTML="<img id='pictureAvatar' src='img/"+avt+".png' width=\"100em\" height=\"100em\" >";
 
@@ -211,18 +215,45 @@ body {
   align-items: center;
 }
 
-.profile{
-  border-style: solid;
-  margin-top:2em;
+.profileContainer{
+  display:flex;
+  border-radius: 5%;
+  flex-direction: column;
+  margin-top:1em;
   min-height: 20%;
   min-width: 80%;
+  font-family: righteous;
+  align-items: center;
+  font-size: 2em;
+  background-color: #0791a3;
+    box-shadow: 0px 5px 4px rgba(55,54,51, 1);
+
+
 }
+.nameAndProfile{
+  display: flex;
+  align-items: center;
+}
+#profileHeadingText{
+margin-top: 0;
+
+}
+#profile{
+  margin-top: -0.7em;
+}
+#profileName{
+  margin-top: -0.7em;
+margin-left: 0.5em;
+}
+
 .FlexCenter{
+    margin-top:-3em;
   display: flex;
   justify-content: center;
   width: 100%;
 }
 .container {
+
   overflow: auto;
   overflow-y: hidden;
   display: flex;
@@ -230,7 +261,7 @@ body {
   width: 30%;
   box-shadow: 0px 0px 25px 25px rgba(55,54,51, 1);
   margin-top:5em;
-  background-color: rgba(255, 255, 255, 0.096);
+  background-color: #046B79;
 
 }
 
