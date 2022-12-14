@@ -61,11 +61,14 @@ export default {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang
     socket.emit('joinPoll', this.pollId)
-    socket.on("playerEdited", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
-    console.log("PlayerEdit kallas på i lobbyn")
+    socket.on("sendPlayers", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
     this.players = update;
     });
-    socket.on("goToQuestions", () => {
+    socket.emit('getPlayers', this.pollId)
+    socket.on("playerEdited", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
+    this.players = update;
+    });
+    socket.on("goToNextPage", () => {
       this.$router.push('/creatqhost/' + this.lang+'/'+this.pollId);
     })
     },
@@ -97,12 +100,14 @@ export default {
 
 
 
-<style>
+<style scoped>
 
 body {
     background-color:#24a07b;
     cursor: default;
-
+    width: 100%;
+    position: fixed;  
+    min-height: 100vh;
 }
 
 .headerContainer {

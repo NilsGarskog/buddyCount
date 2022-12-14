@@ -29,7 +29,8 @@
 </template>
 
 <script>
-
+import io from 'socket.io-client';
+const socket = io();
 
 function PlayerWithAnswer (nm, av, ans){
     this.name = nm;
@@ -67,9 +68,22 @@ data: function () {
         
         PlayersWithAnswers: myPlayersAnswers,
         ShuffledAnswers: shuffleAnswer,
-        
+      pollId:'',
+      lang:'',
+      playerId:''
     }
-}, 
+},
+  created: function () {
+
+    this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang;
+    this.playerId = this.$route.params.playid;
+    socket.emit('joinPoll', this.pollId)
+    socket.emit("pageLoaded", this.lang);
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
+  },
 
 
 /*created: function () {

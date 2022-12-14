@@ -25,7 +25,8 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.participants = [];
-    poll.currentQuestion = 0;              
+    poll.currentQuestion = 0;
+    poll.playersAnswered = 0;              
     this.polls[pollId] = poll;
     console.log("poll created", pollId, poll);
   }
@@ -54,7 +55,7 @@ Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
   participant.name = nm;
   participant.avatar = av;
   participant.points = 0;
-  participant.currentAnswer = 0;
+  participant.currentAnswer = [];
   participant.currentGuess = [];
   poll.participants.push(participant);
   }
@@ -151,7 +152,7 @@ Data.prototype.getAllQuestions = function(pollId){
     console.log("answers looks like ", answers, typeof answers);
   }
 }*/
-Data.prototype.submitAnswer = function(pollID, aObject){
+Data.prototype.submitAnswer = function(pollID, aObject){ // tror inte vi använder denna längre
   const poll = this.polls[pollID];
   console.log("ansers submitted for ", pollID, aObject);
   console.log("jag har id: ", aObject.player, "och har svarat ", aObject.answer)
@@ -165,7 +166,21 @@ Data.prototype.submitAnswer = function(pollID, aObject){
 console.log(poll.participants)
 }
 
-Data.prototype.getAnswers = function(pollId) {
+Data.prototype.playerAnswer=function(pollId, playerAObject){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined') {
+    for(let i = 0; i <poll.participants.length; i++){
+      if(poll.participants[i].playerId == playerAObject.playerId){
+        poll.participants[i].currentAnswer = playerAObject.answerObject;
+        console.log("Spelar ID: ", playerAObject.playerId, "Svar: ", playerAObject.answerObject)
+      }
+    }
+  }
+  console.log("Deltagare: ",poll.participants, "skriv ut object", poll.participants[0].currentAnswer  )
+  
+}
+
+/*Data.prototype.getAnswers = function(pollId) {
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined') {
     const answers = poll.answers[poll.currentQuestion];
@@ -174,7 +189,51 @@ Data.prototype.getAnswers = function(pollId) {
     }
   }
   return {}
+}*/
+
+Data.prototype.getAnswers = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    for(let i=0; i<poll.participants.length; i++){
+      poll.answers[i] = { playerId: poll.participants[i].playerId, answerObject: poll.participants[i].currentAnswer}
+      console.log("skriv ut varje svarsobjekt:", poll.answers[i])
+    }
+    console.log("Funkar det med answers??", poll.answers)
+    return poll.answers;
+  }
+  
+  return[]
 }
+Data.prototype.getAllAnswers = function(pollId){
+  const poll = this.polls[pollId];
+  console.log("all answers requested for ", pollId);
+  if (typeof poll !== 'undefined'){
+    console.log("the answers in poll", pollId, "is", poll.answers)
+    return poll.answers;
+
+  }
+  return []
+}
+Data.prototype.answerSubmit = function(pollId, thePlayer) {
+  const poll = this.polls[pollId];
+  console.log("här är dom:", pollId, thePlayer);
+  if (typeof poll !== 'undefined') {
+
+  }
+
+}
+Data.prototype.checkAmountAnswered = function(pollId) {
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined') {
+    poll.playersAnswered +=1;
+      if(poll.playersAnswered === poll.participants.length){
+        return true
+      }else{
+        return false
+      }
+  }
+}
+
 module.exports = Data;
 
 

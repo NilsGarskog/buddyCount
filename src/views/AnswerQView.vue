@@ -1,34 +1,60 @@
 <template>
     <body>
       <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
-            <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
-            <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-      <div class ="headerContainer">
-          <div class ="gameCode">
-        <p>Code: {{pollId}} Player: {{playerId}}</p>
-      </div>
-       
-      </div>
-    <h1 class ="questionTitle">Your Answer</h1>
+      <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
+      <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+      <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+        v-if="popupTriggers.buttonTrigger"
+      >
+      <h1> All questions are answered!</h1>
+      </PopUp>
     <div class="questions">
-      
-        {{questions[nextQ].q}}
-        
-    
+      <div v-if="loaded===true">
+        {{questions[currentQ].q}}
       </div>
-      <input type="text" v-model="answer" placeholder="Write your answer" id="answerInputField">
- <button v-on:click="addAnswer"> Svara</button>
+    </div>
 
-    </body>
+
+      <div class="fieldPos">
+      <div class="answerField">
+        <img src="../Icons/minusButton.png" class="signButton" id="subButton"  v-on:click = "subtractNumber()" >
+      <input v-model="answer" type="number" id="answerInputField" >
+        <img src="../Icons/addButton.png" class="signButton" id="addButton" v-on:click = "addNumber()" >
+        
+      </div>
+      </div>
+
+    <button class="sendButton" v-on:click="sendBTNfunc(questions[currentQ].i)"> Send </button>
+
+ <!-- <button v-on:click="addAnswer"> Svara</button> -->
+
+
+  </body>
     
-    </template>
+</template>
     
     
     <script>
+    import PopUp from "../components/PopUp.vue";
     import io from 'socket.io-client';
+    import { ref } from "vue";
+
     const socket = io();
     export default {
       name: 'AnswerQView',
+      components: {
+        PopUp,
+      },
+        setup() {
+        const popupTriggers = ref({
+          buttonTrigger: false,
+        });
+    return {
+      popupTriggers,
+    };
+  },
       data: function () {
         return {
           lang: "",
@@ -37,50 +63,75 @@
           question:"",
           questions: "", /* la till en tom array*/
           data: {},
-          answer: "",
+          answer: 0,
           answers: [],
           uiLabels: {},
-          nextQ: 0,
+          currentQ: 0,
           playerId: "",
+          loaded: false,
+          answerTest: [],
         }
       },
         created: function () {
           this.pollId = this.$route.params.id
           this.lang = this.$route.params.lang;
           this.playerId = this.$route.params.playid;
-          socket.emit('joinPoll', this.pollId) //Ska jag ha denna?? funkar ej utan
+          socket.emit('joinPoll', this.pollId);
+          socket.on("goToNextPage", () => {
+            this.$router.push('/guessQuestion/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+          })
+          socket.on("allQuestions", (update) => {       //Funktion för att hämta fråge-array /Nils
+            this.questions = update;
+            this.loaded = true;
+          });
+          socket.on("allAnswers", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
+            this.answerTest = update;
+          });
+          socket.emit('getQuestions', this.pollId)
+          socket.emit('getAnswers', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
           socket.emit("pageLoaded", this.lang);
           socket.on("init", (labels) => {
-          this.uiLabels = labels
+            this.uiLabels = labels
           });
-        socket.on("dataUpdate", (data) =>   {       //Oklart om denna behövs?
-          this.data = data
-        });
-        socket.on("questionUpdate", (update) => {       //Funktion för att hämta fråge-array /Nils
-          this.questions = update;
-        });
-        socket.on("newQuestion", update => {          //oklart om denna behövs?
-          this.question = update.q;
-          this.data = {};
-        });
+
       },
         methods: {
         /*createPoll: function () {
           socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
         },*/
+        togglePopup: function () {
+        this.popupTriggers.buttonTrigger = true;
+    },
        
         addAnswer: function(){
-            this.answers.push({a: this.answer, i: this.questions[this.nextQ].i}) /* Lägger svaret plus tillhörande fråge-id i en array, man bör nog lägga till ett spelar id */
+            this.answers.push({a: this.answer, i: this.questions[this.currentQ].i}) /* Lägger svaret plus tillhörande fråge-id i en array, man bör nog lägga till ett spelar id */
             console.log("frågorna:",this.answers)
-            socket.emit("submitAnswer", {pollId:this.pollId, i:this.questions[this.nextQ].i, p:this.playerId, a:this.answer } ) 
+            socket.emit("submitAnswer", {pollId:this.pollId, i:this.questions[this.currentQ].i, p:this.playerId, a:this.answer } ) 
             this.answer = ""
-            this.nextQ ++
+            this.currentQ ++
             console.log("speklarid", this.playerId)
             
+        },
+        addNumber: function() {this.answer +=1 },
+        subtractNumber: function() { 
+          if (this.answer > 0) {
+          this.answer -=1}
+          },
+        sendBTNfunc: function(Qid) {
+          if (this.questions.length === this.currentQ +1){
+            this.answers.push({q:Qid,a:this.answer})
+            this.togglePopup()
+            socket.emit('playerAnswer', {pollId: this.pollId ,player: this.playerId, answers: this.answers } )
+            console.log("Skriv ut answerTest: ", this.answerTest[0].answerObject) //Denna kan tas bort sen
+          }
+          else{
+            this.answers.push({q:Qid,a:this.answer})
+            this.currentQ +=1;
+            this.answer = 0;
+          }
+
+
         }
-
-
-    
        
     }
     }
@@ -88,61 +139,63 @@
     </script>
     
     
-    <style>
-    .headerContainer {
-        display:flex;
-        justify-content: space-between;
-        margin: 1em;
-        margin-top: 0em;
-    }
-    .questionTitle {
-    font-family: 'monoton';
-    font-size: 5em;
-    margin-top: -1em;
-    font-weight: 300;
-    }
-    .questions{
-      font-size: 2em;
-      font-family: Righteous;
-      padding: 1em;
-      margin-top: 0;
-    }
+ <style scoped>
     
-    .gameCode{
-          font-size: 3em;
-          font-family: righteous;
-          font-weight: bold;
-          color: white;
-          width: 40%;
-    }
-    body{
-      position: fixed;
-      background-color: #24a07b;
-      width: 100vw;
-      min-height: 100vh;
-      padding: 0;
-    }
-    input {
-    
-    width: 400px;
-    padding: 0 20px;
+
+.questions{
+  font-size: 2em;
+  font-family: Righteous;
+  padding: 1em;
+  margin-top: 0;
 }
-::placeholder{
-  color:rgba(255, 255, 255, 0.516);
+    
+body{
+  position: fixed;
+  background-color: #24a07b;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 0;
+}
+input {
+
+width: 400px;
+padding: 0 20px;
+}
+
+.fieldPos{
+  display: flex;
+  justify-content: center;
+}
+.answerField{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: hidden;
+  border-color: black, red;
+  width: 90%;
+  border-radius: 3em;
+  background-color: #16534188;
   
-  text-align: center;
-  overflow:visible;
- 
+  
 }
+
+
 #answerInputField{
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #67b3a5b7;
+  font-family: "Monoton";
+  font-size: 5em;
+  background-color: #16534100;
   border:none;
-  border-bottom: 2px solid black;
+  width:30%;
+  text-align: center;
+
 }
+
+.signButton{
+  width: 4em;
+  height: 4em;
+}
+
+
 button {
   height: 3em;
   width: 6em;
@@ -156,17 +209,23 @@ button {
   display: inline-block;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
+  font-size: 1.7em;
   font-weight: 600;
   line-height: 20px;
-  padding: 6px 12px;
-  position: relative;
   text-align: center;
-  margin-left: 3em;
+}
+.sendButton{
+  margin-top: 1em;
 }
 
 .button:hover {
   background-color: #67b3a5b7;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
     
    

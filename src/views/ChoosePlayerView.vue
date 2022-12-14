@@ -1,11 +1,12 @@
 <template>
-  <body>
+
+  <body v-on:click="usernameColorFix">
 
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-  <div class="wrapper">
+  <div class="wrapper" >
   <div class="usernameGroup">
-    <input type="input" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
-    <label for="name" id="labelUse" class="labelUsername" >Username</label>
+    <input type="text" autocomplete="off" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
+    <label for="name" id="labelUse" class="labelUsername" >Input username here</label>
   </div>
 
   <div>
@@ -21,15 +22,11 @@
   <div class="characterRow">
     <div class="characterColumn" v-for="(avatar) in avatars"
          v-bind:avatar="avatar" v-bind:key="avatar.image">
-      <p id="avatarName">
-        {{avatar.image}}
-      </p>
-
 
       <div class="borderCharacter">
         <div class="innerCharacter">
 
-          <img  class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
+          <img  id="avatarer" class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
 
       </div>
 
@@ -38,9 +35,18 @@
 
     </div>
   </div>
+
+    <div class="bottomArea">
+    
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
+
       Join
     </button>
+    <div id="chosenAvatar" >
+
+
+    </div>
+    </div>
     </div>
   </body>
 </template>
@@ -118,6 +124,7 @@ export default {
       uiLabels: {},
       Qid: 0,
       players: []
+
     }
     
   },
@@ -126,6 +133,7 @@ export default {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
     this.playerId = this.$route.params.playid;
+
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -157,17 +165,16 @@ export default {
     onEnter:function(){
       document.getElementById("labelUse").style.display = 'none';
       document.getElementById("name").style.textAlign = "center";
-      document.getElementById("name").style.fontWeight = "700";
-      document.getElementById(("name")).style.borderWidth="0.2em";
-      document.getElementById("name").style.paddingBottom = "0.4em";
       document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
     },
     selectThisCharacter: function (avatar){
-
+    var avt = avatar.image
+    console.log(avt);
       if (this.playerInfo.clickedAvatars.length===0){
         this.playerInfo.clickedAvatars.push(avatar)
         console.log(this.playerInfo);
+        console.log(avatar.image)
 
       }
       else {
@@ -176,7 +183,22 @@ export default {
         console.log(this.playerInfo);
 
       }
+      var avataren =document.getElementById("chosenAvatar");
+      console.log(avataren)
+      avataren.innerHTML="<img id='pictureAvatar' src='img/"+avt+".png' width=\"100em\" height=\"100em\" >";
+
     },
+    usernameColorFix: function(){
+      if (this.playerInfo.username != ""){
+        document.getElementById("labelUse").style.color = "#a02449";
+        document.getElementById("labelUse").style.fontWeight = "700";
+        document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
+        document.getElementById("name").style.borderImageSlice = "1";
+        document.getElementById("labelUse").style.top="0";
+        document.getElementById("name").style.padding ="0.675em 0 0";
+      }
+
+    }
 
   },
   computed: {
@@ -203,24 +225,26 @@ body {
   align-items: center;
 }
 .wrapper {
-height: 60em;
+height: 100vh;
+  width: 100vw;
 overflow: scroll;
 overflow-x: hidden;
 display: flex;
 flex-direction: column;
 align-items: center;
 }
-
-#characterText{
-  margin-top:8em;
+#chosenAvatar{
+  border-radius: 2em;
+  background-color: #00acae;
 }
 .usernameGroup{
   position:relative;
-  padding: 0.9375em 0 0;
+  padding: 0.675em 0 0;
   margin-top: 0.625em;
-  width:50%
+  width:50%;
 }
 .inputUsername {
+
   font-family: righteous;
   width: 100%;
   border: 0;
@@ -228,10 +252,11 @@ align-items: center;
   outline: 0;
   font-size: 2.6rem;
   color: black;
-  padding: 0.4375em 0;
+  padding: 0.4em 0;
   background: transparent;
   transition: border-color 0.2s;
   text-align: center;
+
 }
 .inputUsername::placeholder{
   color:transparent;
@@ -239,40 +264,45 @@ align-items: center;
 .labelUsername {
   font-family: righteous;
   position: absolute;
-  top: 0;
   display: block;
   transition: 0.2s;
   font-size: 2rem;
   color: black;
+  width: 100%;
+
+
 }
 .inputUsername:placeholder-shown ~.labelUsername{
   font-size:2.6rem;
   cursor:text;
   top: 1.25em;
+
 }
 .inputUsername:focus{
-  padding-bottom:  0.375em;
-  font-weight: 700;
-  border-width: 0.1875em;
   border-image: linear-gradient(to right,#a02449 ,#24a07b);
   border-image-slice: 1;
+  padding-bottom: 0;
+
 }
 .inputUsername:focus~.labelUsername{
   position:absolute;
   top: 0;
+
   display: block;
   transition: 0.2s;
   font-size: 2rem;
   font-weight: 700;
   color: #a02449;
+
 }
 #characterText{
   font-family: righteous;
   font-size: 3vw;
+
 }
 .Button{
   height: 4em;
-  width: 8em;
+  width: 9em;
   background-color: #70c1b3;
   border: 0.1em solid rgba(27, 31, 35, 0.15);
   border-radius: 0.3em;
@@ -287,15 +317,15 @@ align-items: center;
   line-height: 2em;
   padding: 1em 2em;
 }
-img {
-  width:50%;
+.characters{
+  width:70%;
   height:auto;
   cursor:pointer;
   padding: 1em;
   margin: 1em;
   z-index:10;
 }
-img:hover{
+.characters:hover{
   transform: scale(1.1);
 }
 .characterRow{
@@ -304,19 +334,27 @@ img:hover{
   flex-wrap: wrap;
   justify-content: center;
   padding: 0 0.25em;
+
 }
 .characterColumn {
   flex:25%;
   max-width: 20%;
   padding: 0 0.25em;
 }
-characterColumn img{
+characterColumn characters{
   margin-top: 0.5em;
   vertical-align: middle;
   width: 100%;
 }
 
+.bottomArea{
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+}
 #joinGameButton{
+
 margin-bottom: 1em;
   font-family: righteous;
 }
@@ -339,6 +377,19 @@ margin-bottom: 1em;
 button.Button:disabled{
   opacity:0.3;
   pointer-events: none !important;
+}
+@media screen and (max-width:50em) {
+  .characterColumn {
+    flex:50%;
+    max-width: 30%;
+    padding: 0 0.25em;
+  }
+  characterColumn characters{
+    margin-top: 0.5em;
+    vertical-align: middle;
+    width: 100%;
+  }
+
 }
 
 </style>-->

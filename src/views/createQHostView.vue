@@ -16,6 +16,7 @@
 <div v-if="!hide">
     <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
             {{question.q}}
+            <hr style="width:50%;">
             
   </div>
   </div>
@@ -23,14 +24,15 @@
     <div v-for="(question,index) in questions"
     v-bind:key="question">
     Question {{index+1}}
+    <hr style="width:50%;">
   </div>
   </div>
   </div>
-  <router-link v-bind:to="'/lobby/' + lang + '/' + pollId">
+  <!-- <router-link v-bind:to="'/lobby/' + lang + '/' + pollId">
         <button role="button">
           <p class="buttonText">Start game</p>
         </button>
-      </router-link>
+      </router-link> -->
 
 </body>
 
@@ -58,17 +60,13 @@ export default {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang
     socket.emit('joinPoll', this.pollId)
-    socket.on("dataUpdate", (update) => {          //oklart om denna behvövs?
-      this.data = update.a;
-      this.question = update.q;
-    });
     socket.on("questionUpdate", (update) => {       //Funktion för att hämta fråge-array /Nils
       this.questions = update;
     });
-    socket.on("newQuestion", update => {          //oklart om denna behövs?
-      this.question = update.q;
-      this.data = {};
-    });
+    socket.on("goToNextPage", () => {
+      this.$router.push('/AnswerQHost/' + this.lang+'/'+this.pollId);
+    })
+
   },
     methods: {
     createPoll: function () {
