@@ -44,8 +44,8 @@ The BuddyCount team
 
         </div>
         <div class="thirdPlaceAvatar">
-          <h1>Pedro</h1>
-          <img class ="avatarImage" :src="require('../Icons/Paul.png')" />
+          <h1>{{players[2].name}}</h1>
+          <img class ="avatarImage" :src="require('../Icons/' + players[2].avatar + '.png')" />
         </div>  
       </div>
       <div class="firstPlace">
@@ -53,8 +53,8 @@ The BuddyCount team
 
         </div>
         <div class="firstPlaceAvatar">
-          <h1>Nils</h1>
-          <img class ="avatarImage" :src="require('../Icons/Winner/MilouCrown.png')" />
+          <h1>{{players[0].name}}</h1>
+          <img class ="avatarImage" :src="require('../Icons/Winner/' + players[0].avatar + 'Crown' + '.png')" />
         </div>  
       </div>
       <div class="secondPlace">
@@ -62,8 +62,8 @@ The BuddyCount team
 
         </div>
         <div class="secondPlaceAvatar">
-          <h1>Lisa</h1>
-          <img class ="avatarImage" :src="require('../Icons/Mononoke.png')" />
+          <h1>{{players[1].name}}</h1>
+          <img class ="avatarImage" :src="require('../Icons/' + players[1].avatar + '.png')" />
         </div>  
       </div>
     </div>
@@ -78,11 +78,16 @@ export default {
 data: function () {
   return {
     players:[
-      {name: "Isak", avatar: "Tintin", points: 14},
-      {name: "Nils", avatar: "Mononoke", points: 24},
-      {name: "Hanna", avatar: "Voldermort", points: 30},
-    ]
+      {name: "Isak", avatar: "Tintin", points: 10},
+      {name: "Nils", avatar: "Mononoke", points: 5},
+      {name: "Hanna", avatar: "Voldermort", points: 2}
+    ],
+    placement:[]
   }
+},
+created: function () {
+this.players.sort((a,b) => a.points - b.points);
+this.players.reverse()
 }
 }
 </script>
