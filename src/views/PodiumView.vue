@@ -128,8 +128,10 @@ overflow: hidden;
   flex-direction: row;
   min-width: 60%;
   min-height: 80%;
-
   align-items: flex-end;
+}
+.avatarImage{
+  filter: drop-shadow(0.5em 0.1em 0.1px black);
 }
 .thirdPlace{
   display: flex;
@@ -137,9 +139,11 @@ overflow: hidden;
   width: 100%;
 }
 .thirdPlaceBox{
-background-color: red;
+background-color: #134450;
 height: 20vh;
 width: 100%;
+filter: drop-shadow(0.5em 0.1em 0.1px black);
+
 }
 .thirdPlaceAvatar{
 
@@ -150,9 +154,11 @@ width: 100%;
   width: 100%;
 }
 .firstPlaceBox{
-background-color: blue;
+background-color: #2487a0;
 height: 40vh;
 width: 100%;
+filter: drop-shadow(0.5em 0.1em 0.1px black);
+
 }
 .firstPlaceAvatar{
 
@@ -163,9 +169,11 @@ width: 100%;
   width: 100%;
 }
 .secondPlaceBox{
-background-color: white;
+background-color: #1b6375;
 height: 30vh;
 width: 100%;
+filter: drop-shadow(0.5em 0.1em 0.1px black);
+
 }
 .secondPlaceAvatar{
 
