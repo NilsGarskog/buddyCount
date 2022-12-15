@@ -105,7 +105,29 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('goToShowQResultss');
 
   });
+  socket.on('getCurrentQuestion', function(pollId) {
+    io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
+  });
+  socket.on("PlayerGuessAnswer", function(obj) {
+    data.guessSubmit(obj.pollId ,obj.guessObj);
+    if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har svart på frågorna
+      io.to(obj.pollId).emit('goToResultPage')
+    }
+    console.log("the playerId is", obj.guessObj.playerId)
+    io.to(obj.pollId).emit('playerDoneGuess', obj.guessObj.playerId)
 
+  });
+  socket.on('goToResult', function(pollId) {
+    io.to(pollId).emit('goToResultPage');
+  });
+
+  socket.on("getCurrentGuess", function(pollId) {
+    socket.emit("CurrentGuesses", data.getGuesses(pollId));
+  });
+
+  socket.on("getAnswerForResult", function(pollId){
+    socket.emit("AnswersForResult", data.getAnswersforResult(pollId))
+  });
  
 }
 

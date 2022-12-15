@@ -1,7 +1,6 @@
 <template>
 
     <body>
-        {{players}}
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>

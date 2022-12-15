@@ -34,7 +34,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/PlayerLobby.vue')
   },
   {
-    path: '/questionresult/:lang/:id/:playid',
+    path: '/questionresult/:lang/:id/',
     name: 'ShowQuestionResult/',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -83,7 +83,7 @@ const routes = [
 
   {
 
-  path: '/CheckCorrectAnswer/',
+  path: '/CheckCorrectAnswer/:lang/:id/:playid',
   name: 'CheckCorrectAnswer',
   // route level code-splitting
   // this generates a separate chunk (about.[hash].js) for this route
@@ -126,6 +126,14 @@ const routes = [
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.
   component: () => import(/* webpackChunkName: "about" */ '../views/AnswerQHView.vue')
+},
+{
+  path: '/PodiumView/:lang/:id',
+  name: 'PodiumView',
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () => import(/* webpackChunkName: "about" */ '../views/PodiumView.vue')
 },
 
 
