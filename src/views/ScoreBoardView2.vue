@@ -96,7 +96,7 @@ export default {
         if(!this.sendTimer)
         {
           console.log("slut")
-          socket.emit("goToNextRound",this.pollId)
+          //socket.emit("goToNextRound",this.pollId)
 
           clearTimeout(timerId);
           timerId = null;
