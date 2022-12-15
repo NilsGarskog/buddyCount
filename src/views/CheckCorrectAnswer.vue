@@ -5,6 +5,7 @@
 
         <div>
         {{GuessObj}}
+        Svar: {{answerTest}}
         <h1 class="title">Bra jobbat!!</h1> 
         </div>
         <div class="amountOfPoints">
@@ -72,7 +73,8 @@ import io from 'socket.io-client';
     //     {q:3, gO: {p:3, g:9}}
     // ]
     // ],
-    GuessObj:[]    
+    GuessObj:[],
+    answerTest: []    
     }
 
 },
@@ -86,6 +88,10 @@ created: function () {
    socket.on("CurrentGuesses", (guessOBJ) => {
       this.GuessObj = guessOBJ
   })
+  socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
+            this.answerTest = update;
+          });
+    socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
   socket.emit("getCurrentGuess", this.pollId)
    socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -97,20 +103,18 @@ created: function () {
 
     methods: {
 checkAnswer: function() {
-    for(let guessedQ of this.player1G){
-        for(let player of guessedQ){
-            for(let playerA of this.playersA){
-                if(playerA.pID == player.gO.p){
-                    for(let answerObject of playerA.answers){
-                        if(answerObject.q == guessedQ[0].q){
-                            if(answerObject.a == player.gO.g){
-                                this.points++
-                                console.log(this.points)
-                            }
-                        }
+    for(let element of this.GuessObj){
+        if(element.playerId== this.playerId){
+            for(let GO of element.guessObject){
+                let guessP= GO.playerID;
+                for(let AO of this.answerTest){
+                    if( AO.playerId==guessP){
+                        if( AO.answer==GO.guess)
+                        this.points++;
+                        console.log("mina poäng är:", this.points)
                     }
                 }
-            }
+            }  
         }
     }
 }

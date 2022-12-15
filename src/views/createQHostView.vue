@@ -16,7 +16,8 @@
 <div v-if="!hide">
     <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
             {{question.q}}
-            <hr style="width:50%;">
+            <br>
+
             
   </div>
   </div>

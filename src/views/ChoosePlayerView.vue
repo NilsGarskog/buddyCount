@@ -3,10 +3,10 @@
   <body v-on:click="usernameColorFix">
 
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-  <div class="wrapper" >
+
   <div class="usernameGroup">
     <input type="text" autocomplete="off" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
-    <label for="name" id="labelUse" class="labelUsername" >Input username here</label>
+    <label for="name" id="labelUse" class="labelUsername" >Username... </label>
   </div>
 
   <div>
@@ -16,38 +16,28 @@
   </div>
 
 
-
-
-
-  <div class="characterRow">
-    <div class="characterColumn" v-for="(avatar) in avatars"
-         v-bind:avatar="avatar" v-bind:key="avatar.image">
-
-      <div class="borderCharacter">
-        <div class="innerCharacter">
-
-          <img  id="avatarer" class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/>
-
-      </div>
-
-      </div>
-
-
-    </div>
+<div class="FlexCenter">
+  <div class="container">
+    <div class="emptyFiller"></div>
+  <div v-for="(avatar) in avatars" v-bind:avatar="avatar" v-bind:key="avatar.image" >
+  <div class="box"><img  id="avatarer" class="characters" :src="require('../Icons/'+avatar.image + '.png')" :key="avatar.image" v-on:click="selectThisCharacter(avatar)"/></div>
+</div>
+</div>
+</div>
+<div class="profileContainer">
+  <p id="profileHeadingText">Your profile</p>
+  <div class="nameAndProfile">
+  <div id="profile"></div>
+  <div id="profileName"> {{playerInfo.username}}</div>
   </div>
-
-    <div class="bottomArea">
+</div>
+ <div class="bottomArea">
     
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
 
       Join
     </button>
-    <div id="chosenAvatar" >
-
-
-    </div>
-    </div>
-    </div>
+ </div>
   </body>
 </template>
 
@@ -165,7 +155,7 @@ export default {
     onEnter:function(){
       document.getElementById("labelUse").style.display = 'none';
       document.getElementById("name").style.textAlign = "center";
-      document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
+      document.getElementById("name").style.borderImage ="linear-gradient(to right, #046B79, #24a07b)";
       document.getElementById("name").style.borderImageSlice = "1";
     },
     selectThisCharacter: function (avatar){
@@ -183,7 +173,7 @@ export default {
         console.log(this.playerInfo);
 
       }
-      var avataren =document.getElementById("chosenAvatar");
+      var avataren =document.getElementById("profile");
       console.log(avataren)
       avataren.innerHTML="<img id='pictureAvatar' src='img/"+avt+".png' width=\"100em\" height=\"100em\" >";
 
@@ -192,7 +182,7 @@ export default {
       if (this.playerInfo.username != ""){
         document.getElementById("labelUse").style.color = "#a02449";
         document.getElementById("labelUse").style.fontWeight = "700";
-        document.getElementById("name").style.borderImage ="linear-gradient(to right, #a02436, #24a07b)";
+        document.getElementById("name").style.borderImage ="linear-gradient(to right, #046B79, #24a07b)";
         document.getElementById("name").style.borderImageSlice = "1";
         document.getElementById("labelUse").style.top="0";
         document.getElementById("name").style.padding ="0.675em 0 0";
@@ -224,15 +214,69 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.wrapper {
-height: 100vh;
-  width: 100vw;
-overflow: scroll;
-overflow-x: hidden;
-display: flex;
-flex-direction: column;
-align-items: center;
+
+.profileContainer{
+  display:flex;
+  border-radius: 5%;
+  flex-direction: column;
+  margin-top:1em;
+  min-height: 20%;
+  min-width: 25%;
+  font-family: righteous;
+  align-items: center;
+  font-size: 2em;
+  background-color: #0791a3;
+    box-shadow: 0px 5px 4px rgba(55,54,51, 1);
+
+
 }
+.nameAndProfile{
+  display: flex;
+  align-items: center;
+}
+#profileHeadingText{
+margin-top: 0;
+
+}
+#profile{
+  margin-top: -0.7em;
+}
+#profileName{
+  margin-top: -0.7em;
+margin-left: 0.5em;
+}
+
+.FlexCenter{
+    margin-top:-3em;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.container {
+
+  overflow: auto;
+  overflow-y: hidden;
+  display: flex;
+  scroll-snap-type: x mandatory;
+  width: 20%;
+  box-shadow: 0px 0px 25px 25px rgba(55,54,51, 1);
+  margin-top:5em;
+  background-color: #046B79;
+
+}
+
+.box {
+  height: 200px;
+  width: 200px;
+  margin-right: 5px;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  margin-top: 0.5em;
+  margin-left: -1em;
+  margin-right: -1em;
+}
+
+
 #chosenAvatar{
   border-radius: 2em;
   background-color: #00acae;
@@ -242,13 +286,14 @@ align-items: center;
   padding: 0.675em 0 0;
   margin-top: 0.625em;
   width:50%;
+  margin-bottom: 1em;
 }
 .inputUsername {
 
   font-family: righteous;
   width: 100%;
   border: 0;
-  border-bottom: 0.125em solid #70c1b3;
+  border-bottom: 0.125em solid #046B79;
   outline: 0;
   font-size: 2.6rem;
   color: black;
@@ -268,9 +313,12 @@ align-items: center;
   transition: 0.2s;
   font-size: 2rem;
   color: black;
+  opacity: 0.4;
   width: 100%;
-
-
+}
+.emptyFiller{
+ min-height: 2em; 
+  min-width: 6em; 
 }
 .inputUsername:placeholder-shown ~.labelUsername{
   font-size:2.6rem;
@@ -279,7 +327,7 @@ align-items: center;
 
 }
 .inputUsername:focus{
-  border-image: linear-gradient(to right,#a02449 ,#24a07b);
+  border-image: linear-gradient(to right,#046B79 ,#24a07b);
   border-image-slice: 1;
   padding-bottom: 0;
 
@@ -292,12 +340,13 @@ align-items: center;
   transition: 0.2s;
   font-size: 2rem;
   font-weight: 700;
-  color: #a02449;
+  color: #0791a3;
 
 }
 #characterText{
   font-family: righteous;
-  font-size: 3vw;
+  font-size: 2em;
+
 
 }
 .Button{
@@ -312,7 +361,7 @@ align-items: center;
   cursor: pointer;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
   sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 3vw;
+  font-size: 2em;
   font-weight: 800;
   line-height: 2em;
   padding: 1em 2em;
@@ -326,32 +375,16 @@ align-items: center;
   z-index:10;
 }
 .characters:hover{
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
-.characterRow{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 0 0.25em;
 
-}
-.characterColumn {
-  flex:25%;
-  max-width: 20%;
-  padding: 0 0.25em;
-}
-characterColumn characters{
-  margin-top: 0.5em;
-  vertical-align: middle;
-  width: 100%;
-}
 
 .bottomArea{
   position: relative;
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
+  margin-top:3em;
 }
 #joinGameButton{
 
@@ -379,17 +412,13 @@ button.Button:disabled{
   pointer-events: none !important;
 }
 @media screen and (max-width:50em) {
-  .characterColumn {
-    flex:50%;
-    max-width: 30%;
-    padding: 0 0.25em;
-  }
-  characterColumn characters{
-    margin-top: 0.5em;
-    vertical-align: middle;
-    width: 100%;
-  }
 
+  .container {
+    width:85%
+  }
+  .profileContainer{
+    width:80%
+  }
 }
 
 </style>-->
