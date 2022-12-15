@@ -32,20 +32,9 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.currentRound = 0;
     poll.playerPoints =[];           
     this.polls[pollId] = poll;
-    console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
 }
-
-// Data.prototype.addParticipant = function(pollId, playerId) {
-//   const poll = this.polls[pollId];
-//   if (typeof poll !== "undefined") {
-//     let participant = {};
-//       participant.playerId = playerId;
-//       poll.participants.push(participant);
-//       console.log('skriv poll',poll);
-//   }
-// }
 
 Data.prototype.editParticipant = function(pollId, nm,av,playerID) {
   const poll = this.polls[pollId];
@@ -79,9 +68,7 @@ Data.prototype.removeParticipant = function(pollId, playerID) {
 
 Data.prototype.getAllParticipants = function(pollId) {
   const poll = this.polls[pollId];
-  console.log("all participants requested for ", pollId);
   if (typeof poll !== 'undefined'){
-    console.log("the participants in poll", pollId, "are", poll.participants)
     return poll.participants;
 
   }
@@ -90,18 +77,15 @@ Data.prototype.getAllParticipants = function(pollId) {
 
 Data.prototype.addQuestion = function(pollId, q) {
   const poll = this.polls[pollId];
-  console.log("question added to", pollId, q);
   if (typeof poll !== 'undefined') {
     poll.questions.push(q);
   }
 }
 Data.prototype.delQuestion = function(pollId, questionId) {
   const poll = this.polls[pollId];
-  console.log("question deleted from", pollId, questionId);
   if (typeof poll !== 'undefined') {
     for(let index=0; index< poll.questions.length;index++){
       if(poll.questions[index].i == questionId){
-        console.log("jag har hittat frågan på plats ", index)
         poll.questions.splice(index,1)
      
       }
@@ -118,7 +102,6 @@ Data.prototype.editQuestion = function(pollId, index, newQuestion) {
 
 Data.prototype.getQuestion = function(pollId, qId=null) {
   const poll = this.polls[pollId];
-  console.log("question requested for ", pollId, qId);
   if (typeof poll !== 'undefined') {
     if (qId !== null) {
       poll.currentQuestion = qId;
@@ -130,45 +113,13 @@ Data.prototype.getQuestion = function(pollId, qId=null) {
 
 Data.prototype.getAllQuestions = function(pollId){
   const poll = this.polls[pollId];
-  console.log("all question requested for ", pollId);
   if (typeof poll !== 'undefined'){
-    console.log("the questions in poll", pollId, "is", poll.questions)
     return poll.questions;
 
   }
   return []
 }
 
-/*Data.prototype.submitAnswer = function(pollId, answer) { //Skriver en egen sån här
-  const poll = this.polls[pollId];
-  console.log("answer submitted for ", pollId, answer);
-  if (typeof poll !== 'undefined') {
-    let answers = poll.answers[poll.currentQuestion];
-    if (typeof answers !== 'object') {
-      answers = {};
-      answers[answer] = 1;
-      poll.answers.push(answers);
-    }
-    else if (typeof answers[answer] === 'undefined')
-      answers[answer] = 1;
-    else
-      answers[answer] += 1
-    console.log("answers looks like ", answers, typeof answers);
-  }
-}*/
-Data.prototype.submitAnswer = function(pollID, aObject){ // tror inte vi använder denna längre
-  const poll = this.polls[pollID];
-  console.log("ansers submitted for ", pollID, aObject);
-  console.log("jag har id: ", aObject.player, "och har svarat ", aObject.answer)
-  if (typeof poll !== 'undefined') {
-  for(let i = 0; i <poll.participants.length; i++){
-    if(poll.participants[i].playerId == aObject.player){
-      poll.participants[i].currentAnswer = aObject.answer;
-    }
-  }
-}
-console.log(poll.participants)
-}
 
 Data.prototype.playerAnswer=function(pollId, playerAObject){
   const poll = this.polls[pollId];
@@ -176,11 +127,11 @@ Data.prototype.playerAnswer=function(pollId, playerAObject){
     for(let i = 0; i <poll.participants.length; i++){
       if(poll.participants[i].playerId == playerAObject.playerId){
         poll.participants[i].currentAnswer = playerAObject.answerObject;
-        console.log("Spelar ID: ", playerAObject.playerId, "Svar: ", playerAObject.answerObject)
+
       }
     }
   }
-  console.log("Deltagare: ",poll.participants, "skriv ut object", poll.participants[0].currentAnswer  )
+
   
 }
 
@@ -215,9 +166,9 @@ Data.prototype.getAnswersforResult = function(pollId){
     for(let i =0; i < poll.answers.length; i++){
       let currentAnswers = {playerId: poll.answers[i].playerId, answer: poll.answers[i].answerObject[poll.currentRound].a};
     arrayofAnswers.push(currentAnswers)
-    console.log("Current answer: ", currentAnswers)
+
     }
-    console.log("Lista med svar:", arrayofAnswers)
+
     return arrayofAnswers
   }
   return []
@@ -282,12 +233,10 @@ Data.prototype.checkAmountguessed = function(pollId) {
 
 Data.prototype.guessSubmit = function(pollId, GuessObj) {
   const poll = this.polls[pollId];
-  console.log("inside of guessSubmit the GuessObj is", GuessObj)
   if (typeof poll !== 'undefined') {
     for(let i = 0; i <poll.participants.length; i++){
       if(poll.participants[i].playerId == GuessObj.playerId){
         poll.participants[i].currentGuess = GuessObj.guess
-        console.log("inside of guessSubmit the participants are", poll.participants[i])
   }
 }
 }
@@ -298,7 +247,6 @@ Data.prototype.getGuesses = function(pollId){
   if (typeof poll !== 'undefined'){
     for(let i=0; i<poll.participants.length; i++){
       poll.guesses[i] = { playerId: poll.participants[i].playerId, guessObject: poll.participants[i].currentGuess}
-      console.log("inside of getGuesses the poll.guesses[i] is", poll.guesses[i])
     }
     return poll.guesses;
   }
@@ -306,14 +254,12 @@ Data.prototype.getGuesses = function(pollId){
   return[]
 }
 Data.prototype.submitPoints=function(pollId, pid, newPoints){
-  console.log("Vad är newPoints", newPoints)
+
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined'){
     for(let i = 0; i<poll.participants.length; i++){
-      console.log("Kommer vi in i for-loopen, participant id:",poll.participants[i].playerId , "player id:", pid )
       if(poll.participants[i].playerId == pid){
         poll.participants[i].points = poll.participants[i].points + newPoints
-        console.log("Enskilda spelarens poäng", poll.participants[i].points )
       }
     }
   }
@@ -325,7 +271,6 @@ Data.prototype.getPoints = function(pollId){
   if (typeof poll !== 'undefined'){
     for(let i=0; i<poll.participants.length; i++){
       poll.playerPoints[i] = { playerId: poll.participants[i].playerId, points: poll.participants[i].points}
-      console.log("Inside getPoints", poll.playerPoints[i])
     }
     console.log("Spelar poängen är: ",poll.playerPoints)
     return poll.playerPoints;
