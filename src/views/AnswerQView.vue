@@ -101,15 +101,6 @@
         this.popupTriggers.buttonTrigger = true;
     },
        
-        addAnswer: function(){
-            this.answers.push({a: this.answer, i: this.questions[this.currentQ].i}) /* Lägger svaret plus tillhörande fråge-id i en array, man bör nog lägga till ett spelar id */
-            console.log("frågorna:",this.answers)
-            socket.emit("submitAnswer", {pollId:this.pollId, i:this.questions[this.currentQ].i, p:this.playerId, a:this.answer } ) 
-            this.answer = ""
-            this.currentQ ++
-            console.log("speklarid", this.playerId)
-            
-        },
         addNumber: function() {this.answer +=1 },
         subtractNumber: function() { 
           if (this.answer > 0) {

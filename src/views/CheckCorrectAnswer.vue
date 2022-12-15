@@ -9,10 +9,11 @@
         <h1 class="title">Bra jobbat!!</h1> 
         </div>
         <div class="amountOfPoints">
-            <button v-on:click="checkAnswer">
-                Tryck här
-            </button>
+            
+           <div v-if="(loaded == true)">
              Du har just nu: {{points}} poäng
+             Av totatlt: {{TotalPoints}}
+            </div>
         </div>
         
     </body>
@@ -74,10 +75,17 @@ import io from 'socket.io-client';
     // ]
     // ],
     GuessObj:[],
+
     answerTest: []  ,
        timerId: setInterval(this.timer, 1000),
        timeLeft: 10,
        sendTimer: false,
+    answerTest: [], 
+    loadedGuessObj: false,
+    loadedAnsObj: false,
+    loaded: false,
+    TotalPoints:""
+
     }
 
 },
@@ -89,27 +97,45 @@ created: function () {
    socket.emit('joinPoll', this.pollId);
    socket.emit("pageLoaded", this.lang);
    socket.on("CurrentGuesses", (guessOBJ) => {
-      this.GuessObj = guessOBJ
+      this.GuessObj = guessOBJ;
+      this.loadedGuessObj = true;
+      
+
   })
+  socket.emit("getCurrentGuess", this.pollId)
   socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
             this.answerTest = update;
+            this.loadedAnsObj = true;
+            console.log("blir loadedAnsObj", this.loadedAnsObj)
+            console.log("blir loadedGuessObj", this.loadedGuessObj)
+            if(this.loadedGuessObj === true && this.loadedAnsObj === true){
+        this.checkAnswer();
+        console.log("kör jag checkAnswer")
+
+    }
           });
     socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
-  socket.emit("getCurrentGuess", this.pollId)
+
+    
+
+    socket.on('getPoints', (update) => { //denna ska scoreboard ha
+    this.TotalPoints = update;
+    console.log("Totalpoäng",this.TotalPoints)
+  });
+  socket.emit('getPlayerPoints', this.pollId) //denna ska scoreboard ha
+
+  
    socket.on("init", (labels) => {
       this.uiLabels = labels
   })
    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
       this.data = data
     )
+
   socket.on("goToPlaceDisplay", () => {
-    //if(spelarHögstpoäng) ->
-    //this.$router.push('/firstPlace/' + this.lang+'/'+this.pollId);
-    //if(spelarLägstPoäng)
-    //this.$router.push('/lastPlace/' + this.lang+'/'+this.pollId);
-    //else(mediokerspelare)
-    ////this.$router.push('/mediokerPlace/' + this.lang+'/'+this.pollId);
+    this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId + '/' + this.playerId);
   });
+
     },
 
     methods: {
@@ -128,6 +154,9 @@ checkAnswer: function() {
             }  
         }
     }
+    this.loaded=true
+    this.sendPoints()
+
 },
       timer: function(timerId){
         if (this.timeLeft == 0) {
@@ -145,8 +174,16 @@ checkAnswer: function() {
           console.log(this.timeLeft)
           return this.timeLeft--;
         }
-      }
-   }
+      },
+
+
+sendPoints: function(){
+    console.log("kommer jag till sendAnswer?")
+    socket.emit("submitPoints", {pollId: this.pollId, pid: this.playerId, points: this.points})
+}
+   },
+   
+
 }
 
 
