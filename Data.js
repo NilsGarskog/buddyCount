@@ -309,7 +309,7 @@ Data.prototype.submitPoints=function(pollId, pid, newPoints){
   console.log("Vad är newPoints", newPoints)
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined'){
-    for(let i = 0; i<poll.participants.lenght; i++){
+    for(let i = 0; i<poll.participants.length; i++){
       console.log("Kommer vi in i for-loopen, participant id:",poll.participants[i].playerId , "player id:", pid )
       if(poll.participants[i].playerId == pid){
         poll.participants[i].points = poll.participants[i].points + newPoints
