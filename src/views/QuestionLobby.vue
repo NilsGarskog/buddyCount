@@ -3,12 +3,10 @@
 <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
 <div class="questions">
   <div>
-    <div v-if="loaded===true"> <!--En loop över de "fråge objekten""-->
-     <h1 id="firstQ" v-on:click="nextQuestion">
-    Question {{this.nextQ+1}}: {{questions[nextQ].q}}
-    {{donePlayers}}
+    <div v-if="loaded===true">
+     <h1 id="firstQ">
     {{question}}
-
+    {{donePlayers}}
      </h1>
     </div>
   </div>
@@ -18,14 +16,17 @@
 
   <div class = "playerList" v-for="player in showPlayers"
        v-bind:player="player"
-       v-bind:key="player.name">
-    <div class="innerCharacter">
-      <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />
+       v-bind:key="player.name" v-bind:id="player.playerId">
+    <div class="innerCharacter" >
+      {{player.playerId}}
+      <img  class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />
     </div>
+
+
   </div>
 </div>
 
-<div class="timeLeft" v-on:click="nextQ">
+<div class="timeLeft" >
   <h1 id="tid">
     Time left:
   </h1>
@@ -75,7 +76,6 @@ export default {
     return {
       lang: "",
       pollId: "",
-      playerId:'',
       questionObject: "",
       question:"",
       questions: "", /* la till en tom array*/
@@ -87,9 +87,9 @@ export default {
       player: "",
       loaded: false,
       timerId: setInterval(this.answerSubmit, 1000),
-      timeLeft: 60,
+      timeLeft: 30,
       sendAnswer: false,
-      donePlayers: []
+      donePlayers: [],
     }
   },
 
@@ -108,8 +108,10 @@ export default {
       this.question = QnAobj.question;
     });
     socket.emit("getCurrentQuestion", this.pollId)
+
     socket.on("playerDoneGuess", (playerId) => {
       this.donePlayers.push(playerId);
+      this.displayGuessedAvatars(playerId);
     });
     socket.emit("getPlayers",this.pollId)
     //frågeinfo
@@ -126,15 +128,12 @@ export default {
 
   methods:{
 
-    nextQuestion: function(){
-      this.nextQ++
-    },
     answerSubmit: function(timerId){
       if (this.timeLeft == 0) {
         if(!this.sendAnswer)
         {
           console.log("slut")
-          socket.emit("goToResult",this.pollId)
+          //socket.emit("goToResult",this.pollId)
           
           clearTimeout(timerId);
           timerId = null;
@@ -142,29 +141,20 @@ export default {
         }
 
       } else {
-        console.log(this.timeLeft)
+        //console.log(this.timeLeft)
         return this.timeLeft--;
       }
 
+    },
+    displayGuessedAvatars: function(){
+
+
+
+      }
     }
-  },
 
 
 }
-//var timeLeft = 30;
-//var timerId = setInterval(countdownOrSubmit, 1000);
-
-//function countdownOrSubmit() {
-//  if (timeLeft == 0) {
- //   clearTimeout(timerId);
-   // console.log("slut")
-
-    
- // } else {
-   // console.log(timeLeft)
-    //timeLeft--;
- // }
-//}
 </script>
 
 <style scoped>
@@ -418,6 +408,11 @@ playerList characters{
   width:15vh;
   height: auto;
 
+}
+.avatarImageFull{
+  opacity: 1;
+  width:15vh;
+  height: auto;
 }
 #firstQ{
   font-size: 1em;
