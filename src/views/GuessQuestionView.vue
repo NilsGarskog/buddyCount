@@ -1,7 +1,9 @@
 <template>
   <body>
+    <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
+      <h2> Dra siffrorna in i rutorna för att gissa. Rutorna blir gröna när dina svar har registrerats.</h2>
   <section class="playerListContainer">
     <div class="playerList">
     <div v-for="(player) in players"
@@ -10,24 +12,26 @@
           <img  class="avatarImage" :src="require('../Icons/'+player.image + '.png')" :key="player.image"/>
           
             <span id="name">{{player.name}}</span>
-            <component :is="interact" />
-            <div class="dropZone" v-bind:id="player.id">
-               </div>
+            
+           
+              <div id="outer-dropzone" class="dropzone" v-bind:class="player.id">
+             
+            </div>
             </span>
     </div>
     </div>
   </section>
-    <div  class="drop2zone">
-      <div v-for="item in items"
-      v-bind:items="items" v-bind:key="item.title" v-bind:id="item.id">
-      <component :is="interact" />
-      <div class="dropZone" id="numberCont">  
-    <span v-on:mouseover="showButton()" class="draggable"> 
-      {{item.title}}
-    </span>
-    </div>
-    </div>
-    </div>
+    
+      <div class ="start-numbers numbers-div">
+        <div class = 'drag-drop-cont'  v-for="item in items"
+      v-bind:items="items" v-bind:key="item.title">
+        <div id="yes-drop" class="drag-drop"  v-bind:class="item.title">   
+            {{item.title}}
+        </div>
+      </div>
+      </div>
+  
+    
     <button v-if="showButtonBoolean">HEJ</button>
   
  
@@ -48,18 +52,19 @@
 
 clearInterval(interval);
 
+//! ============== DRAG HANDLING ================= //
 // target elements with the "draggable" class
-interact('.draggable')
+interact('.drag-drop')
   .draggable({
     // enable inertial throwing
-    inertia: true,
+    inertia: false,
     // keep the element within the area of it's parent
-      modifiers: [
+      /*  modifiers: [
       interact.modifiers.restrictRect({
         restriction: '.dropzone',
         endOnly: true
       })
-    ],  
+    ],    */
     // enable autoScroll
     autoScroll: true,
 
@@ -68,7 +73,7 @@ interact('.draggable')
       move: dragMoveListener,
 
       // call this function on every dragend event
-      end (event) {
+    /*   end (event) {
         var textEl = event.target.querySelector('p')
 
         textEl && (textEl.textContent =
@@ -76,15 +81,51 @@ interact('.draggable')
           (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
                      Math.pow(event.pageY - event.y0, 2) | 0))
             .toFixed(2) + 'px')
-      }
+      } */
+    }
+  })
+
+/* function endedDrag (event){
+  console.log(event.target)
+} */
+interact('.drag-drop')
+  .draggable({
+    // enable inertial throwing
+    inertia: false,
+    // keep the element within the area of it's parent
+       modifiers: [
+      interact.modifiers.restrictRect({
+        restriction: 'body',
+        endOnly: true
+      })
+    ],   
+    // enable autoScroll
+    autoScroll: true,
+
+    listeners: {
+      // call this function on every dragmove event
+      move: dragMoveListener,
+
+      // call this function on every dragend event
+    /*   end (event) {
+        var textEl = event.target.querySelector('p')
+
+        textEl && (textEl.textContent =
+          'moved a distance of ' +
+          (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+                     Math.pow(event.pageY - event.y0, 2) | 0))
+            .toFixed(2) + 'px')
+      } */
     }
   })
 
 function dragMoveListener (event) {
   var target = event.target
+
   // keep the dragged position in the data-x/data-y attributes
   var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
   var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
   //console.log('event')
   // translate the element
   target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
@@ -97,27 +138,27 @@ function dragMoveListener (event) {
 }
 
 // this function is used later in the resizing and gesture demos
-window.dragMoveListener = dragMoveListener
+//window.dragMoveListener = dragMoveListener
 
 // enable draggables to be dropped into this
-interact('.dropZone').dropzone({
+interact('.dropzone').dropzone({
   // only accept elements matching this CSS selector
-  accept: '.draggable',
+  accept: '.drag-drop',
   // Require a 75% element overlap for a drop to be possible
   overlap: 0.75,
-
+  maxPerElement: 1,
   // listen for drop related events:
 
   ondropactivate: function (event) {
     // add active dropzone feedback
     event.target.classList.add('drop-active')
-    //console.log(event)
-    
+    console.log(event)
+
   },
   ondragenter: function (event) {
     var draggableElement = event.relatedTarget
     var dropzoneElement = event.target
-    //console.log(event)
+    console.log(event)
     
     /* if(event.currentTarget.id != "numberCont"){
       event.currentTarget.innerHTML = "";
@@ -129,24 +170,46 @@ interact('.dropZone').dropzone({
   },
   ondragleave: function (event) {
     // remove the drop feedback style
-    event.target.classList.remove('drop-target')
-    event.relatedTarget.classList.remove('can-drop')
-    //event.relatedTarget.textContent = 'Dragged out'
-    if(event.currentTarget.id != "numberCont"){
-      event.currentTarget.innerHTML = "";
+    /* event.target.classList.remove('drop-target')
+    event.relatedTarget.classList.remove('can-drop') */
+    if(event.currentTarget.innerHTML === ""){
+    event.currentTarget.classList.remove('correct-bg');
+    event.currentTarget.classList.add('standard-bg');
+
     }
-   //console.log(event.currentTarget.innerHTML)
+    //event.relatedTarget.textContent = 'Dragged out'
+/*      if(event.currentTarget.id != "numberCont"){
+      event.currentTarget.innerHTML = "";
+    }  */
+   console.log(event)
   },
+
   ondrop: function (event) {
     //event.relatedTarget.textContent = 'Dropped'
-  
-    console.log(event)
-    if(event.currentTarget.id != "numberCont"){
-      event.currentTarget.innerHTML += event.relatedTarget.innerHTML
-      //event.currentTarget.style.color="transparent"
-    }
+    //alert(event.relatedTarget.id + ' was dropped into ' + event.target.classList[1])
     console.log(event.currentTarget.innerHTML)
+    console.log(event)
+     if(event.currentTarget.innerHTML != event.relatedTarget.innerHTML
+     && event.currentTarget.innerHTML == ""){
+      event.currentTarget.appendChild(event.relatedTarget)
+    /*   event.target.classList.remove('standard-bg')
+      event.target.classList.remove('incorrect-bg')
+      event.target.classList.add('correct-bg') */
+    }
+/*     else if(event.currentTarget.innerHTML == event.relatedTarget.innerHTML){
+      event.target.classList.add('correct-bg')
+      
+    } 
+    else{
+      event.target.classList.remove('correct-bg')
+      event.target.classList.remove('standard-bg')
+      event.target.classList.add('incorrect-bg')} */
+      //event.currentTarget.style.color="transparent"
+    
+   console.log(event.currentTarget.innerHTML)
    /*  this.showButton(); */
+
+   event.relatedTarget.style.transform = 'translate(0px,0px)'
     
 
     
@@ -155,22 +218,90 @@ interact('.dropZone').dropzone({
     // remove active dropzone feedback
     event.target.classList.remove('drop-active')
     event.target.classList.remove('drop-target')
-  } 
+  },
+  
 })
 
-/*  interact('.draggable')
+interact('.drag-drop-cont').dropzone({
+  // only accept elements matching this CSS selector
+  accept: '.drag-drop',
+  // Require a 75% element overlap for a drop to be possible
+  overlap: 0.5,
+  maxPerElement: 1,
+  // listen for drop related events:
+
+  ondropactivate: function (event) {
+    // add active dropzone feedback
+    event.target.classList.add('drop-active')
+    console.log(event)
+    
+  },
+  ondragenter: function (event) {
+    var draggableElement = event.relatedTarget
+    var dropzoneElement = event.target
+    console.log(event)
+    
+    /* if(event.currentTarget.id != "numberCont"){
+      event.currentTarget.innerHTML = "";
+    } */
+    // feedback the possibility of a drop
+    dropzoneElement.classList.add('drop-target')
+    draggableElement.classList.add('can-drop')
+    //draggableElement.textContent = 'In'
+  },
+  ondragleave: function (event) {
+    // remove the drop feedback style
+    /* event.target.classList.remove('drop-target')
+    event.relatedTarget.classList.remove('can-drop') */
+    //event.relatedTarget.textContent = 'Dragged out'
+/*      if(event.currentTarget.id != "numberCont"){
+      event.currentTarget.innerHTML = "";
+    }  */
+   console.log(event.currentTarget.innerHTML)
+  },
+  ondrop: function (event) {
+    //event.relatedTarget.textContent = 'Dropped'
+    //alert(event.relatedTarget.id + ' was dropped into ' + event.target.classList[1])
+    console.log(event.currentTarget.innerHTML)
+    console.log(event)
+     if(event.currentTarget.innerHTML != event.relatedTarget.innerHTML
+     && event.currentTarget.innerHTML == ""){
+      event.currentTarget.appendChild(event.relatedTarget)
+     
+    }
+   
+      //event.currentTarget.style.color="transparent"
+    
+   console.log(event.currentTarget.innerHTML)
+   /*  this.showButton(); */
+
+   event.relatedTarget.style.transform = 'translate(0px,0px)'
+    
+
+    
+  },
+   ondropdeactivate: function (event) {
+    // remove active dropzone feedback
+    event.target.classList.remove('drop-active')
+    event.target.classList.remove('drop-target')
+  },
+  
+})
+
+/* function dragged (e) {
+  e.target.style.transform = 'translate(0px, 0px)';
+}
+ */
+/* interact('.drag-drop')
   .draggable({
-    inertia: true,
-    modifiers: [
-      interact.modifiers.restrictRect({
-        restriction: '.dropZone',
-        endOnly: true
-      })
-    ],
     autoScroll: true,
     // dragMoveListener from the dragging demo above
-    listeners: { move: dragMoveListener }
-  }) */
+    listeners: { 
+      move: dragMoveListener,
+      end: endedDrag }
+  }) 
+
+ */
  
 export default {
 name: "AnswerQuestionView",
@@ -231,35 +362,49 @@ methods: {
     console.log("click")
   },
 
+  cleanDiv(divId) {
+      let Id = document.querySelector("#"+divId);
+      Id.innerHTML = "";
+      console.log("click")
+
+
+  
+},
+
 /*   timerstart() {
     this.timerobj = setInterval(() => {
       this.showButton()
     },3000)
   },
  */
-  showButton: function(){
+
+ /*DENNA FUNKAR KNAPPT*/
+  /*showButton: function(){
     console.log('hej')
     let noEmpty = true;
     for(let i = 0; i<this.players.length;i++){
       let playId = "#"+this.players[i].id;
       //console.log(playId)
-      let dropDiv = document.querySelector(playId);
+      let dropDiv = document.getElementById(playId);
       console.log(i,dropDiv.innerHTML);
-      if(dropDiv.innerHTML === ""){
+       if(dropDiv.style.background-color != "#55ed6e"){
         //console.log('empty')
         noEmpty = false;
-      }   
+      }    
     }
     if(noEmpty){
       this.showButtonBoolean = true;
     }
+    else{
+      this.showButtonBoolean = false;
+    }
     //console.log(noEmpty)
   }
-},
+},*/
 /* beforeUnmount(){
   clearInterval(this.timerstart)
 }, */
-
+}
 
 }
 
@@ -276,6 +421,13 @@ body{
   font-family: Righteous;
 }
 
+h1 {
+  font-size:3em;
+}
+
+h2 {
+  margin-bottom:2em;
+}
 .gridwrapper {
   height:50%;
 }
@@ -349,7 +501,7 @@ body{
     font-weight: 100;
     font-size: 3em;
     padding-top: 0;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -367,21 +519,20 @@ body{
     margin-right:0.5em;
 
 }
-.dropZone{
+.dropzone{
   background-color: #046B79;
   color: white;
   border: 1px solid white;
+  border-radius: 5px;
   box-shadow: 0px 5px 4px #046B79;
   width: 3em;
   -ms-touch-action: none;
   touch-action: none;
 }
 
-.draggable {
-  cursor:pointer;
-}
 
-.drop2zone {
+
+.start-numbers {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -391,18 +542,24 @@ body{
 
 
 
-#numberCont {
+.drag-drop-cont {
+  display: inline-block;
   background-color:#046B79;
   border: 1px solid white;
+  border-radius: 5px;
   box-shadow: 0px 5px 4px #046B79;
+  color: #fff;
   height:2em;
   width: 2em;
   display:flex;
   margin: 1em;
   font-size:2em;
+  display: flex;
   justify-content: center;
   align-items: center;
-  
+  transition: background-color 0.3s;
+  -ms-touch-action: none;
+  touch-action: none;
 
 }
 
@@ -418,4 +575,19 @@ body{
   width:100%;
 }
 
+.correct-bg {
+    background-color: #55ed6e;
+}
+
+.standard-bg {
+  background-color: #046B79;
+}
+
+.incorrect-bg {
+  background-color: #df4e4e;
+}
+ #outer-dropzone {
+  display:flex;
+  justify-content: center;
+ }
 </style>
