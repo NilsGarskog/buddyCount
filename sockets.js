@@ -128,7 +128,16 @@ function sockets(io, socket, data) {
   socket.on("getAnswerForResult", function(pollId){
     socket.emit("AnswersForResult", data.getAnswersforResult(pollId))
   });
- 
+  socket.on("submitPoints", function(d){
+    data.submitPoints(d.pollId, d.pid, d.points )
+    console.log("kommer jag till submitPoints? och vad är poängen här", d.points)
+  });
+
+  socket.on('getPlayerPoints', function(pollId){
+    socket.emit('getPoints', data.getPoints(pollId))
+    console.log("Kommer jag till getPlayersPoints")
+  });
+  
 }
 
 module.exports = sockets;
