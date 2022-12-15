@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import io from 'socket.io-client';
+const socket = io();
 
 function ScoreBoardNames (nm, av) {
     this.message= nm;
@@ -69,10 +71,44 @@ export default {
     return {
         names: mynames,
         points: mypoints,
+        lang: "",
+        pollId: "",
+        timerId: setInterval(this.timer, 1000),
+        timeLeft: 10,
+        sendTimer: false,
     }
 
 
-}
+},
+  created: function () {
+    this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang
+    socket.emit('joinPoll', this.pollId);
+    socket.emit("pageLoaded", this.lang);
+
+    socket.on("goToNextRound", () => {
+      this.$router.push('/QuestionLobby/' + this.lang+'/'+this.pollId);
+    });
+  },
+  methods:{
+    timer: function(timerId){
+      if (this.timeLeft == 0) {
+        if(!this.sendTimer)
+        {
+          console.log("slut")
+          socket.emit("goToNextRound",this.pollId)
+
+          clearTimeout(timerId);
+          timerId = null;
+          this.sendTimer = true;
+        }
+
+      } else {
+        console.log(this.timeLeft)
+        return this.timeLeft--;
+      }
+    }
+  }
 }
 </script>
 <style>

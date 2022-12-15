@@ -9,10 +9,11 @@
         <h1 class="title">Bra jobbat!!</h1> 
         </div>
         <div class="amountOfPoints">
-            <button v-on:click="checkAnswer">
-                Tryck här
-            </button>
+            
+           <div v-if="(loaded == true)">
              Du har just nu: {{points}} poäng
+             Av totatlt: {{TotalPoints}}
+            </div>
         </div>
         
     </body>
@@ -74,7 +75,14 @@ import io from 'socket.io-client';
     // ]
     // ],
     GuessObj:[],
-    answerTest: []    
+
+    answerTest: []  ,
+       timerId: setInterval(this.timer, 1000),
+       timeLeft: 10,
+       sendTimer: false,
+    loaded: false,
+    TotalPoints:""
+
     }
 
 },
@@ -86,19 +94,38 @@ created: function () {
    socket.emit('joinPoll', this.pollId);
    socket.emit("pageLoaded", this.lang);
    socket.on("CurrentGuesses", (guessOBJ) => {
-      this.GuessObj = guessOBJ
+      this.GuessObj = guessOBJ;
+    socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
+
+      
+
   })
   socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
-            this.answerTest = update;
+        this.answerTest = update;
+        this.checkAnswer();
           });
-    socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
-  socket.emit("getCurrentGuess", this.pollId)
+    socket.emit("getCurrentGuess", this.pollId)
+
+    
+
+    socket.on('getPoints', (update) => { //denna ska scoreboard ha
+    this.TotalPoints = update;
+    console.log("Totalpoäng",this.TotalPoints)
+  });
+  socket.emit('getPlayerPoints', this.pollId) //denna ska scoreboard ha
+
+  
    socket.on("init", (labels) => {
       this.uiLabels = labels
   })
    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
       this.data = data
     )
+
+  socket.on("goToPlaceDisplay", () => {
+    this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId + '/' + this.playerId);
+  });
+
     },
 
     methods: {
@@ -117,8 +144,36 @@ checkAnswer: function() {
             }  
         }
     }
+    this.loaded=true
+    this.sendPoints()
+
+},
+      timer: function(timerId){
+        if (this.timeLeft == 0) {
+          if(!this.sendTimer)
+          {
+            console.log("slut")
+            socket.emit("goToPlaceDisplay",this.pollId)
+
+            clearTimeout(timerId);
+            timerId = null;
+            this.sendTimer = true;
+          }
+
+        } else {
+          console.log(this.timeLeft)
+          return this.timeLeft--;
+        }
+      },
+
+
+sendPoints: function(){
+    console.log("kommer jag till sendAnswer?")
+    socket.emit("submitPoints", {pollId: this.pollId, pid: this.playerId, points: this.points})
 }
-   }
+   },
+   
+
 }
 
 

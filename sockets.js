@@ -13,12 +13,6 @@ function sockets(io, socket, data) {
     socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
   });
 
-  /*
-  socket.on('addQuestion', function(d) {         //Bortkommenterad pga ny addQuestion, se nedan!
-    data.addQuestion(d.pollId, {q: d.q, a: d.a});
-    socket.emit('dataUpdate', data.getAnswers(d.pollId));
-  });
-  */
 
   socket.on('editQuestion', function(d) {
     data.editQuestion(d.pollId, d.index, {q: d.q, a: d.a});
@@ -31,16 +25,7 @@ function sockets(io, socket, data) {
     socket.emit('dataUpdate', data.getAnswers(pollId));
   });
 
-  socket.on('runQuestion', function(d) {           //oklart om denna behövs?
-    io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
-    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
-  });
 
-
-  socket.on('submitAnswer', function(d){ //tror inte vi använder denna längre
-    data.submitAnswer(d.pollId ,{player: d.p, answer: d.a});
-    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId))
-  });
 
   socket.on('playerAnswer',function(d){
     data.playerAnswer(d.pollId, {playerId: d.player, answerObject: d.answers});
@@ -113,7 +98,6 @@ function sockets(io, socket, data) {
     if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har svart på frågorna
       io.to(obj.pollId).emit('goToResultPage')
     }
-    console.log("the playerId is", obj.guessObj.playerId)
     io.to(obj.pollId).emit('playerDoneGuess', obj.guessObj.playerId)
 
   });
@@ -128,7 +112,32 @@ function sockets(io, socket, data) {
   socket.on("getAnswerForResult", function(pollId){
     socket.emit("AnswersForResult", data.getAnswersforResult(pollId))
   });
+
+  socket.on('goToNextRound', function(pollId) {
+    io.to(pollId).emit('goToNextRound');
+  });
+  socket.on('goToScoreBoard', function(pollId) {
+    io.to(pollId).emit('goToScoreBoard');
+  });
+  socket.on('goToPlaceDisplay', function(pollId) {
+    io.to(pollId).emit('goToPlaceDisplay');
+  });
+  socket.on('goToNextQuestion', function(pollId) {
+    io.to(pollId).emit('goToNextQuestion');
+  });
  
+  socket.on("submitPoints", function(d){
+    data.submitPoints(d.pollId, d.pid, d.points )
+  });
+
+  socket.on('getPlayerPoints', function(pollId){
+    socket.emit('getPoints', data.getPoints(pollId))
+  });
+  socket.on('roundOver', function(pollId){
+    data.roundCounterAddition(pollId)
+  });
+  
+
 }
 
 module.exports = sockets;
