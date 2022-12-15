@@ -3,7 +3,6 @@
     <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">Hur många gånger har du gråtit inatt? </h1>
-      <h2> Dra siffrorna in i rutorna för att gissa. Rutorna blir gröna när dina svar har registrerats.</h2>
   <section class="playerListContainer">
     <div class="playerList">
     <div v-for="(player) in players"
@@ -32,7 +31,7 @@
       </div>
   
     
-    <button v-if="showButtonBoolean">HEJ</button>
+    <button v-if=!showButtonBoolean>HEJ</button>
   
  
 
@@ -43,7 +42,7 @@
 <script>
 /*import vSelect from 'vue-select'*/
 
-  import interact from "interactjs";
+import interact from "interactjs";
 
 
   const interval = setInterval(function() {
@@ -150,6 +149,7 @@ interact('.dropzone').dropzone({
   // listen for drop related events:
 
   ondropactivate: function (event) {
+
     // add active dropzone feedback
     event.target.classList.add('drop-active')
     console.log(event)
@@ -207,9 +207,10 @@ interact('.dropzone').dropzone({
       //event.currentTarget.style.color="transparent"
     
    console.log(event.currentTarget.innerHTML)
-   /*  this.showButton(); */
+ 
 
    event.relatedTarget.style.transform = 'translate(0px,0px)'
+   
     
 
     
@@ -310,7 +311,7 @@ name: "AnswerQuestionView",
         },
 
 created(){
- /*  this.timerstart()*/
+    // this.timerstart()
 },
 
 data: function () {
@@ -371,25 +372,29 @@ methods: {
   
 },
 
-/*   timerstart() {
+   timerstart() {
     this.timerobj = setInterval(() => {
       this.showButton()
-    },3000)
+    },1000)
   },
- */
+ 
 
  /*DENNA FUNKAR KNAPPT*/
-  /*showButton: function(){
+  showButton: function(){
     console.log('hej')
     let noEmpty = true;
     for(let i = 0; i<this.players.length;i++){
-      let playId = "#"+this.players[i].id;
-      //console.log(playId)
-      let dropDiv = document.getElementById(playId);
-      console.log(i,dropDiv.innerHTML);
-       if(dropDiv.style.background-color != "#55ed6e"){
-        //console.log('empty')
+      let playId = "."+this.players[i].id;
+      console.log(playId)
+      let dropDiv = document.querySelector(playId);
+      console.log(dropDiv.innerHTML);
+       if(dropDiv.innerHTML == ""){
+        console.log('empty')
         noEmpty = false;
+        dropDiv.style.background = '#046B79'
+      }
+      else{
+        dropDiv.style.background = '#55ed6e'
       }    
     }
     if(noEmpty){
@@ -398,15 +403,15 @@ methods: {
     else{
       this.showButtonBoolean = false;
     }
-    //console.log(noEmpty)
+   return noEmpty
   }
-},*/
-/* beforeUnmount(){
+},
+ beforeUnmount(){
   clearInterval(this.timerstart)
-}, */
+}, 
 }
 
-}
+
 
 </script>
 
