@@ -279,6 +279,12 @@ Data.prototype.getPoints = function(pollId){
   return[]
 }
 
+Data.prototype.roundCounterAddition = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    poll.currentRound +=1;
+  }
+}
 
 module.exports = Data;
 

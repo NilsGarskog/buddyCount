@@ -80,9 +80,6 @@ import io from 'socket.io-client';
        timerId: setInterval(this.timer, 1000),
        timeLeft: 10,
        sendTimer: false,
-    answerTest: [], 
-    loadedGuessObj: false,
-    loadedAnsObj: false,
     loaded: false,
     TotalPoints:""
 
@@ -98,23 +95,16 @@ created: function () {
    socket.emit("pageLoaded", this.lang);
    socket.on("CurrentGuesses", (guessOBJ) => {
       this.GuessObj = guessOBJ;
-      this.loadedGuessObj = true;
+    socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
+
       
 
   })
-  socket.emit("getCurrentGuess", this.pollId)
   socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
-            this.answerTest = update;
-            this.loadedAnsObj = true;
-            console.log("blir loadedAnsObj", this.loadedAnsObj)
-            console.log("blir loadedGuessObj", this.loadedGuessObj)
-            if(this.loadedGuessObj === true && this.loadedAnsObj === true){
+        this.answerTest = update;
         this.checkAnswer();
-        console.log("kör jag checkAnswer")
-
-    }
           });
-    socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
+    socket.emit("getCurrentGuess", this.pollId)
 
     
 

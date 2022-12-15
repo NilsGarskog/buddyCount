@@ -1,6 +1,7 @@
 <template>
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <body>
+
   <div class="firstPlace" v-if="first===show">
     <h1>First Place!</h1>
     <h2> Keep up the good work</h2>
@@ -11,11 +12,8 @@
   </div>
   <div class="mediokerPlace" v-if="medioker===show">
     <h1>You are the definition of average</h1>
-    <h2> Stop being so mellamjölkig</h2>
+    <h2> Stop being so mellanmjölkig</h2>
   </div>
-  <button v-on:click="checkPlace()">
-tryck
-  </button>
   </body>
 </template>
 
@@ -32,8 +30,8 @@ export default {
       first: 'FP',
       last: 'LP',
       medioker:'MP',
-      x: 3,
-
+      placement: "",
+      players:[]
 
     }
   },
@@ -47,43 +45,37 @@ export default {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
-    socket.on("goToNextQuestion", () => {
+    socket.on("goToNextRound", () => {
       this.$router.push('/guessQuestion/' + this.lang+'/'+this.pollId+'/'+this.playerId);
     })
+    socket.on("sendPlayers", (players) => {
+      this.players = players
+      this.players.sort((a,b) => a.points - b.points);
+      this.players.reverse()
+      for(let i=0; i<this.players.length; i++){
+        if (this.players[i].playerId == this.playerId){
+          console.log("inside if loop, i =",i)
+          this.placement = i;
+          this.checkPlace()
+        }
+      }
+      
+    })
+    socket.emit("getPlayers", this.pollId)
+
   },
   methods: {
       checkPlace: function(){
-        if(this.x>3){
+        if(this.placement==0){
           this.show = 'FP';
         }
-        else if(this.x===3){
+        else if(this.placement==this.players.length-1){
           this.show = 'LP';
         }
         else{
           this.show = 'MP';
         }
-
-
-
-
       },
-    timer: function(timerId){
-      if (this.timeLeft == 0) {
-        if(!this.sendTimer)
-        {
-          console.log("slut")
-          //socket.emit("goToNextQuestion",this.pollId)
-
-          clearTimeout(timerId);
-          timerId = null;
-          this.sendTimer = true;
-        }
-
-      } else {
-        console.log(this.timeLeft)
-        return this.timeLeft--;
-      }
-    },
   }
 }
 </script>
