@@ -139,6 +139,7 @@ methods: {
       if(!this.sendTimer)
       {
         console.log("slut")
+        socket.emit("roundOver", this.pollId)
         socket.emit("goToScoreBoard",this.pollId)
 
         clearTimeout(timerId);

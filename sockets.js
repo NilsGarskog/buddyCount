@@ -133,6 +133,9 @@ function sockets(io, socket, data) {
   socket.on('getPlayerPoints', function(pollId){
     socket.emit('getPoints', data.getPoints(pollId))
   });
+  socket.on('roundOver', function(pollId){
+    data.roundCounterAddition(pollId)
+  });
   
 
 }
