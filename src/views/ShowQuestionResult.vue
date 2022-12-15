@@ -69,10 +69,15 @@ data: function () {
       pollId:'',
       lang:'',
       playerId:'',
+
+      timerId: setInterval(this.timer, 1000),
+      timeLeft: 10,
+      sendTimer: false,
       Answers:[],
       players:[],
       playerWansArr:[],
       shuffleAnswer: []
+
     }
 },
   created: function () {
@@ -85,6 +90,11 @@ data: function () {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
+
+    socket.on("goToScoreBoard", () => {
+      this.$router.push('/ScoreBoard2/' + this.lang+'/'+this.pollId);
+    });
+
     socket.on("AnswersForResult", (Answers) => {
       this.Answers = Answers
       socket.emit("getPlayers", this.pollId)
@@ -95,6 +105,7 @@ data: function () {
     this.assembleArr()
     })
     socket.emit("getAnswerForResult", this.pollId)
+
   },
 
 
@@ -122,6 +133,25 @@ methods: {
         console.log(this.shuffleAnswer);
 
     },
+
+  timer: function(timerId){
+    if (this.timeLeft == 0) {
+      if(!this.sendTimer)
+      {
+        console.log("slut")
+        socket.emit("goToScoreBoard",this.pollId)
+
+        clearTimeout(timerId);
+        timerId = null;
+        this.sendTimer = true;
+      }
+
+    } else {
+      console.log(this.timeLeft)
+      return this.timeLeft--;
+    }
+  },
+
     assembleArr: function() {
         for (let player of this.players){
             for (let answer of this.Answers){
@@ -134,6 +164,7 @@ methods: {
         this.shuffleAnswer = myPlayersAnswersClone.sort(() => Math.random() - 0.5);
         this.draw();
     },
+
 
    /* draw: function (startx,starty,endx,endy) {
        
