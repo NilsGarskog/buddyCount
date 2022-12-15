@@ -128,6 +128,18 @@ function sockets(io, socket, data) {
   socket.on("getAnswerForResult", function(pollId){
     socket.emit("AnswersForResult", data.getAnswersforResult(pollId))
   });
+  socket.on('goToNextRound', function(pollId) {
+    io.to(pollId).emit('goToNextRound');
+  });
+  socket.on('goToScoreBoard', function(pollId) {
+    io.to(pollId).emit('goToScoreBoard');
+  });
+  socket.on('goToPlaceDisplay', function(pollId) {
+    io.to(pollId).emit('goToPlaceDisplay');
+  });
+  socket.on('goToNextQuestion', function(pollId) {
+    io.to(pollId).emit('goToNextQuestion');
+  });
  
 }
 

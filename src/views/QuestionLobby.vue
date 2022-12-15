@@ -18,7 +18,7 @@
        v-bind:player="player"
        v-bind:key="player.name" v-bind:id="player.playerId">
     <div class="innerCharacter" >
-      {{player.playerId}}
+
       <img  class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />
     </div>
 

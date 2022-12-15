@@ -70,7 +70,10 @@ data: function () {
         ShuffledAnswers: shuffleAnswer,
       pollId:'',
       lang:'',
-      playerId:''
+      playerId:'',
+      timerId: setInterval(this.timer, 1000),
+      timeLeft: 10,
+      sendTimer: false,
     }
 },
   created: function () {
@@ -83,6 +86,9 @@ data: function () {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
+    socket.on("goToScoreBoard", () => {
+      this.$router.push('/ScoreBoard2/' + this.lang+'/'+this.pollId);
+    });
   },
 
 
@@ -110,6 +116,23 @@ methods: {
         console.log(this.ShuffledAnswers);
 
     },
+  timer: function(timerId){
+    if (this.timeLeft == 0) {
+      if(!this.sendTimer)
+      {
+        console.log("slut")
+        socket.emit("goToScoreBoard",this.pollId)
+
+        clearTimeout(timerId);
+        timerId = null;
+        this.sendTimer = true;
+      }
+
+    } else {
+      console.log(this.timeLeft)
+      return this.timeLeft--;
+    }
+  },
 
    /* draw: function (startx,starty,endx,endy) {
        

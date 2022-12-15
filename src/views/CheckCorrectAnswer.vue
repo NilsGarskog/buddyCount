@@ -74,7 +74,10 @@ import io from 'socket.io-client';
     // ]
     // ],
     GuessObj:[],
-    answerTest: []    
+    answerTest: []  ,
+       timerId: setInterval(this.timer, 1000),
+       timeLeft: 10,
+       sendTimer: false,
     }
 
 },
@@ -99,6 +102,14 @@ created: function () {
    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
       this.data = data
     )
+  socket.on("goToPlaceDisplay", () => {
+    //if(spelarHögstpoäng) ->
+    //this.$router.push('/firstPlace/' + this.lang+'/'+this.pollId);
+    //if(spelarLägstPoäng)
+    //this.$router.push('/lastPlace/' + this.lang+'/'+this.pollId);
+    //else(mediokerspelare)
+    ////this.$router.push('/mediokerPlace/' + this.lang+'/'+this.pollId);
+  });
     },
 
     methods: {
@@ -117,7 +128,24 @@ checkAnswer: function() {
             }  
         }
     }
-}
+},
+      timer: function(timerId){
+        if (this.timeLeft == 0) {
+          if(!this.sendTimer)
+          {
+            console.log("slut")
+            socket.emit("goToPlaceDisplay",this.pollId)
+
+            clearTimeout(timerId);
+            timerId = null;
+            this.sendTimer = true;
+          }
+
+        } else {
+          console.log(this.timeLeft)
+          return this.timeLeft--;
+        }
+      }
    }
 }
 
