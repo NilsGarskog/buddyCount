@@ -3,18 +3,18 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css' >
 
-        <div>
-        {{GuessObj}}
-        Svar: {{answerTest}}
+
+
         <h1 class="title">Bra jobbat!!</h1> 
-        </div>
+
         <div class="amountOfPoints">
             
            <div v-if="(loaded == true)">
-             Du har just nu: {{points}} poäng
-             Av totatlt: {{TotalPoints}}
+             Du fick {{points}} rätt!
+
             </div>
-        </div>
+            </div>
+
         
     </body>
 
@@ -159,10 +159,13 @@ sendPoints: function(){
 
 </script>
 
-<style>
+<style scoped>
 body {
+    position: fixed;
     background-color: #24a07b;
     font-family:Righteous ;
+    width: 100vw;
+    min-height: 100vh;
   
 }
 .title {

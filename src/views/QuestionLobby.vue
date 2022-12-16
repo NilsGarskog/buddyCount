@@ -6,8 +6,6 @@
     <div v-if="loaded===true">
      <h1 id="firstQ">
     {{question}}
-    {{donePlayers}}
-       {{showPlayers[1].playerId}}
 
      </h1>
     </div>

@@ -101,7 +101,7 @@ name: 'CreateQPartView',
 
 <style scoped>
 body{
-    position: fixed;
+  position: fixed;
   background-color: #24a07b;
   width: 100vw;
   min-height: 100vh;

@@ -134,11 +134,13 @@ export default {
 
 
 </script>
-<style>
+<style scoped>
 
 body {
     background-color: #24a07b;
     font-family:Righteous ;
+    width: 100vw;
+    min-height: 100vh;
   
 }
 .title {

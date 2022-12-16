@@ -273,11 +273,13 @@ ctx.stroke();
 }
 </script>
 
-<style>
+<style scoped>
 
 body {
-    background-color: #24a07b;
+  background-color: #24a07b;
    overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
   
 }
 

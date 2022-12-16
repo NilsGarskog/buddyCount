@@ -4,7 +4,6 @@
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
-      {{GuessArray}}
       <!-- <div class="classTable">
         <table>
     <tr>
