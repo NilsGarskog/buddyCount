@@ -44,7 +44,7 @@ The BuddyCount team
 
         </div>
         <div class="thirdPlaceAvatar">
-          <h1>{{players[2].name}}</h1>
+          <h1>{{players[2].name}}</h1><p>{{players[2].points}}</p>
           <img class ="avatarImage" :src="require('../Icons/' + players[2].avatar[0].image + '.png')" />
         </div>  
       </div>
@@ -53,7 +53,7 @@ The BuddyCount team
 
         </div>
         <div class="firstPlaceAvatar">
-          <h1>{{players[0].name}}</h1>
+          <h1>{{players[0].name}}</h1> <p>{{players[0].points}}</p>
           <img class ="avatarImage" :src="require('../Icons/Winner/' + players[0].avatar[0].image + 'Crown' + '.png')" />
         </div>  
       </div>
@@ -62,7 +62,7 @@ The BuddyCount team
 
         </div>
         <div class="secondPlaceAvatar">
-          <h1>{{players[1].name}}</h1>
+          <h1>{{players[1].name}}</h1> <p>{{players[1].points}}</p>
           <img class ="avatarImage" :src="require('../Icons/' + players[1].avatar[0].image + '.png')" />
         </div>  
       </div>

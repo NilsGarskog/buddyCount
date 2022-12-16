@@ -101,22 +101,23 @@ export default {
     },
 
   methods:{
-  //  timer: function(timerId){
-   //   if (this.timeLeft == 0) {
-    //    if(!this.sendTimer)
-    //    {
-    //      console.log("slut")
-          //socket.emit("goToNextRound",this.pollId)
+    timer: function(timerId){
+      if (this.timeLeft == 0) {
+        if(!this.sendTimer)
+        {
+          console.log("slut")
+          socket.emit("goToNextRound",this.pollId)
 
-     //     clearTimeout(timerId);
-     //     timerId = null;
-     //     this.sendTimer = true;
-     //   }
+          clearTimeout(timerId);
+          timerId = null;
+          this.sendTimer = true;
+        }
 
-    //  } else {
-     //   console.log(this.timeLeft)
-     //   return this.timeLeft--;
-    //  }
+      } else {
+        console.log(this.timeLeft)
+        return this.timeLeft--;
+      }
+    },
     
    
   showPoints: function() {
