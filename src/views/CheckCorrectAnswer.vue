@@ -78,7 +78,8 @@ import io from 'socket.io-client';
 
     answerTest: [],
     loaded: false,
-    TotalPoints:""
+    TotalPoints:"",
+    pointsSent:false,
 
     }
 
@@ -96,7 +97,9 @@ created: function () {
   })
   socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
         this.answerTest = update;
+        if(this.pointsSent==false){
         this.checkAnswer();
+        }
           });
     socket.emit("getCurrentGuess", this.pollId)
 
@@ -138,8 +141,9 @@ checkAnswer: function() {
             }  
         }
     }
-    this.loaded=true
-    this.sendPoints()
+    this.loaded=true;
+    this.sendPoints();
+    this.pointsSent =true;
 
 },
 

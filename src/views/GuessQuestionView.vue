@@ -101,6 +101,7 @@ created: function() {
     }
     });
   socket.on("goToResultPage", () => { 
+    console.log("goToResultPage i GuessQuestionView kallas på för spelare", this.playerId)
     this.$router.push('/CheckCorrectAnswer/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
     });
 },

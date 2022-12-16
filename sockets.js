@@ -82,32 +82,23 @@ function sockets(io, socket, data) {
     console.log("goToNextPage kallas på")
     io.to(pollId).emit('goToNextPage');
   });
-  socket.on('goToShowQResult', function(d) {
-    console.log("goToShowQResult kallas på")
-    data.answerSubmit(d.pollId ,d.playerId);
-    io.to(d.pollId).emit('goToShowQResults', data.answerSubmit(d.pollId))
-  });
-  socket.on('goToShowQResultatet', function(pollId) {
-    console.log("goToShowQResultatet kallas på")
-    io.to(pollId).emit('goToShowQResultss');
 
-  });
   socket.on('getCurrentQuestion', function(pollId) {
     io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
   });
   socket.on("PlayerGuessAnswer", function(obj) {
-    console.log(obj.guessObj)
     data.guessSubmit(obj.pollId ,obj.guessObj);
-    if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har svart på frågorna
-      io.to(obj.pollId).emit('goToResultPage')
-    }
+    // if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har gissat på frågorna
+    //   io.to(obj.pollId).emit('goToResultPage')
+    // }
     io.to(obj.pollId).emit('playerDoneGuess', obj.guessObj.playerId)
 
   });
-  socket.on('goToResult', function(pollId) {
-    console.log("goToResult kallas på")
-      io.to(pollId).emit('goToResultPage');
-  });
+  
+   socket.on('goToResult', function(pollId) {
+     console.log("goToResult kallas på")
+       io.to(pollId).emit('goToResultPage');
+   });
 
   socket.on("getCurrentGuess", function(pollId) {
     socket.emit("CurrentGuesses", data.getGuesses(pollId));

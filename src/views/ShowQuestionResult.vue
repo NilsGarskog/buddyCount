@@ -77,6 +77,7 @@ data: function () {
       players:[],
       playerWansArr:[],
       shuffleAnswer: [],
+      assembled: false,
 
     }
 },
@@ -105,7 +106,9 @@ data: function () {
 
     socket.on("sendPlayers", (players) => {
       this.players = players
+      if(this.assembled==false){
     this.assembleArr()
+      }
     })
 
     
@@ -166,6 +169,7 @@ methods: {
         let myPlayersAnswersClone = structuredClone(this.playerWansArr);
         this.shuffleAnswer = myPlayersAnswersClone.sort(() => Math.random() - 0.5);
         this.draw();
+        this.assembled=true;
     },
 
 

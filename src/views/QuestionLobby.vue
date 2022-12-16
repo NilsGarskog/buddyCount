@@ -112,6 +112,9 @@ export default {
     socket.on("playerDoneGuess", (playerId) => {
       this.donePlayers.push(playerId);
       this.displayGuessedAvatars(playerId);
+      if(this.donePlayers.length == this.showPlayers.length){
+        socket.emit("goToResult",this.pollId)
+      }
     });
     socket.emit("getPlayers",this.pollId)
     //frågeinfo
@@ -128,24 +131,24 @@ export default {
 
   methods:{
 
-    answerSubmit: function(timerId){
-      if (this.timeLeft == 0) {
-        if(!this.sendAnswer)
-        {
+    // answerSubmit: function(timerId){
+    //   if (this.timeLeft == 0) {
+    //     if(!this.sendAnswer)
+    //     {
 
-          //socket.emit("goToResult",this.pollId)
+    //       socket.emit("goToResult",this.pollId)
           
-          clearTimeout(timerId);
-          timerId = null;
-          this.sendAnswer = true;
-        }
+    //       clearTimeout(timerId);
+    //       timerId = null;
+    //       this.sendAnswer = true;
+    //     }
 
-      } else {
+    //   } else {
 
-        return this.timeLeft--;
-      }
+    //     return this.timeLeft--;
+    //   }
 
-    },
+    // },
     displayGuessedAvatars: function(playId){
       for(let i=0; i<this.showPlayers.length; i++) {
         if (this.showPlayers[i].playerId==playId){
