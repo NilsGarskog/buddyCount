@@ -7,6 +7,8 @@
      <h1 id="firstQ">
     {{question}}
     {{donePlayers}}
+       {{showPlayers[1].playerId}}
+
      </h1>
     </div>
   </div>
@@ -16,18 +18,16 @@
 
   <div class = "playerList" v-for="player in showPlayers"
        v-bind:player="player"
-       v-bind:key="player.name" v-bind:id="player.playerId">
+       v-bind:key="player.name" >
     <div class="innerCharacter" >
-
-      <img  class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />
+      <img  v-bind:id="player.playerId" class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />
     </div>
-
 
   </div>
 </div>
 
 <div class="timeLeft" >
-  <h1 id="tid">
+  <h1 id="tid" >
     Time left:
   </h1>
   <div class="timer">
@@ -146,10 +146,14 @@ export default {
       }
 
     },
-    displayGuessedAvatars: function(){
-
-
-
+    displayGuessedAvatars: function(playId){
+      console.log(playId)
+      for(let i=0; i<this.showPlayers.length; i++) {
+        console.log(this.showPlayers[i].playerId)
+        if (this.showPlayers[i].playerId==playId){
+          document.getElementById(''+playId+'').style.opacity = "1";
+        }
+      }
       }
     }
 
@@ -428,6 +432,5 @@ playerList characters{
   text-align: center;
   margin:0;
 }
-
 
 </style>
