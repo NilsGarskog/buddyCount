@@ -187,7 +187,10 @@ Data.prototype.getCurrentQnA = function(pollId){
   const poll = this.polls[pollId];
   let returnArray=[]
   if (typeof poll !== 'undefined'){
+    console.log("The questions are",poll.questions )
+    console.log("And the current question is",poll.questions[poll.currentRound], "with round", poll.currentRound )
     let questionWid = poll.questions[poll.currentRound];
+    console.log("questionWid is ", questionWid)
     let question = questionWid.q
     let Qid = questionWid.i
     for(let i=0; i<poll.participants.length; i++){
@@ -282,7 +285,23 @@ Data.prototype.getPoints = function(pollId){
 Data.prototype.roundCounterAddition = function(pollId){
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined'){
+    poll.playersAnswered = 0;
+    poll.playerGuessed = 0; 
     poll.currentRound +=1;
+    console.log("Addition ton the round has occured, new round is",poll.currentRound )
+  }
+}
+
+Data.prototype.getCurrentRound = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    return poll.currentRound
+  }
+}
+Data.prototype.getAmountOfQ = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    return poll.questions.length
   }
 }
 

@@ -38,14 +38,14 @@ The BuddyCount team
     <div class="Heading">
       Thank you for counting your buddies!
     </div>
-    <div class="PodiumContainer">
+    <div v-if="loaded == true" class="PodiumContainer">
       <div class="thirdPlace">
         <div class="thirdPlaceBox">
 
         </div>
         <div class="thirdPlaceAvatar">
           <h1>{{players[2].name}}</h1>
-          <img class ="avatarImage" :src="require('../Icons/' + players[2].avatar + '.png')" />
+          <img class ="avatarImage" :src="require('../Icons/' + players[2].avatar[0].image + '.png')" />
         </div>  
       </div>
       <div class="firstPlace">
@@ -54,7 +54,7 @@ The BuddyCount team
         </div>
         <div class="firstPlaceAvatar">
           <h1>{{players[0].name}}</h1>
-          <img class ="avatarImage" :src="require('../Icons/Winner/' + players[0].avatar + 'Crown' + '.png')" />
+          <img class ="avatarImage" :src="require('../Icons/Winner/' + players[0].avatar[0].image + 'Crown' + '.png')" />
         </div>  
       </div>
       <div class="secondPlace">
@@ -63,7 +63,7 @@ The BuddyCount team
         </div>
         <div class="secondPlaceAvatar">
           <h1>{{players[1].name}}</h1>
-          <img class ="avatarImage" :src="require('../Icons/' + players[1].avatar + '.png')" />
+          <img class ="avatarImage" :src="require('../Icons/' + players[1].avatar[0].image + '.png')" />
         </div>  
       </div>
     </div>
@@ -74,6 +74,9 @@ The BuddyCount team
 </template>
 
 <script>
+import io from 'socket.io-client';
+const socket = io();
+
 export default {
 data: function () {
   return {
@@ -82,13 +85,29 @@ data: function () {
       {name: "Nils", avatar: "Mononoke", points: 5},
       {name: "Hanna", avatar: "Voldermort", points: 2}
     ],
-    placement:[]
+    placement:[],
+    loaded: false,
+    pollId:"",
+    lang:"",
   }
 },
 created: function () {
-this.players.sort((a,b) => a.points - b.points);
-this.players.reverse()
-}
+this.pollId = this.$route.params.id;
+this.lang = this.$route.params.lang;
+socket.emit('joinPoll', this.pollId);
+socket.emit("pageLoaded", this.lang);
+  socket.on("init", (labels) => {
+    this.uiLabels = labels
+})
+ socket.on("sendPlayers", (players) => {
+   this.players = players
+   this.players.sort((a,b) => a.points - b.points);
+   this.players.reverse()
+   this.loaded = true
+ });
+ socket.emit("getPlayers", this.pollId)
+ console.log("getplayeremitted")
+},
 }
 </script>
 
@@ -145,9 +164,6 @@ width: 100%;
 filter: drop-shadow(0.5em 0.1em 0.1px black);
 
 }
-.thirdPlaceAvatar{
-
-}
 .firstPlace{
   display: flex;
   flex-direction: column-reverse;
@@ -160,9 +176,6 @@ width: 100%;
 filter: drop-shadow(0.5em 0.1em 0.1px black);
 
 }
-.firstPlaceAvatar{
-
-}
 .secondPlace{
   display: flex;
   flex-direction: column-reverse;
@@ -173,9 +186,6 @@ background-color: #1b6375;
 height: 30vh;
 width: 100%;
 filter: drop-shadow(0.5em 0.1em 0.1px black);
-
-}
-.secondPlaceAvatar{
 
 }
 .avatarImage{

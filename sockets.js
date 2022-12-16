@@ -102,7 +102,7 @@ function sockets(io, socket, data) {
 
   });
   socket.on('goToResult', function(pollId) {
-    io.to(pollId).emit('goToResultPage');
+      io.to(pollId).emit('goToResultPage');
   });
 
   socket.on("getCurrentGuess", function(pollId) {
@@ -117,7 +117,15 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('goToNextRound');
   });
   socket.on('goToScoreBoard', function(pollId) {
-    io.to(pollId).emit('goToScoreBoard');
+    currentRound = data.getCurrentRound(pollId);
+    console.log("The current round is", currentRound)
+    amountOfQuestions = data.getAmountOfQ(pollId);
+    console.log("The amount of questions is", amountOfQuestions)
+    if (currentRound != (amountOfQuestions - 1)){
+      io.to(pollId).emit('goToScoreBoard');
+    }else{
+      io.emit('goToPodium');
+    }
   });
   socket.on('goToPlaceDisplay', function(pollId) {
     io.to(pollId).emit('goToPlaceDisplay');

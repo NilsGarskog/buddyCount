@@ -76,7 +76,7 @@ data: function () {
       Answers:[],
       players:[],
       playerWansArr:[],
-      shuffleAnswer: []
+      shuffleAnswer: [],
 
     }
 },
@@ -94,6 +94,9 @@ data: function () {
     socket.on("goToScoreBoard", () => {
       this.$router.push('/ScoreBoard2/' + this.lang+'/'+this.pollId);
     });
+        socket.on("goToPodium", () => {
+      this.$router.push('/PodiumView/' + this.lang+'/'+this.pollId);
+    });
 
     socket.on("AnswersForResult", (Answers) => {
       this.Answers = Answers
@@ -104,6 +107,8 @@ data: function () {
       this.players = players
     this.assembleArr()
     })
+
+    
     socket.emit("getAnswerForResult", this.pollId)
 
   },
@@ -139,8 +144,8 @@ methods: {
       if(!this.sendTimer)
       {
         console.log("slut")
-        socket.emit("roundOver", this.pollId)
         socket.emit("goToScoreBoard",this.pollId)
+        socket.emit("roundOver", this.pollId)
 
         clearTimeout(timerId);
         timerId = null;

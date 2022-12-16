@@ -23,9 +23,6 @@ const socket = io();
 export default {
   data: function () {
     return {
-      timerId: setInterval(this.timer, 1000),
-      timeLeft: 10,
-      sendTimer: false,
       show: '',
       first: 'FP',
       last: 'LP',
