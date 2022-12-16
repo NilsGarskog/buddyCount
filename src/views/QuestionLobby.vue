@@ -22,7 +22,6 @@
       <img  class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />
     </div>
 
-
   </div>
 </div>
 
