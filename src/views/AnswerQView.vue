@@ -111,7 +111,6 @@
             this.answers.push({q:Qid,a:this.answer})
             this.togglePopup()
             socket.emit('playerAnswer', {pollId: this.pollId ,player: this.playerId, answers: this.answers } )
-            console.log("Skriv ut answerTest: ", this.answerTest[0].answerObject) //Denna kan tas bort sen
           }
           else{
             this.answers.push({q:Qid,a:this.answer})

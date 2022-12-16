@@ -106,7 +106,6 @@ created: function() {
 },
 methods: {
     updateGuess: function(player,Guess) {
-      console.log(Guess)
       if (player.Guess != "" && player.Guess != null){
         this.randomAnswers.push(player.Guess)
       }
@@ -145,7 +144,6 @@ sendFnc: function(){
 
 
 function randomAns (ans, randAns, id){
-  console.log(ans.length)
   for (var i = 0, l = ans.length; i < l; i++){
       if (ans[i].playerId != id){
     randAns.push(ans[i].answer)
@@ -165,6 +163,7 @@ function createGuessArr (players, id){
         }
 }
   return GuessArray
+
 }
 
 

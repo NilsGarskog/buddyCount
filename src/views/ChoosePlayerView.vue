@@ -148,8 +148,6 @@ export default {
     },
 
     addParticipant: function() {
-      console.log('participant added');
-      console.log(this.playerInfo.username);
       socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
     },
     onEnter:function(){
@@ -160,21 +158,18 @@ export default {
     },
     selectThisCharacter: function (avatar){
     var avt = avatar.image
-    console.log(avt);
       if (this.playerInfo.clickedAvatars.length===0){
         this.playerInfo.clickedAvatars.push(avatar)
-        console.log(this.playerInfo);
-        console.log(avatar.image)
+
 
       }
       else {
         this.playerInfo.clickedAvatars.splice(0,1);
         this.playerInfo.clickedAvatars.push(avatar);
-        console.log(this.playerInfo);
+
 
       }
       var avataren =document.getElementById("profile");
-      console.log(avataren)
       avataren.innerHTML="<img id='pictureAvatar' src='img/"+avt+".png' width=\"100em\" height=\"100em\" >";
 
     },

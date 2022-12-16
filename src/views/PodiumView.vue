@@ -106,7 +106,6 @@ socket.emit("pageLoaded", this.lang);
    this.loaded = true
  });
  socket.emit("getPlayers", this.pollId)
- console.log("getplayeremitted")
 },
 }
 </script>

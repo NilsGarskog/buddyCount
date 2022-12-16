@@ -111,7 +111,6 @@ export default {
      /* socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers } ) !!!!!!!! Denna ska ej vara avkodad senare!!!!!!!*/
      this.questions.push(this.question); /* lägger till nya frågorna i listan med frågor */
      this.question="" /* Nollställer frågefältet*/
-     console.log(this.questions)
      
     },
     addAnswer: function () {

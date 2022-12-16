@@ -132,7 +132,7 @@ export default {
       if (this.timeLeft == 0) {
         if(!this.sendAnswer)
         {
-          console.log("slut")
+
           //socket.emit("goToResult",this.pollId)
           
           clearTimeout(timerId);
@@ -141,15 +141,13 @@ export default {
         }
 
       } else {
-        //console.log(this.timeLeft)
+
         return this.timeLeft--;
       }
 
     },
     displayGuessedAvatars: function(playId){
-      console.log(playId)
       for(let i=0; i<this.showPlayers.length; i++) {
-        console.log(this.showPlayers[i].playerId)
         if (this.showPlayers[i].playerId==playId){
           document.getElementById(''+playId+'').style.opacity = "1";
         }

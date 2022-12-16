@@ -78,8 +78,6 @@ name: 'CreateQPartView',
       this.Qid = Math.floor(100000 + Math.random() * 900000)
       if(this.question != ""){
       this.questions.push( {q: this.question, i: this.Qid });
-      console.log(this.question)
-      console.log(this.questions)
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } ) 
       this.question=""
       }

@@ -76,10 +76,7 @@ import io from 'socket.io-client';
     // ],
     GuessObj:[],
 
-    answerTest: []  ,
-       timerId: setInterval(this.timer, 1000),
-       timeLeft: 10,
-       sendTimer: false,
+    answerTest: [],
     loaded: false,
     TotalPoints:""
 
@@ -96,9 +93,6 @@ created: function () {
    socket.on("CurrentGuesses", (guessOBJ) => {
       this.GuessObj = guessOBJ;
     socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
-
-      
-
   })
   socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
         this.answerTest = update;
@@ -110,7 +104,6 @@ created: function () {
 
     socket.on('getPoints', (update) => { //denna ska scoreboard ha
     this.TotalPoints = update;
-    console.log("Totalpoäng",this.TotalPoints)
   });
   socket.emit('getPlayerPoints', this.pollId) //denna ska scoreboard ha
 
@@ -121,10 +114,12 @@ created: function () {
    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
       this.data = data
     )
-
-  socket.on("goToPlaceDisplay", () => {
-    this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId + '/' + this.playerId);
-  });
+      socket.on("goToScoreBoard", () => {
+      this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+    });
+        socket.on("goToPodium", () => {
+      this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+    });
 
     },
 
@@ -138,7 +133,6 @@ checkAnswer: function() {
                     if( AO.playerId==guessP){
                         if( AO.answer==GO.guess)
                         this.points++;
-                        console.log("mina poäng är:", this.points)
                     }
                 }
             }  
@@ -148,27 +142,9 @@ checkAnswer: function() {
     this.sendPoints()
 
 },
-      timer: function(timerId){
-        if (this.timeLeft == 0) {
-          if(!this.sendTimer)
-          {
-            console.log("slut")
-            socket.emit("goToPlaceDisplay",this.pollId)
-
-            clearTimeout(timerId);
-            timerId = null;
-            this.sendTimer = true;
-          }
-
-        } else {
-          console.log(this.timeLeft)
-          return this.timeLeft--;
-        }
-      },
 
 
 sendPoints: function(){
-    console.log("kommer jag till sendAnswer?")
     socket.emit("submitPoints", {pollId: this.pollId, pid: this.playerId, points: this.points})
 }
    },

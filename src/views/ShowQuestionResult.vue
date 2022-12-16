@@ -135,7 +135,6 @@ methods: {
         }
         this.shuffleAnswer = myRandomizedList;
 
-        console.log(this.shuffleAnswer);
 
     },
 
@@ -143,7 +142,6 @@ methods: {
     if (this.timeLeft == 0) {
       if(!this.sendTimer)
       {
-        console.log("slut")
         socket.emit("goToScoreBoard",this.pollId)
         socket.emit("roundOver", this.pollId)
 
@@ -153,7 +151,6 @@ methods: {
       }
 
     } else {
-      console.log(this.timeLeft)
       return this.timeLeft--;
     }
   },
@@ -209,7 +206,6 @@ ctx.stroke();
                 var colors = ["red",   "yellow",   "blue",   "orange",   "purple","pink","brown","aquamarine","black","white"];
                  for(let i = 0; i < this.playerWansArr.length; i++){
                     //const randomColor = Math.floor(Math.random()*16777215).toString(16);
-                    console.log(this.playerWansArr[i]);
                    let endIndex;
                    for(let j = 0; j < this.shuffleAnswer.length; j++){
                     if(this.playerWansArr[i].answer == this.shuffleAnswer[j].answer && this.playerWansArr[i].name == this.shuffleAnswer[j].name){

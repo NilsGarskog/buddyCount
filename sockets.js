@@ -79,14 +79,16 @@ function sockets(io, socket, data) {
   });
 
   socket.on('goToNextPage', function(pollId) {
+    console.log("goToNextPage kallas på")
     io.to(pollId).emit('goToNextPage');
   });
   socket.on('goToShowQResult', function(d) {
-    //io.to(pollId).emit('goToShowQResults');
+    console.log("goToShowQResult kallas på")
     data.answerSubmit(d.pollId ,d.playerId);
     io.to(d.pollId).emit('goToShowQResults', data.answerSubmit(d.pollId))
   });
   socket.on('goToShowQResultatet', function(pollId) {
+    console.log("goToShowQResultatet kallas på")
     io.to(pollId).emit('goToShowQResultss');
 
   });
@@ -94,6 +96,7 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
   });
   socket.on("PlayerGuessAnswer", function(obj) {
+    console.log(obj.guessObj)
     data.guessSubmit(obj.pollId ,obj.guessObj);
     if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har svart på frågorna
       io.to(obj.pollId).emit('goToResultPage')
@@ -102,6 +105,7 @@ function sockets(io, socket, data) {
 
   });
   socket.on('goToResult', function(pollId) {
+    console.log("goToResult kallas på")
       io.to(pollId).emit('goToResultPage');
   });
 
@@ -114,23 +118,25 @@ function sockets(io, socket, data) {
   });
 
   socket.on('goToNextRound', function(pollId) {
+    console.log("goToNextRound kallas på")
     io.to(pollId).emit('goToNextRound');
   });
   socket.on('goToScoreBoard', function(pollId) {
+    console.log("goToScoreBoard kallas på")
     currentRound = data.getCurrentRound(pollId);
-    console.log("The current round is", currentRound)
     amountOfQuestions = data.getAmountOfQ(pollId);
-    console.log("The amount of questions is", amountOfQuestions)
     if (currentRound != (amountOfQuestions - 1)){
       io.to(pollId).emit('goToScoreBoard');
+      console.log("goToScoreBoard emittas")
     }else{
-      io.emit('goToPodium');
+
+      io.to(pollId).emit('goToPodium');
+      console.log("goToPodium emittas")
     }
   });
-  socket.on('goToPlaceDisplay', function(pollId) {
-    io.to(pollId).emit('goToPlaceDisplay');
-  });
+
   socket.on('goToNextQuestion', function(pollId) {
+    console.log("goToNextQuestion kallas på")
     io.to(pollId).emit('goToNextQuestion');
   });
  
