@@ -89,12 +89,13 @@ interact('.drag-drop')
 } */
 interact('.drag-drop')
   .draggable({
+    
     // enable inertial throwing
     inertia: false,
     // keep the element within the area of it's parent
        modifiers: [
       interact.modifiers.restrictRect({
-        restriction: 'body',
+        restriction: 'dropzone',
         endOnly: true
       })
     ],   
@@ -145,7 +146,7 @@ interact('.dropzone').dropzone({
   accept: '.drag-drop',
   // Require a 75% element overlap for a drop to be possible
   overlap: 0.75,
-  maxPerElement: 1,
+
   // listen for drop related events:
 
   ondropactivate: function (event) {
