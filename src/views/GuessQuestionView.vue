@@ -31,7 +31,7 @@
       </div>
   
     
-    <button v-if=!showButtonBoolean>HEJ</button>
+    <button class='sendbutton' v-on:click="sendFunc()">SEND</button>
   
  
 
@@ -95,7 +95,7 @@ interact('.drag-drop')
     // keep the element within the area of it's parent
        modifiers: [
       interact.modifiers.restrictRect({
-        restriction: 'dropzone',
+        restriction: 'body',
         endOnly: true
       })
     ],   
@@ -120,12 +120,13 @@ interact('.drag-drop')
   })
 
 function dragMoveListener (event) {
+  console.log(event)
   var target = event.target
 
   // keep the dragged position in the data-x/data-y attributes
   var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-  var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
+  var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy 
+  
   //console.log('event')
   // translate the element
   target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
@@ -141,6 +142,7 @@ function dragMoveListener (event) {
 //window.dragMoveListener = dragMoveListener
 
 // enable draggables to be dropped into this
+
 interact('.dropzone').dropzone({
   // only accept elements matching this CSS selector
   accept: '.drag-drop',
@@ -154,6 +156,7 @@ interact('.dropzone').dropzone({
     // add active dropzone feedback
     event.target.classList.add('drop-active')
     console.log(event)
+
 
   },
   ondragenter: function (event) {
@@ -174,8 +177,8 @@ interact('.dropzone').dropzone({
     /* event.target.classList.remove('drop-target')
     event.relatedTarget.classList.remove('can-drop') */
     if(event.currentTarget.innerHTML === ""){
-    event.currentTarget.classList.remove('correct-bg');
-    event.currentTarget.classList.add('standard-bg');
+   /*  event.currentTarget.classList.remove('correct-bg');
+    event.currentTarget.classList.add('standard-bg'); */
 
     }
     //event.relatedTarget.textContent = 'Dragged out'
@@ -209,8 +212,14 @@ interact('.dropzone').dropzone({
     
    console.log(event.currentTarget.innerHTML)
  
+  
+    
+    event.relatedTarget.style.transform = 'translate(0px,0px)' 
+   event.relatedTarget.setAttribute('data-x',event.currentTarget.clientX)
+   event.relatedTarget.setAttribute('data-y',event.currentTarget.clientY)
 
-   event.relatedTarget.style.transform = 'translate(0px,0px)'
+/*    event.currentTarget.setAttribute('data-x',0)
+   event.currentTarget.setAttribute('data-y',0) */
    
     
 
@@ -278,14 +287,15 @@ interact('.drag-drop-cont').dropzone({
    /*  this.showButton(); */
 
    event.relatedTarget.style.transform = 'translate(0px,0px)'
-    
+   event.relatedTarget.setAttribute('data-x',event.currentTarget.clientX)
+   event.relatedTarget.setAttribute('data-y',event.currentTarget.clientY)
 
     
   },
    ondropdeactivate: function (event) {
     // remove active dropzone feedback
     event.target.classList.remove('drop-active')
-    event.target.classList.remove('drop-target')
+    //event.target.classList.remove('drop-target')
   },
   
 })
@@ -311,9 +321,7 @@ name: "AnswerQuestionView",
       interact,
         },
 
-created(){
-    // this.timerstart()
-},
+
 
 data: function () {
     return {
@@ -355,8 +363,21 @@ data: function () {
     ],
     showButtonBoolean: false,
     //timerobj: null,
+    pollId:"",
+      lang:"",
+      playerId:"",
+      answerArray:[],
+      //players:[],
+    GuessArray:[],
+    randomAnswers:[],
+    Qobj:{},
+    loadedOnce:false,
 
     }
+},
+
+created(){
+  
 },
 
 methods: {
@@ -379,8 +400,8 @@ methods: {
     },1000)
   },
  
+/* !--ANVÄNDS INTE JUST NU--! */
 
- /*DENNA FUNKAR KNAPPT*/
   showButton: function(){
     console.log('hej')
     let noEmpty = true;
@@ -405,6 +426,9 @@ methods: {
       this.showButtonBoolean = false;
     }
    return noEmpty
+  },
+  sendFunc: function (){
+      
   }
 },
  beforeUnmount(){
@@ -549,7 +573,6 @@ h2 {
 
 
 .drag-drop-cont {
-  display: inline-block;
   background-color:#046B79;
   border: 1px solid white;
   border-radius: 5px;
@@ -557,7 +580,6 @@ h2 {
   color: #fff;
   height:2em;
   width: 2em;
-  display:flex;
   margin: 1em;
   font-size:2em;
   display: flex;
@@ -595,5 +617,28 @@ h2 {
  #outer-dropzone {
   display:flex;
   justify-content: center;
+  position: relative;
  }
+
+ #yes-drop {
+
+z-index: 100;
+
+ }
+
+.sendbutton {
+  background-color: #046B79;
+  font-family: Righteous;
+  font-size: 2em;
+  color: white;
+  border: 1px white solid;
+  border-radius: 5px;
+  box-shadow: 0px 5px 4px #046B79;
+  
+
+}
+
+.sendbutton:hover {
+  cursor: pointer;
+}
 </style>
