@@ -3,8 +3,7 @@
     <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
-{{randomAnswers}}
-      {{GuessArray}}
+
   <section class="playerListContainer">
     <div class="playerList">
     <div v-for="(player) in GuessArray"
@@ -398,9 +397,9 @@ created(){
     }
     });
   socket.emit("getCurrentQuestion", this.pollId)
- /*  socket.on("goToResultPage", () => { 
+ socket.on("goToResultPage", () => { 
     this.$router.push('/CheckCorrectAnswer/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
-    }); */
+    }); 
 },
   
 
@@ -460,7 +459,7 @@ methods: {
     let id = this.GuessArray[i].playerId
     let getGuess = document.getElementById(''+id+'')
     console.log(getGuess) 
-    var obj = {playerID: this.GuessArray[i].playerId, guess: getGuess.innerText }
+    var obj = {playerID: this.GuessArray[i].playerId, guess: parseInt(getGuess.innerText) }
     this.answerArray.push(obj);
   }
   socket.emit("PlayerGuessAnswer", {pollId: this.pollId, guessObj: {playerId: this.playerId, guess: this.answerArray}})
