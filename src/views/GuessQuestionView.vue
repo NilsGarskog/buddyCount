@@ -4,6 +4,15 @@
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
+
+      <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+        v-if="popupTriggers.buttonTrigger"
+      >
+      <h1> Your have guessed enough!</h1>
+      </PopUp>
+
       <!-- <div class="classTable">
         <table>
     <tr>
@@ -56,6 +65,8 @@
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 import io from 'socket.io-client';
+import PopUp from "../components/PopUp.vue";
+import { ref } from "vue";
 const socket = io();
 
 
@@ -63,9 +74,18 @@ const socket = io();
 export default {
   
 name: "GuessQuestionView",
-        components: {
-            vSelect,
-        },
+components: {
+    vSelect,
+    PopUp,
+},
+    setup() {
+    const popupTriggers = ref({
+      buttonTrigger: false,
+    });
+return {
+  popupTriggers,
+};
+},
 data: function () {
     return {
       drag: false,
@@ -129,12 +149,16 @@ onSelect: function(selectedOption) {
 },
 sendFnc: function(){
   console.log("send!")
+  this.togglePopup()
   for (var i = 0, l = this.GuessArray.length; i < l; i++){
     var obj = {playerID: this.GuessArray[i].playerId, guess: this.GuessArray[i].Guess }
     this.answerArray.push(obj);
   }
   socket.emit("PlayerGuessAnswer", {pollId: this.pollId, guessObj: {playerId: this.playerId, guess: this.answerArray}})
 },
+togglePopup: function () {
+        this.popupTriggers.buttonTrigger = true;
+    },
 
 },
 
