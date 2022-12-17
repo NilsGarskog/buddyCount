@@ -699,4 +699,61 @@ z-index: 100;
 .sendbutton:hover {
   cursor: pointer;
 }
+
+
+
+@media (max-width: 450px){
+
+  .heading {
+    font-size: 30px;
+    overflow: wrap;
+  }
+
+  .outer-dropzone {
+    height:50px;
+    width: 80px;
+    font-size:30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .playerList {
+    font-size: 30px;
+    display: block;
+    overflow: scroll;
+    justify-content: center;
+    scrollbar-width: 50px;
+    scrollbar-color: black;
+
+
+   
+  }
+  .playerNameInList {
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 10px;
+  }
+  .playerListContainer {
+ height: 300px;
+ margin-bottom: 40px;
+  }
+
+  .numbers-div {
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .drag-drop-cont {
+    margin: 5px;
+    margin-bottom:10px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #yes-drop {
+    z-index: 100;
+  }
+
+   
+}
 </style>
+
