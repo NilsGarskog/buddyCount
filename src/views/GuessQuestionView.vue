@@ -32,7 +32,7 @@
       </div>
   
     
-    <button class='sendbutton' v-on:click="sendFunc()">SEND</button>
+    <button id='sendbutton' v-on:click="sendFunc()">SEND</button>
   
  
 
@@ -464,6 +464,7 @@ methods: {
   }
   socket.emit("PlayerGuessAnswer", {pollId: this.pollId, guessObj: {playerId: this.playerId, guess: this.answerArray}})
   console.log( {pollId: this.pollId, guessObj: {playerId: this.playerId, guess: this.answerArray}})
+  document.getElementById('sendbutton').style.background = "#2ca4b4"
   },
 
 
@@ -666,7 +667,7 @@ h2 {
 }
 
 .standard-bg {
-  background-color: #046B79;
+  background-color: hsl(187, 65%, 45%);
 }
 
 .incorrect-bg {
@@ -684,7 +685,7 @@ z-index: 100;
 
  }
 
-.sendbutton {
+#sendbutton {
   background-color: #046B79;
   font-family: Righteous;
   font-size: 2em;
@@ -696,11 +697,20 @@ z-index: 100;
 
 }
 
-.sendbutton:hover {
+#sendbutton:hover {
   cursor: pointer;
 }
 
-
+::-webkit-scrollbar{
+  -webkit-overflow-scrolling: auto !important;
+  width: 10px;
+  color: black;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+}
 
 @media (max-width: 450px){
 
@@ -711,31 +721,39 @@ z-index: 100;
 
   .outer-dropzone {
     height:50px;
-    width: 80px;
+    width: 50px;
     font-size:30px;
     display: flex;
     align-items: center;
+    margin-left: 20px;
+    margin-right:10px;
   }
 
   .playerList {
-    font-size: 30px;
-    display: block;
-    overflow: scroll;
-    justify-content: center;
-    scrollbar-width: 50px;
-    scrollbar-color: black;
+    font-size: 15px;
+    display: flex;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+
 
 
    
   }
   .playerNameInList {
-    margin-left: 40px;
-    margin-right: 40px;
+    width:100%;
+    /* margin-left: 40px;
+    margin-right: 40px; */
     margin-bottom: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
   }
   .playerListContainer {
- height: 300px;
+ height: auto;
  margin-bottom: 40px;
+ max-height:400px;
   }
 
   .numbers-div {
@@ -753,7 +771,15 @@ z-index: 100;
     z-index: 100;
   }
 
-   
+   .avatarImage{
+    height:40px;
+    width:40px;
+    margin-left:15px;
+   }
+
+   #name {
+    width:30%;
+   }
 }
 </style>
 

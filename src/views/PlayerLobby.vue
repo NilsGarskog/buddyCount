@@ -29,7 +29,7 @@
     </section>
 
     <div>
-        <button class="startGameButton">START GAME!</button>
+        <button class="startGameButton" v-on:click = "goToQuestion()">START GAME!</button>
     </div>
             
     </body>
@@ -89,11 +89,16 @@ export default {
             socket.emit('removeParticipant', {pollId: this.pollId, playerId: player.playerId})
         }
         
+    },
+    
+    goToQuestion: function(){
+        socket.emit('goToNextPage', this.pollId)
     }
+}
     }
 
     
-}
+
 
 </script>
 
