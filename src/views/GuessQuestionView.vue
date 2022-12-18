@@ -714,6 +714,9 @@ z-index: 100;
 
 @media (max-width: 450px){
 
+  body{
+    position: absolute;
+  }
   .heading {
     font-size: 30px;
     overflow: wrap;

@@ -1,8 +1,16 @@
 <template>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <body>
-<h1>Waiting for players to join....</h1>
-<button class="continueButton" v-if="this.playerId === '1'" v-on:click = goToQuestion() > Everyboy is in! </button>
+<h1 v-if="this.playerId !== '1'">Waiting for players to join....</h1>
+<div v-if="this.playerId === '1'">
+<h1 id="hostTitle">You are the host!</h1>
+<h2 class="hostTitle2">When you press the button below - </h2>
+<br>
+<h2 class="hostTitle3">the game will start for EVERYONE!</h2>
+</div>
+<div class="buttonCont">
+<button class="continueButton" v-if="this.playerId === '1'" v-on:click = goToQuestion() > START GAME! </button>
+</div>
 </body>
 </template>
 
@@ -78,11 +86,46 @@ button {
 }
 
 .continueButton {
-position: absolute;
-bottom:3em;
-left:20px;
-right:20px;
-width: calc(100% - 40px);
+  position: absolute;
+    font-family: Righteous;
+    bottom: 3em;
+    color: white;
+    background-color: #046B79;
+    width: 300px;
+    height: 100px;
+    box-shadow: 0px 7px 10px #063d45;
+    border: 1px solid white;
 }
+
+#hostTitle {
+  margin-top: 70px;
+  font-size: 40px;
+  font-family: Righteous;
+
+}
+
+.hostTitle2 {
+  font-family: Righteous;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: white;
+    font-size: 20px;
+}
+
+.hostTitle3 {
+  font-family: Righteous;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: -30px;
+    color: white;
+    font-size: 20px;
+}
+
+.buttonCont {
+  display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
 
 </style>
