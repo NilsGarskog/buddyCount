@@ -110,8 +110,8 @@ export default {
       hideNav: true,
       audioOn: false,
       audio: new Audio(require("../Music/FunkyMusic.mp3")),
-      audioPicture: require("../Icons/Speaker.png"),
-      rulesPicture: require("../Icons/daRules.png"),
+      audioPicture: require("../Icons/music-on.svg"),
+      rulesPicture: require("../Icons/question.svg"),
       langImg: require("../Icons/Sweden.png"),
     };
   },
@@ -151,11 +151,11 @@ export default {
       if (this.audioOn === false) {
         this.audio.play();
         this.audioOn = true;
-        this.audioPicture = require("../Icons/SpeakerOff.png");
+        this.audioPicture = require("../Icons/music-off.svg");
       } else {
         this.audio.pause();
         this.audioOn = false;
-        this.audioPicture = require("../Icons/Speaker.png");
+        this.audioPicture = require("../Icons/music-on.svg");
       }
     },
   },
@@ -187,12 +187,21 @@ ul {
   list-style-position: outside;
 }
 .rulesButton {
-  height: 6vw;
-  padding: 2em;
+  height: 7em;
+  width:7em;
+  margin-right:1em;
+  margin-bottom: 1em;
   position: fixed;
   bottom: 0px;
   right: 0px;
   cursor: pointer;
+  opacity:0.7;
+  transition:0.3s;
+}
+
+.rulesButton:hover{
+  opacity: 1;
+  transition: 0.3s;
 }
 #codeSubmitButton {
   height: 5vh;
@@ -206,13 +215,31 @@ ul {
   width: 100%;
   cursor: pointer;
   justify-content: space-between;
-  margin-top: 1em;
+  margin-top: 2em;
 }
 #playMuteButton{
- margin-left: 1em;
+ margin-left: 2em;
+ height:4em;
+  width:4em;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+#playMuteButton:hover {
+  opacity:1;
+  transition: 0.3s;
 }
 #langBtn{
-  margin-right: 1em;
+  margin-right: 2em;
+  height:4em;
+  width:4em;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+#langBtn:hover {
+  opacity:1;
+  transition: 0.3s;
 }
 
 .codeInput{
@@ -257,17 +284,21 @@ body {
   color: black;
   cursor: pointer;
 
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: Righteous;
+  color: white;
+  background-color: #046B79;
+  box-shadow: 0px 7px 10px #063d45;
+    border: 1px solid white;
   font-size: 1.5vw;
-  font-weight: bold;
   padding: 0.1em 0.1em;
   position: relative;
   text-align: center;
+  transition:0.3s;
 }
 
 .standardButton:hover {
-  background-color: #67b3a5b7;
+  background-color: #1c8896;
+  transition:0.3s;
 }
 .rulesButtonMobile{
   display: none;

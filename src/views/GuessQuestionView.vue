@@ -762,6 +762,7 @@ z-index: 100;
   .numbers-div {
     flex-wrap: wrap;
     margin-bottom: 20px;
+    margin-top:-20px;
   }
   .drag-drop-cont {
     margin: 5px;
