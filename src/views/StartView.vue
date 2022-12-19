@@ -12,7 +12,7 @@
         v-bind:key="PopUpFonster"
         v-on:closeCurrentPopup="togglePopup('join')"
       >
-        <input class="codeInput" type="text" v-model="joinId" placeholder="input code...." />
+        <input class="codeInput" type="text" v-model="joinId" placeholder="GAME CODE..." />
         <router-link v-bind:to="'/chooseplayer/' + lang+'/'+joinId +'/'+this.id">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
@@ -163,6 +163,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .inputField{
   height: 5em;
   width: 15em;
@@ -205,9 +207,16 @@ ul {
 }
 #codeSubmitButton {
   height: 5vh;
-  width: 8vw;
+  width: 7vw;
   padding: 0;
-  background-color: #fd8469;
+  margin-left:1em;
+  background-color: #046B79;
+  transition:0.3s;
+}
+
+#codeSubmitButton:hover {
+  background-color: #1c8896;
+  transition:0.3s;
 }
 .topButtons {
   display: flex;
@@ -251,6 +260,7 @@ ul {
   font-size: 2em;
   font-family: righteous;
   font-weight: bold;
+  text-align: left;
 }
 
 .buttonText {
@@ -302,6 +312,7 @@ body {
 }
 .rulesButtonMobile{
   display: none;
+  margin-top:-10px;
 }
 
 @media screen and (max-width:50em) {
@@ -340,6 +351,46 @@ display: none;
 }
 #codeSubmitButton {
   width: 2.3em;
+}
+}
+
+@media (max-width:450px){
+  .codeInput{
+    width:180px;
+    font-size:20px;
+  }
+
+  #codeSubmitButton {
+
+    width:80px;
+  }
+
+  #title {
+    font-size: 40px;
+  }
+
+  .standardButton{
+    width:200px;
+    height:80px;
+  }
+
+  .buttonText{
+    font-size:25px;
+    margin-top:20px;
+  }
+
+  #Buttons {
+    margin-top:0px;
+  }
+
+  .rulesButtonMobile{
+    opacity:0.7;
+  transition:0.3s;
+}
+
+.rulesButtonMobile:hover{
+  opacity: 1;
+  transition: 0.3s;
 }
 }
 </style>
