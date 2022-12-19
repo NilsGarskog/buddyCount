@@ -1,6 +1,7 @@
 <template>
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-  <body>
+  <body id="body">
+    <div id="fullPage">
    <!--  <div v-if="first===show">
     <ConfettiExplosion /> 
     </div>-->
@@ -16,7 +17,7 @@
     <h1>You are the definition of average</h1>
     <h2> Stop being so mellanmjölkig!</h2>
   </div>
-
+</div>
   </body>
 </template>
 
@@ -92,8 +93,9 @@ export default {
         }
       },
 
-  
-  confetti: function(){
+      confetti: function(){
+        console.log('confetti',this.show)
+
   const jsConfetti = new JSConfetti()
   if(this.first===this.show){
     jsConfetti.addConfetti()
@@ -126,7 +128,7 @@ else if(this.last===this.show){
 
 <style scoped>
 body {
-  position:fixed;
+  position:absolute;
   background-color: #24a07b;
   width: 100vw;
   min-height: 100vh;
@@ -143,7 +145,9 @@ button{
 
 @media (max-width:450px) {
 
-
+  html {
+    height: -webkit-fill-available; /* We have to fix html height */
+}
 
   .firstPlace, .lastPlace, .mediokerPlace {
     
@@ -164,6 +168,14 @@ button{
   #fullPage {
     min-height: 100%
   }
+}
+@supports(padding:max(0px)) {
+    body, header, footer {
+        padding-left: min(0vmin, env(safe-area-inset-left));
+        padding-right: min(0vmin, env(safe-area-inset-right));
+        padding-top: min(0vmin, env(safe-area-inset-top));
+        padding-bottom: min(0vmin, env(safe-area-inset-bottom));
+    }
 }
 
 </style>
