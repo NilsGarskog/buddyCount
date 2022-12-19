@@ -281,6 +281,7 @@ body {
   font-synthesis: none;
   margin-top: 0;
   margin-bottom: 4vh;
+  cursor:default;
 }
 
 .standardButton {

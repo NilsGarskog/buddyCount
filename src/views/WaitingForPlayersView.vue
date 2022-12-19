@@ -1,7 +1,9 @@
 <template>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+        <link rel="stylesheet" href="css/three-dots.min.css">
   <body>
 <h1 v-if="this.playerId !== '1'">Waiting for players to join....</h1>
+<div class="dot-bricks"></div>
 <div v-if="this.playerId === '1'">
 <h1 id="hostTitle">You are the host!</h1>
 <h2 class="hostTitle2">When you press the button below</h2>
@@ -134,6 +136,62 @@ button {
     width: 100%;
     justify-content: center;
 }
+.dot-bricks {
+  position: relative;
+  margin-left:190px;
+  margin-top:40px;
+  top: 8px;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 0px;
+  background-color: #046B79;
+  color: #046B79;
+  box-shadow: 9991px -16px 0 0 #046B79, 9991px 0 0 0 #046B79, 10007px 0 0 0 #046B79;
+  animation: dot-bricks 2s infinite ease;
+}
+
+@keyframes dot-bricks {
+  0% {
+    box-shadow: 9991px -16px 0 0 #034851, 9991px 0 0 0 #046B79, 10007px 0 0 0 #034851;
+  }
+  8.333% {
+    box-shadow: 10007px -16px 0 0 #046B79, 9991px 0 0 0 #034851, 10007px 0 0 0 #046B79;
+  }
+  16.667% {
+    box-shadow: 10007px -16px 0 0 #034851, 9991px -16px 0 0 #034851, 10007px 0 0 0 #046B79;
+  }
+  25% {
+    box-shadow: 10007px -16px 0 0 #046B79, 9991px -16px 0 0 #046B79, 9991px 0 0 0 #034851;
+  }
+  33.333% {
+    box-shadow: 10007px 0 0 0 #034851, 9991px -16px 0 0 #034851, 9991px 0 0 0 #046B79;
+  }
+  41.667% {
+    box-shadow: 10007px 0 0 0 #046B79, 10007px -16px 0 0 #046B79, 9991px 0 0 0 #034851;
+  }
+  50% {
+    box-shadow: 10007px 0 0 0 #046B79, 10007px -16px 0 0 #034851, 9991px -16px 0 0 #046B79;
+  }
+  58.333% {
+    box-shadow: 9991px 0 0 0 #034851, 10007px -16px 0 0 #046B79, 9991px -16px 0 0 #046B79;
+  }
+  66.666% {
+    box-shadow: 9991px 0 0 0 #046B79, 10007px 0 0 0 #034851, 9991px -16px 0 0 #046B79;
+  }
+  75% {
+    box-shadow: 9991px 0 0 0 #046B79, 10007px 0 0 0 #046B79, 10007px -16px 0 0 #034851;
+  }
+  83.333% {
+    box-shadow: 9991px -16px 0 0 #034851, 10007px 0 0 0 #034851, 10007px -16px 0 0 #046B79;
+  }
+  91.667% {
+    box-shadow: 9991px -16px 0 0 #046B79, 9991px 0 0 0 #034851, 10007px -16px 0 0 #046B79;
+  }
+  100% {
+    box-shadow: 9991px -16px 0 0 #034851, 9991px 0 0 0 #046B79, 10007px 0 0 0 #034851;
+  }
+}
 
 @media (max-width:450px){
 
@@ -141,7 +199,11 @@ button {
     font-size:35px;
   }
 
-  
+  h1 {
+    margin-top: 250px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 
 }
 </style>
