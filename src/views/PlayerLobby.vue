@@ -29,7 +29,7 @@
     </section>
 
     <div>
-        <button class="startGameButton" v-on:click = "goToQuestion()">START GAME!</button>
+        <button class="startGameButton">START GAME!</button>
     </div>
             
     </body>
@@ -89,16 +89,11 @@ export default {
             socket.emit('removeParticipant', {pollId: this.pollId, playerId: player.playerId})
         }
         
-    },
-    
-    goToQuestion: function(){
-        socket.emit('goToNextPage', this.pollId)
     }
+    }
+
+    
 }
-    }
-
-    
-
 
 </script>
 
@@ -172,7 +167,7 @@ font-weight: 300;
     margin-top: 0.5em;
     padding: 0.5em;
     border: 1px solid;
-    border-radius: 1em;
+    border-radius: 20px;
     background-color: #046B79;
     color: white;
     transition: 0.2s;

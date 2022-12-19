@@ -4,9 +4,9 @@
 <h1 v-if="this.playerId !== '1'">Waiting for players to join....</h1>
 <div v-if="this.playerId === '1'">
 <h1 id="hostTitle">You are the host!</h1>
-<h2 class="hostTitle2">When you press the button below - </h2>
-<br>
-<h2 class="hostTitle3">the game will start for EVERYONE!</h2>
+<h2 class="hostTitle2">When you press the button below</h2>
+
+<h2 class="hostTitle3">- the game will start for EVERYONE!</h2>
 </div>
 <div class="buttonCont">
 <button class="continueButton" v-if="this.playerId === '1'" v-on:click = goToQuestion() > START GAME! </button>
@@ -64,6 +64,7 @@ h1{
   font-family: Righteous;
 }
 
+
 button {
   height: 5em;
   width: 14em;
@@ -86,7 +87,7 @@ button {
 }
 
 .continueButton {
-  position: absolute;
+    position: absolute;
     font-family: Righteous;
     bottom: 3em;
     color: white;
@@ -95,6 +96,13 @@ button {
     height: 100px;
     box-shadow: 0px 7px 10px #063d45;
     border: 1px solid white;
+    margin-bottom:50px;
+}
+
+.continueButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
 }
 
 #hostTitle {
@@ -116,7 +124,7 @@ button {
   font-family: Righteous;
     margin-left: 20px;
     margin-right: 20px;
-    margin-top: -30px;
+    margin-top: -10px;
     color: white;
     font-size: 20px;
 }
@@ -127,5 +135,13 @@ button {
     justify-content: center;
 }
 
+@media (max-width:450px){
 
+  #hostTitle{ 
+    font-size:35px;
+  }
+
+  
+
+}
 </style>
