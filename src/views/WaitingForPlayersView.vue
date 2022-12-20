@@ -2,8 +2,8 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
         <link rel="stylesheet" href="css/three-dots.min.css">
   <body>
-<h1 v-if="this.playerId !== '1'">Waiting for players to join....</h1>
-<div class="dot-bricks"></div>
+<h1 v-if="this.playerId !== '1'">Waiting for others to join....</h1>
+<div v-if="this.playerId !== '1'" class="dot-bricks"></div>
 <div v-if="this.playerId === '1'">
 <h1 id="hostTitle">You are the host!</h1>
 <h2 class="hostTitle2">When you press the button below</h2>

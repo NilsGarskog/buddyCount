@@ -8,7 +8,7 @@
     <div class="playerList">
     <div v-for="(player) in GuessArray"
          v-bind:players="players" v-bind:key="player.image">
-            <span class="playerNameInList">
+            <div class="playerNameInList">
           <img  class="avatarImage" :src="require('../Icons/'+player.avatarImg + '.png')" :key="player.image"/>
           
             <span id="name">{{player.name}}</span>
@@ -17,7 +17,7 @@
               <div class= "dropzone outer-dropzone" v-bind:id="player.playerId">
              
             </div>
-            </span>
+          </div>
     </div>
     </div> 
   </section>
@@ -717,6 +717,11 @@ z-index: 100;
   body{
     position: absolute;
   }
+
+  h1 { 
+    margin-top:40px;
+    margin-bottom:50px;
+  }
   .heading {
     font-size: 30px;
     overflow: wrap;
@@ -747,7 +752,7 @@ z-index: 100;
     width:100%;
     /* margin-left: 40px;
     margin-right: 40px; */
-    margin-bottom: 10px;
+    margin-bottom: 45px;
     margin-top: 10px;
     display: flex;
     align-items:center;
@@ -756,7 +761,7 @@ z-index: 100;
   .playerListContainer {
  height: auto;
  margin-bottom: 40px;
- max-height:400px;
+ max-height:430px;
   }
 
   .numbers-div {
@@ -776,14 +781,54 @@ z-index: 100;
   }
 
    .avatarImage{
+    position:absolute;
+    margin-top:-60px;
     height:40px;
     width:40px;
-    margin-left:15px;
+    margin-left:5px;
+    z-index: 1000;
    }
 
    #name {
-    width:30%;
+    width:100%;
+    position:absolute;
+    z-index:90;
+    margin-left: 20px;
+    margin-bottom: -80px;
+    color: white;
    }
+
+ 
+   
+}
+
+@media (max-width: 375px) {
+  .heading {
+    margin-top:20px;
+    margin-bottom:40px;
+    font-size:20px;
+  }
+
+  .drag-drop-cont {
+    width:40px;
+    height: 40px;
+    margin: 12px;
+    margin-bottom:5px;
+    font-size:20px;
+  }
+
+  .numbers-div {
+    margin-top:-60px;
+  }
+
+  .playerListContainer{
+
+    margin-top:-20px;
+  }
+
+  #sendbutton {
+    font-size:25px;
+  }
 }
 </style>
 
