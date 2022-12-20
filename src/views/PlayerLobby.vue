@@ -28,7 +28,7 @@
         
     </section>
 
-    <div>
+    <div id="footer">
         <button class="startGameButton">START GAME!</button>
     </div>
             
@@ -108,7 +108,13 @@ body {
     position: fixed;  
     min-height: 100vh;
 }
+#footer {
+  
+    position: absolute;
+    bottom: 10%;
+     width: 100%;
 
+}
 .headerContainer {
     display:flex;
     justify-content: space-between;

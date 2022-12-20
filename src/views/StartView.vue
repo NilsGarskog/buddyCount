@@ -12,7 +12,7 @@
         v-bind:key="PopUpFonster"
         v-on:closeCurrentPopup="togglePopup('join')"
       >
-        <input class="codeInput" type="text" v-model="joinId" placeholder="input code...." />
+        <input class="codeInput" type="text" v-model="joinId" placeholder="GAME CODE..." />
         <router-link v-bind:to="'/chooseplayer/' + lang+'/'+joinId +'/'+this.id">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
@@ -25,7 +25,7 @@
         v-bind:PopUp="PopUp"
         v-bind:key="PopUpFonster"
       >
-          <img src="../Icons/closeButton.png" class ="popupClose" v-on:click="togglePopup('rules')">
+          <img src="../Icons/closeNew.svg" class ="popupClose" v-on:click="togglePopup('rules')">
            <pre> </pre>
 
           <div class="ruleText">
@@ -110,8 +110,8 @@ export default {
       hideNav: true,
       audioOn: false,
       audio: new Audio(require("../Music/FunkyMusic.mp3")),
-      audioPicture: require("../Icons/Speaker.png"),
-      rulesPicture: require("../Icons/daRules.png"),
+      audioPicture: require("../Icons/music-on.svg"),
+      rulesPicture: require("../Icons/question.svg"),
       langImg: require("../Icons/Sweden.png"),
     };
   },
@@ -151,11 +151,11 @@ export default {
       if (this.audioOn === false) {
         this.audio.play();
         this.audioOn = true;
-        this.audioPicture = require("../Icons/SpeakerOff.png");
+        this.audioPicture = require("../Icons/music-off.svg");
       } else {
         this.audio.pause();
         this.audioOn = false;
-        this.audioPicture = require("../Icons/Speaker.png");
+        this.audioPicture = require("../Icons/music-on.svg");
       }
     },
   },
@@ -163,56 +163,111 @@ export default {
 </script>
 
 <style scoped>
+
+
 .inputField{
   height: 5em;
   width: 15em;
 }
 .popupClose{
-  height:4em;
-  width: 4em;
+  height:4.5em;
+  width: 4.5em;
   position: absolute;
   padding: 0.2em;
   left: 0;
   top: 0;
   cursor: pointer;
+  margin-left:0.5em;
+  margin-top:0.5em;
+  transition:0.3s;
+  opacity:0.5;
+}
+
+.popupClose:hover {
+  transition:0.3s;
+  opacity:1;
 }
 .ruleText{
-  font-size: 3vw;
+  font-size: 2.5vw;
   text-align: left;
   position: relative;
-  margin-left: 1vw;
+  margin-left: 2vw;
+  font-family: Righteous;
+  font-weight: 200;
 }
 
 ul {
   list-style-position: outside;
 }
 .rulesButton {
-  height: 6vw;
-  padding: 2em;
+  height: 7em;
+  width:7em;
+  margin-right:1em;
+  margin-bottom: 1em;
   position: fixed;
   bottom: 0px;
   right: 0px;
   cursor: pointer;
+  opacity:0.7;
+  transition:0.3s;
+}
+
+.rulesButton:hover{
+  opacity: 1;
+  transition: 0.3s;
+  height: 7.5em;
+  width:7.5em;
 }
 #codeSubmitButton {
   height: 5vh;
-  width: 8vw;
+  width: 7vw;
   padding: 0;
-  background-color: #fd8469;
+  margin-left:1em;
+  background-color: #046B79;
+  transition:0.3s;
+}
+
+#codeSubmitButton:hover {
+  background-color: #1c8896;
+  transition:0.3s;
 }
 .topButtons {
   display: flex;
   height: 6vw;
   width: 100%;
-  cursor: pointer;
+  cursor: default;
   justify-content: space-between;
-  margin-top: 1em;
+  margin-top: 2em;
 }
 #playMuteButton{
- margin-left: 1em;
+ margin-left: 2em;
+ height:4em;
+  width:4em;
+  opacity: 0.7;
+  transition: 0.3s;
+  cursor:pointer;
+}
+
+#playMuteButton:hover {
+  opacity:1;
+  transition: 0.3s;
+  height:4.2em;
+  width:4.2em;
 }
 #langBtn{
-  margin-right: 1em;
+  margin-right: 2em;
+  height:4em;
+  width:4em;
+  opacity: 0.7;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+#langBtn:hover {
+  opacity:1;
+  transition: 0.3s;
+  height:4.2em;
+  width:4.2em;
 }
 
 .codeInput{
@@ -224,6 +279,7 @@ ul {
   font-size: 2em;
   font-family: righteous;
   font-weight: bold;
+  text-align: left;
 }
 
 .buttonText {
@@ -236,6 +292,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   padding: 0;
+  cursor:default;
 }
 
 #title {
@@ -244,6 +301,7 @@ body {
   font-synthesis: none;
   margin-top: 0;
   margin-bottom: 4vh;
+  cursor:default;
 }
 
 .standardButton {
@@ -257,20 +315,25 @@ body {
   color: black;
   cursor: pointer;
 
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: Righteous;
+  color: white;
+  background-color: #046B79;
+  box-shadow: 0px 7px 10px #063d45;
+    border: 1px solid white;
   font-size: 1.5vw;
-  font-weight: bold;
   padding: 0.1em 0.1em;
   position: relative;
   text-align: center;
+  transition:0.3s;
 }
 
 .standardButton:hover {
-  background-color: #67b3a5b7;
+  background-color: #1c8896;
+  transition:0.3s;
 }
 .rulesButtonMobile{
   display: none;
+  margin-top:-10px;
 }
 
 @media screen and (max-width:50em) {
@@ -279,6 +342,7 @@ display: none;
   }
   .topButtons {
     height: 5em;
+    cursor: default;
   }
   .standardButton {
     width: 12em;
@@ -301,14 +365,56 @@ display: none;
  .popupClose{
   height:3em;
   width: 3em;
+ 
 }
 .ruleText{
-  font-size: 1.5em;
-
-  margin-left: 0;
+  font-size: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: -20px;
 }
 #codeSubmitButton {
   width: 2.3em;
+}
+}
+
+@media (max-width:450px){
+  .codeInput{
+    width:180px;
+    font-size:20px;
+  }
+
+  #codeSubmitButton {
+
+    width:80px;
+  }
+
+  #title {
+    font-size: 40px;
+  }
+
+  .standardButton{
+    width:200px;
+    height:80px;
+  }
+
+  .buttonText{
+    font-size:25px;
+    margin-top:20px;
+  }
+
+  #Buttons {
+    margin-top:0px;
+  }
+
+  .rulesButtonMobile{
+    opacity:0.7;
+  transition:0.3s;
+}
+
+.rulesButtonMobile:hover{
+  opacity: 1;
+  transition: 0.3s;
 }
 }
 </style>
