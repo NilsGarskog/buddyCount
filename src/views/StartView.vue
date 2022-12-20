@@ -390,6 +390,8 @@ display: none;
   }
 
   #title {
+    margin-top:80px;
+    margin-bottom: 30px;
     font-size: 40px;
   }
 

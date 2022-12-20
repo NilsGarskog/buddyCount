@@ -10,6 +10,8 @@
       >
       <h1> All questions are answered!</h1>
       </PopUp>
+      <div class="bigContainer">
+        <div class ="smallContainer">
     <div class="questions">
       <div v-if="loaded===true">
         {{questions[currentQ].q}}
@@ -19,14 +21,16 @@
 
       <div class="fieldPos">
       <div class="answerField">
-        <img src="../Icons/minusButton.png" class="signButton" id="subButton"  v-on:click = "subtractNumber()" >
+        <img src="../Icons/minusButton.svg" class="signButton" id="subButton"  v-on:click = "subtractNumber()" >
       <input v-model="answer" type="number" id="answerInputField" >
-        <img src="../Icons/addButton.png" class="signButton" id="addButton" v-on:click = "addNumber()" >
+        <img src="../Icons/plusButtonGreen.svg" class="signButton" id="addButton" v-on:click = "addNumber()" >
         
       </div>
       </div>
 
-    <button class="sendButton" v-on:click="sendBTNfunc(questions[currentQ].i)"> Send </button>
+    <button class="sendButton" v-on:click="sendBTNfunc(questions[currentQ].i)"> SEND! </button>
+  </div>
+  </div>
 
  <!-- <button v-on:click="addAnswer"> Svara</button> -->
 
@@ -150,6 +154,10 @@ width: 400px;
 padding: 0 20px;
 }
 
+#subButton, #addButton {
+  cursor:pointer;
+}
+
 .fieldPos{
   display: flex;
   justify-content: center;
@@ -162,7 +170,8 @@ padding: 0 20px;
   border-color: black, red;
   width: 90%;
   border-radius: 3em;
-  background-color: #16534188;
+  background-color: #70c1b3;
+  box-shadow: 0px 5px 4px #046B79;
   
   
 }
@@ -202,10 +211,24 @@ button {
   line-height: 20px;
   text-align: center;
 }
-.sendButton{
-  margin-top: 1em;
-}
 
+.sendButton {
+  font-family: Righteous;
+    font-size: 2em;
+    margin-top: 1em;
+    padding: 0.5em;
+    border: 1px solid;
+    border-radius: 20px;
+    background-color: #046B79;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0px 5px 4px #046B79;
+}
+.sendButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
+}
 .button:hover {
   background-color: #67b3a5b7;
 }
@@ -215,6 +238,17 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-    
+.bigContainer{
+      height: 100%;
+      position: relative;   
+     
+    }
+    .smallContainer {
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(40%);
+  transform: translateY(40%);
+    }
    
     </style>
