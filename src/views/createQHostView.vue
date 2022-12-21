@@ -34,6 +34,9 @@
           <p class="buttonText">Start game</p>
         </button>
       </router-link> -->
+      <div id="footer">
+        <button class="startGameButton" v-on:click="moveOn()">START GAME!</button>
+    </div>
 
 </body>
 
@@ -85,6 +88,9 @@ export default {
       }
       
       
+    },
+    moveOn: function () {
+      socket.emit('goToNextPage', this.pollId)
     }
 },
 }
@@ -153,5 +159,30 @@ body{
   transition:0.3s;
   height:9em;
   width:9em;
+}
+
+#footer {
+  
+  position: absolute;
+  bottom: 10%;
+   width: 100%;
+}
+
+.startGameButton {
+    font-family: Righteous;
+    font-size: 2.5em;
+    margin-top: 0.5em;
+    padding: 0.5em;
+    border: 1px solid;
+    border-radius: 20px;
+    background-color: #046B79;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0px 5px 4px #046B79;
+}
+.startGameButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
 }
 </style>
