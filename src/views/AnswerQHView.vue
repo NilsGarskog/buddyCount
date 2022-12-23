@@ -1,16 +1,30 @@
 <template>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <body>
+
+    <Particles id="tsparticles" :particlesInit="particlesInit" :options="particlesOptions" />
+    
+    <div class="bigContainer">
 <h1>Answer the questions!</h1>
+<h2>Make sure to be honest!</h2>
+<lottie-player src="https://assets2.lottiefiles.com/packages/lf20_3RIxZt.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
+</div>
 </body>
 </template>
 
 <script>
 import io from 'socket.io-client';
+import LottiePlayer from '@lottiefiles/lottie-player';
 const socket = io();
 
-export default {
 
+
+
+export default {
+  
+  components: {
+    LottiePlayer,
+  },
 
 created: function () {
 
@@ -38,10 +52,38 @@ body {
   width: 100vw;
   min-height: 100vh;
   padding: 0;
+
+    touch-action: none;
+
 }
 
 h1{
   font-family: Righteous;
+  margin-bottom:4em;
+  margin-top:0em;
+  font-size:4em;
+  cursor: default;
 }
 
+h2 {
+  font-family: Righteous;
+  font-size: 2em;
+  margin-top:-7em;
+  margin-bottom:-1em;
+  cursor:default;
+}
+
+.bigContainer {
+  height:100vh;
+  
+display:flex;
+flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar {
+  display: none;
+}
+   
 </style>

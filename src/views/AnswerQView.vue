@@ -147,6 +147,7 @@ body{
   width: 100vw;
   min-height: 100vh;
   padding: 0;
+  touch-action: manipulation;
 }
 input {
 
@@ -155,7 +156,7 @@ padding: 0 20px;
 }
 
 #subButton, #addButton {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .fieldPos{
@@ -173,9 +174,7 @@ padding: 0 20px;
   background-color: #70c1b3;
   box-shadow: 0px 5px 4px #046B79;
   
-  
 }
-
 
 #answerInputField{
   font-family: "Monoton";
@@ -240,6 +239,7 @@ input::-webkit-inner-spin-button {
 }
 .bigContainer{
       height: 100%;
+      width:100%;
       position: relative;   
      
     }
