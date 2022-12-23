@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <body v-on:drag="closeAnimation()">
     <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
@@ -21,13 +21,16 @@
     </div>
     </div> 
   </section>
-    
+    <div @mousedown="closeAnimation()" @touchstart="closeAnimation()">
+      <lottie-player class="animation" src="https://assets7.lottiefiles.com/private_files/lf30_jwxga0h7.json"  background="transparent"  speed="1"  style=" height:150px;"  loop autoplay></lottie-player>
       <div class ="start-numbers numbers-div">
+       
         <div class = 'drag-drop-cont'  v-for="answer in randomAnswers"
       v-bind:randomAnswers="randomAnswers" v-bind:key="answer">
         <div id="yes-drop" class="drag-drop">   
             {{answer}}
         </div>
+      </div>
       </div>
       </div>
   
@@ -44,6 +47,7 @@
 /*import vSelect from 'vue-select'*/
 import interact from "interactjs";
 import io from 'socket.io-client';
+import LottiePlayer from '@lottiefiles/lottie-player';
 const socket = io();
   const interval = setInterval(function() {
    this.showButton();
@@ -77,12 +81,13 @@ interact('.drag-drop')
             .toFixed(2) + 'px')
       } */
     }
-  })
+  }
+  )
 /* function endedDrag (event){
   console.log(event.target)
 } */
 interact('.drag-drop').draggable({
-    
+ 
     // enable inertial throwing
     inertia: false,
     // keep the element within the area of it's parent
@@ -288,6 +293,7 @@ export default {
 name: "AnswerQuestionView",
         components: {
       interact,
+      LottiePlayer,
         },
 data: function () {
     return {
@@ -365,6 +371,11 @@ created(){
 },
   
 methods: {
+
+  closeAnimation: function(){
+    console.log('hej')
+    document.querySelector('.animation').style.display = 'none'
+  },
   print: function(){
     console.log("click")
   },
@@ -458,6 +469,7 @@ body{
   padding: 0;
   cursor: default;
   font-family: Righteous;
+  overflow:hidden;
 }
 h1 {
   font-size:3em;
@@ -614,6 +626,14 @@ z-index: 100;
     border-radius: 10px;
     border: 2px solid #ffffff;
 }
+
+.animation {
+  position: absolute;
+  display:flex;
+  justify-content: center;
+  margin-top:-15px;
+  z-index:10000;
+}
 @media (max-width: 450px){
   body{
     position: absolute;
@@ -691,6 +711,8 @@ z-index: 100;
  
    
 }
+
+
 @media (max-width: 375px) {
   .heading {
     margin-top:20px;
