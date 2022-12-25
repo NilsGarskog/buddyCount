@@ -4,7 +4,9 @@
 <body>
 <h1 v-if="this.playerId !== '1'">Waiting for others to join....</h1>
 <div class="loadContainer">
-<div v-if="this.playerId !== '1'" class="dot-bricks"></div>
+<div v-if="this.playerId !== '1'">
+  <lottie-player class="animation" src="https://assets4.lottiefiles.com/private_files/lf30_jk2sj58w.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px;"  loop autoplay></lottie-player>
+</div>
 </div>
 <div v-if="this.playerId === '1'">
 <h1 id="hostTitle">You are the host!</h1>
@@ -20,9 +22,15 @@
 
 <script>
 import io from 'socket.io-client';
+import LottiePlayer from '@lottiefiles/lottie-player';
 const socket = io();
 
 export default {
+
+
+  components: {
+    LottiePlayer,
+  },
 
 data: function(){
 return{
@@ -155,6 +163,11 @@ animation: dot-bricks 2s infinite ease;
 .loadContainer {
   display:flex;
   justify-content: center;
+}
+
+.animation {
+  opacity: 1;
+  margin-top:-40px;
 }
 
 @keyframes dot-bricks {

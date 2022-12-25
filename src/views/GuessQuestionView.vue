@@ -1,5 +1,5 @@
 <template>
-  <body v-on:drag="closeAnimation()">
+  <body @mousedown="closeAnimation()" @touchstart="closeAnimation()">
     <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
@@ -21,16 +21,17 @@
     </div>
     </div> 
   </section>
-    <div @mousedown="closeAnimation()" @touchstart="closeAnimation()">
-      <lottie-player class="animation" src="https://assets7.lottiefiles.com/private_files/lf30_jwxga0h7.json"  background="transparent"  speed="1"  style=" height:150px;"  loop autoplay></lottie-player>
+    <div>
       <div class ="start-numbers numbers-div">
        
-        <div class = 'drag-drop-cont'  v-for="answer in randomAnswers"
+        <div class = 'drag-drop-cont'  v-for="(answer,index) in randomAnswers"
       v-bind:randomAnswers="randomAnswers" v-bind:key="answer">
-        <div id="yes-drop" class="drag-drop">   
+      <lottie-player v-show="index===0" class="animation" src="https://assets7.lottiefiles.com/private_files/lf30_jwxga0h7.json"  background="transparent"  speed="1"  style=" height:150px;"  loop autoplay></lottie-player>
+      
+      <div id="yes-drop" class="drag-drop">   
             {{answer}}
         </div>
-      </div>
+      </div> 
       </div>
       </div>
   
@@ -336,9 +337,9 @@ data: function () {
     //timerobj: null,
     pollId:"",
       lang:"",
-      playerId:"",
-      answerArray:[],
-      players:[],
+    playerId:"",
+    answerArray:[],
+    players:[],
     GuessArray:[],
     randomAnswers:[],
     Qobj:{},
@@ -374,7 +375,7 @@ methods: {
 
   closeAnimation: function(){
     console.log('hej')
-    document.querySelector('.animation').style.display = 'none'
+    document.querySelector('.animation').remove();
   },
   print: function(){
     console.log("click")
@@ -460,7 +461,21 @@ function createGuessArr (players, id){
 }
 </script>
 
-<style scoped>
+<style>
+
+#sendbutton {
+  background-color: #046B79;
+  font-family: Righteous;
+  font-size: 2em !important;
+  color: white;
+  border: 1px white solid;
+  border-radius: 5px;
+  box-shadow: 0px 5px 4px #046B79;
+  
+}
+#sendbutton:hover {
+  cursor: pointer;
+}
 body{
   position: fixed;
   background-color: #24a07b;
@@ -533,9 +548,9 @@ h2 {
     padding-top: 0;
     overflow: visible;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
-    align-content: space-evenly;
+    justify-content: space-evenly;
 }
 .playerListContainer {
     display: flex;
@@ -603,19 +618,7 @@ h2 {
  #yes-drop {
 z-index: 100;
  }
-#sendbutton {
-  background-color: #046B79;
-  font-family: Righteous;
-  font-size: 2em;
-  color: white;
-  border: 1px white solid;
-  border-radius: 5px;
-  box-shadow: 0px 5px 4px #046B79;
-  
-}
-#sendbutton:hover {
-  cursor: pointer;
-}
+
 ::-webkit-scrollbar{
   -webkit-overflow-scrolling: auto !important;
   width: 10px;
@@ -631,7 +634,7 @@ z-index: 100;
   position: absolute;
   display:flex;
   justify-content: center;
-  margin-top:-15px;
+  margin-top:40px;
   z-index:10000;
 }
 @media (max-width: 450px){
@@ -645,6 +648,8 @@ z-index: 100;
   .heading {
     font-size: 30px;
     overflow: wrap;
+    margin-left: 20px;
+    margin-right: 20px;
   }
   .outer-dropzone {
     height:50px;
@@ -659,8 +664,8 @@ z-index: 100;
     font-size: 15px;
     display: flex;
     border-radius: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 45px;
+    margin-right: 45px;
    
   }
   .playerNameInList {
@@ -675,13 +680,13 @@ z-index: 100;
   }
   .playerListContainer {
  height: auto;
- margin-bottom: 40px;
+ margin-bottom: 0px;
  max-height:430px;
   }
   .numbers-div {
     flex-wrap: wrap;
     margin-bottom: 20px;
-    margin-top:-20px;
+    margin-top:0px;
   }
   .drag-drop-cont {
     margin: 5px;
@@ -727,7 +732,7 @@ z-index: 100;
     font-size:20px;
   }
   .numbers-div {
-    margin-top:-60px;
+    margin-top:0px;
   }
   .playerListContainer{
     margin-top:-20px;
