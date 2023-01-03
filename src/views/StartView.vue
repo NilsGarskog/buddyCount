@@ -20,6 +20,9 @@
         </router-link>
       </PopUp>
     </div>
+    <div class="animationCont">
+    <lottie-player class="animation" src="https://assets7.lottiefiles.com/packages/lf20_j7wzhpuq.json"  background="transparent"  speed="0.03"  style="width: 2000px; height: 2000px;"  autoplay></lottie-player>
+    </div>
     <div v-if="popupTriggers.buttonTriggerRules"> <!-- Popup för regler -->
       <PopUp
         v-bind:PopUp="PopUp"
@@ -82,6 +85,7 @@
 <script>
 import io from "socket.io-client";
 import PopUp from "../components/PopUp.vue";
+import LottiePlayer from '@lottiefiles/lottie-player';
 import { ref } from "vue";
 
 const socket = io();
@@ -91,6 +95,7 @@ export default {
   name: "StartView",
   components: {
     PopUp,
+    LottiePlayer,
   },
   setup() {
     const popupTriggers = ref({
@@ -302,6 +307,7 @@ body {
   margin-top: 0;
   margin-bottom: 4vh;
   cursor:default;
+  z-index: 10;
 }
 
 .standardButton {
@@ -334,6 +340,21 @@ body {
 .rulesButtonMobile{
   display: none;
   margin-top:-10px;
+}
+
+.animation {
+  position:absolute;
+  z-index:-100;
+  top:-20%;
+  
+}
+
+.animationCont{
+
+  display:flex;
+  justify-content: center;
+  align-content: center;
+
 }
 
 @media screen and (max-width:50em) {
@@ -417,6 +438,10 @@ display: none;
 .rulesButtonMobile:hover{
   opacity: 1;
   transition: 0.3s;
+}
+
+.animation {
+  display:none;
 }
 }
 </style>
