@@ -35,7 +35,7 @@
     
     <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
 
-      Join
+      JOIN!
     </button>
  </div>
   </body>
@@ -254,7 +254,7 @@ margin-left: 0.5em;
   display: flex;
   scroll-snap-type: x mandatory;
   width: 20%;
-  box-shadow: 0px 0px 25px 25px rgba(55,54,51, 1);
+  box-shadow: 0px 0px 25px 25px  #0a292d;
   margin-top:5em;
   background-color: #046B79;
 
@@ -382,10 +382,26 @@ margin-left: 0.5em;
   margin-top:3em;
 }
 #joinGameButton{
-
-margin-bottom: 1em;
-  font-family: righteous;
+  font-family: Righteous;
+    font-size: 2em;
+    margin-top: -0.5em;
+    padding: 0.5em;
+    height:3em;
+    width: 7em;
+    border: 1px solid;
+    border-radius: 20px;
+    background-color: #046B79;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0px 5px 4px #046B79;
 }
+#joinGameButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+
 #joinGameButton:hover{
   transform: scale(1.1);
 }

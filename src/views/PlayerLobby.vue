@@ -28,8 +28,8 @@
         
     </section>
 
-    <div>
-        <button class="startGameButton">START GAME!</button>
+    <div id="footer">
+        <button class="startGameButton" v-on:click="goToQuestion()">START GAME!</button>
     </div>
             
     </body>
@@ -89,11 +89,13 @@ export default {
             socket.emit('removeParticipant', {pollId: this.pollId, playerId: player.playerId})
         }
         
-    }
+    },
+    goToQuestion: function(){
+        socket.emit('goToNextPage', this.pollId)
     }
 
     
-}
+}}
 
 </script>
 
@@ -108,7 +110,13 @@ body {
     position: fixed;  
     min-height: 100vh;
 }
+#footer {
+  
+    position: absolute;
+    bottom: 10%;
+     width: 100%;
 
+}
 .headerContainer {
     display:flex;
     justify-content: space-between;
@@ -167,19 +175,16 @@ font-weight: 300;
     margin-top: 0.5em;
     padding: 0.5em;
     border: 1px solid;
-    border-radius: 1em;
+    border-radius: 20px;
     background-color: #046B79;
     color: white;
     transition: 0.2s;
     box-shadow: 0px 5px 4px #046B79;
 }
-
 .startGameButton:hover {
     background-color: #00acae;
     transition: 0.2s;
     cursor: pointer;
-
-
 }
 
 /*.gameCode {

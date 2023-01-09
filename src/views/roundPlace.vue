@@ -1,10 +1,13 @@
 <template>
   <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-  <body>
-
+  <body id="body">
+    <div id="fullPage">
+   <!--  <div v-if="first===show">
+    <ConfettiExplosion /> 
+    </div>-->
   <div class="firstPlace" v-if="first===show">
     <h1>First Place!</h1>
-    <h2> Keep up the good work</h2>
+    <h2> Keep up the good work!</h2>
   </div>
   <div class="lastPlace" v-if="last===show">
     <h1>Last Place!</h1>
@@ -12,15 +15,27 @@
   </div>
   <div class="mediokerPlace" v-if="medioker===show">
     <h1>You are the definition of average</h1>
-    <h2> Stop being so mellanmjölkig</h2>
+    <h2> Stop being so mellanmjölkig!</h2>
   </div>
+</div>
   </body>
 </template>
 
 <script>
 import io from 'socket.io-client';
+
+  //import ConfettiExplosion from "vue-confetti-explosion";
+  import JSConfetti from 'js-confetti'
+
+
+ 
 const socket = io();
 export default {
+  components: {
+    //ConfettiExplosion,
+
+  },
+
   data: function () {
     return {
       show: '',
@@ -28,7 +43,8 @@ export default {
       last: 'LP',
       medioker:'MP',
       placement: "",
-      players:[]
+      players:[],
+      
 
     }
   },
@@ -54,13 +70,17 @@ export default {
           console.log("inside if loop, i =",i)
           this.placement = i;
           this.checkPlace()
+          this.confetti()
         }
       }
       
     })
     socket.emit("getPlayers", this.pollId)
-
+    
   },
+
+ 
+
   methods: {
       checkPlace: function(){
         if(this.placement==0){
@@ -73,13 +93,43 @@ export default {
           this.show = 'MP';
         }
       },
+
+      confetti: function(){
+        console.log('confetti',this.show)
+
+  const jsConfetti = new JSConfetti()
+  if(this.first===this.show){
+    jsConfetti.addConfetti()
   }
+  else if(this.medioker===this.show){
+    document.getElementById('body').style.background="#e7f5ab"
+    let emojiarray = [['🥛','🧃'],['🥛','🤷']]
+    const randomElement = emojiarray[Math.floor(Math.random() * emojiarray.length)];
+jsConfetti.addConfetti({
+   emojis: randomElement,
+   emojiSize: 200,
+})}
+else if(this.last===this.show){
+  document.getElementById('body').style.background="#e87da8"
+  let emojiarray = [['💩','🚽'],['💩','❌']]
+    const randomElement = emojiarray[Math.floor(Math.random() * emojiarray.length)];
+  jsConfetti.addConfetti({
+   emojis: randomElement,
+   emojiSize: 200,
+})}}
+  }
+
 }
+
+
+
+
+
 </script>
 
 <style scoped>
 body {
-  position: fixed;
+  position:absolute;
   background-color: #24a07b;
   width: 100vw;
   min-height: 100vh;
@@ -93,4 +143,40 @@ button{
   width:100px;
   height: 100px;
 }
+
+@media (max-width:450px) {
+
+  html {
+    height: -webkit-fill-available; /* We have to fix html height */
+}
+
+  .firstPlace, .lastPlace, .mediokerPlace {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 630px;
+    align-content: center;
+  }
+
+  h1 {
+    font-size: 1.8em;
+    margin-bottom:0px;
+    margin-left:15px;
+    margin-right:15px;
+  }
+
+  #fullPage {
+    min-height: 100%
+  }
+}
+@supports(padding:max(0px)) {
+    body, header, footer {
+        padding-left: min(0vmin, env(safe-area-inset-left));
+        padding-right: min(0vmin, env(safe-area-inset-right));
+        padding-top: min(0vmin, env(safe-area-inset-top));
+        padding-bottom: min(0vmin, env(safe-area-inset-bottom));
+    }
+}
+
 </style>
