@@ -1,5 +1,13 @@
 <template>
   <body @mousedown="closeAnimation()" @touchstart="closeAnimation()">
+        <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+        v-if="popupTriggers.buttonTrigger"
+        class ="popupWindow"
+      >
+      <h1> All guesses are made!</h1>
+      </PopUp>
     <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
@@ -46,6 +54,8 @@
 
 <script>
 /*import vSelect from 'vue-select'*/
+import PopUp from "../components/PopUp.vue";
+import { ref } from "vue";
 import interact from "interactjs";
 import io from 'socket.io-client';
 import LottiePlayer from '@lottiefiles/lottie-player';
@@ -295,7 +305,16 @@ name: "AnswerQuestionView",
         components: {
       interact,
       LottiePlayer,
+      PopUp,
         },
+    setup() {
+    const popupTriggers = ref({
+      buttonTrigger: false,
+    });
+      return {
+        popupTriggers,
+        };
+          },
 data: function () {
     return {
       drag: false,
@@ -373,6 +392,9 @@ created(){
   
 methods: {
 
+    togglePopup: function () {
+      this.popupTriggers.buttonTrigger = true;
+    },
   closeAnimation: function(){
     console.log('hej')
     document.querySelector('.animation').remove();
@@ -419,7 +441,7 @@ methods: {
    return noEmpty
   },
   sendFunc: function (){
-  
+  this.togglePopup()
   console.log("send!")
   for (var i = 0; i < this.GuessArray.length; i++){
    
@@ -637,6 +659,11 @@ z-index: 100;
   margin-top:40px;
   z-index:10000;
 }
+
+.popupWindow{
+  z-index:100000;
+}
+
 @media (max-width: 450px){
   body{
     position: absolute;
