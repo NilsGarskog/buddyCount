@@ -105,7 +105,6 @@ export default {
       if (this.timeLeft == 0) {
         if(!this.sendTimer)
         {
-          console.log("slut")
           socket.emit("goToNextRound",this.pollId)
 
           clearTimeout(timerId);
@@ -114,7 +113,6 @@ export default {
         }
 
       } else {
-        console.log(this.timeLeft)
         return this.timeLeft--;
       }
     },
@@ -122,8 +120,6 @@ export default {
    
   showPoints: function() {
     for (let element of this.PlayersAndPoints){
-        console.log("Spelaren är", element.playerId)
-        console.log("Spelaren har poängen", element.points)
    // return(element.playerId)
         
     }

@@ -33,7 +33,7 @@
 </div>
  <div class="bottomArea">
     
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="addParticipant();">
 
       JOIN!
     </button>
@@ -143,10 +143,6 @@ export default {
     },
   //Metod för att ta bort placeholder
   methods: {
-    getPlayerInfo: function(){
-          console.log(this.playerInfo)
-    },
-
     addParticipant: function() {
       socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
     },
