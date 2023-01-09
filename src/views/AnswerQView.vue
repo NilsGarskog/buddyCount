@@ -241,6 +241,8 @@ input::-webkit-inner-spin-button {
       height: 100%;
       width:100%;
       position: relative;   
+      display:flex;
+      justify-content: center;
      
     }
     .smallContainer {
