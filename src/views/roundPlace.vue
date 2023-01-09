@@ -44,6 +44,7 @@ export default {
       medioker:'MP',
       placement: "",
       players:[],
+      confettiDone: false,
       
 
     }
@@ -70,8 +71,11 @@ export default {
           console.log("inside if loop, i =",i)
           this.placement = i;
           this.checkPlace()
+          if(this.confettiDone == false){
           this.confetti()
+          this.confettiDone = true;
         }
+      }
       }
       
     })
