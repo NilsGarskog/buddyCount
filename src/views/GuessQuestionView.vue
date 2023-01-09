@@ -461,7 +461,7 @@ function createGuessArr (players, id){
 }
 </script>
 
-<style>
+<style scoped>
 
 #sendbutton {
   background-color: #046B79;
