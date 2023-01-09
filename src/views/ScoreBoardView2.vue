@@ -117,13 +117,6 @@ export default {
       }
     },
     
-   
-  showPoints: function() {
-    for (let element of this.PlayersAndPoints){
-   // return(element.playerId)
-        
-    }
-  },
 
 }
 }
