@@ -38,14 +38,14 @@ The BuddyCount team
     <div class="Heading">
       Thank you for counting your buddies!
     </div>
-    <div class="PodiumContainer">
+    <div v-if="loaded == true" class="PodiumContainer">
       <div class="thirdPlace">
         <div class="thirdPlaceBox">
 
         </div>
         <div class="thirdPlaceAvatar">
-          <h1>{{players[2].name}}</h1>
-          <img class ="avatarImage" :src="require('../Icons/' + players[2].avatar + '.png')" />
+          <h1>{{players[2].name}}</h1><p>{{players[2].points}}</p>
+          <img class ="avatarImage" :src="require('../Icons/' + players[2].avatar[0].image + '.png')" />
         </div>  
       </div>
       <div class="firstPlace">
@@ -53,8 +53,8 @@ The BuddyCount team
 
         </div>
         <div class="firstPlaceAvatar">
-          <h1>{{players[0].name}}</h1>
-          <img class ="avatarImage" :src="require('../Icons/Winner/' + players[0].avatar + 'Crown' + '.png')" />
+          <h1>{{players[0].name}}</h1> <p>{{players[0].points}}</p>
+          <img class ="avatarImage" :src="require('../Icons/Winner/' + players[0].avatar[0].image + 'Crown' + '.png')" />
         </div>  
       </div>
       <div class="secondPlace">
@@ -62,8 +62,8 @@ The BuddyCount team
 
         </div>
         <div class="secondPlaceAvatar">
-          <h1>{{players[1].name}}</h1>
-          <img class ="avatarImage" :src="require('../Icons/' + players[1].avatar + '.png')" />
+          <h1>{{players[1].name}}</h1> <p>{{players[1].points}}</p>
+          <img class ="avatarImage" :src="require('../Icons/' + players[1].avatar[0].image + '.png')" />
         </div>  
       </div>
     </div>
@@ -74,6 +74,9 @@ The BuddyCount team
 </template>
 
 <script>
+import io from 'socket.io-client';
+const socket = io();
+
 export default {
 data: function () {
   return {
@@ -82,13 +85,28 @@ data: function () {
       {name: "Nils", avatar: "Mononoke", points: 5},
       {name: "Hanna", avatar: "Voldermort", points: 2}
     ],
-    placement:[]
+    placement:[],
+    loaded: false,
+    pollId:"",
+    lang:"",
   }
 },
 created: function () {
-this.players.sort((a,b) => a.points - b.points);
-this.players.reverse()
-}
+this.pollId = this.$route.params.id;
+this.lang = this.$route.params.lang;
+socket.emit('joinPoll', this.pollId);
+socket.emit("pageLoaded", this.lang);
+  socket.on("init", (labels) => {
+    this.uiLabels = labels
+})
+ socket.on("sendPlayers", (players) => {
+   this.players = players
+   this.players.sort((a,b) => a.points - b.points);
+   this.players.reverse()
+   this.loaded = true
+ });
+ socket.emit("getPlayers", this.pollId)
+},
 }
 </script>
 
@@ -128,8 +146,10 @@ overflow: hidden;
   flex-direction: row;
   min-width: 60%;
   min-height: 80%;
-
   align-items: flex-end;
+}
+.avatarImage{
+  filter: drop-shadow(0.5em 0.1em 0.1px black);
 }
 .thirdPlace{
   display: flex;
@@ -137,11 +157,10 @@ overflow: hidden;
   width: 100%;
 }
 .thirdPlaceBox{
-background-color: red;
+background-color: #134450;
 height: 20vh;
 width: 100%;
-}
-.thirdPlaceAvatar{
+filter: drop-shadow(0.5em 0.1em 0.1px black);
 
 }
 .firstPlace{
@@ -150,11 +169,10 @@ width: 100%;
   width: 100%;
 }
 .firstPlaceBox{
-background-color: blue;
+background-color: #2487a0;
 height: 40vh;
 width: 100%;
-}
-.firstPlaceAvatar{
+filter: drop-shadow(0.5em 0.1em 0.1px black);
 
 }
 .secondPlace{
@@ -163,11 +181,10 @@ width: 100%;
   width: 100%;
 }
 .secondPlaceBox{
-background-color: white;
+background-color: #1b6375;
 height: 30vh;
 width: 100%;
-}
-.secondPlaceAvatar{
+filter: drop-shadow(0.5em 0.1em 0.1px black);
 
 }
 .avatarImage{

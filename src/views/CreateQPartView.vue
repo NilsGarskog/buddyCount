@@ -4,20 +4,23 @@
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <h1>Write questions here:</h1>
-
+    <div class="writeQ">
     <input maxlength="60" type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
-       <img src="../Icons/addButton.png" class="signButton" id="addButton" v-on:click="addQuestion" v-bind:style= "[(this.questions.length < 3) ? {opacity: 1} : {opacity: 0.3}]">
-    <div class="showQuestions">
+       <img src="../Icons/plusButton.svg" class="signButton" id="addButton" v-on:click="addQuestion" v-bind:style= "[(this.questions.length < 3) ? {opacity: 1} : {opacity: 0.3}]">
+    </div>
+       <div class="showQuestions">
       <div v-for="question in questions" v-bind:key="question" class="writtenQuestions">
          <span class="Qtext"> {{question.q}}  </span>
-        <img src="../Icons/DeleteButton.png" class="signButton" id="delButton" v-on:click="delQuestion(question.i)">
+        <img src="../Icons/closeNewBlack.svg" class="signButton" id="delButton" v-on:click="delQuestion(question.i)">
       </div>
     </div>
 
 
 
     <router-link v-bind:to= " '/answerq/' + lang + '/' + pollId + '/' + playerId ">
-    <button class="continueButton" v-if="this.playerId === '1'" v-on:click = continueEmit()>Start game</button>
+      <div class="buttonCont">
+    <button class="continueButton" v-if="this.playerId === '1'" v-on:click = continueEmit()>START!</button>
+  </div>
   </router-link>
 
   </body>
@@ -78,8 +81,6 @@ name: 'CreateQPartView',
       this.Qid = Math.floor(100000 + Math.random() * 900000)
       if(this.question != ""){
       this.questions.push( {q: this.question, i: this.Qid });
-      console.log(this.question)
-      console.log(this.questions)
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, i: this.Qid } ) 
       this.question=""
       }
@@ -103,7 +104,7 @@ name: 'CreateQPartView',
 
 <style scoped>
 body{
-    position: fixed;
+  position: fixed;
   background-color: #24a07b;
   width: 100vw;
   min-height: 100vh;
@@ -111,6 +112,11 @@ body{
   font-family: Righteous;
   color: black;
 }
+
+h1 {
+    margin-top: 200px;
+    font-size: 30px;
+  }
 button {
   height: 5em;
   width: 14em;
@@ -134,11 +140,28 @@ button {
 
 .continueButton {
 position: absolute;
+font-family: Righteous;
 bottom: 3em;
-left:20px;
-right:20px;
-width: calc(100% - 40px);
+color: white;
+background-color: #046B79;
+width: 300px;
+height: 100px;
+box-shadow: 0px 7px 10px #063d45;
+border: 1px solid white;
+margin-bottom:50px;
 
+}
+
+.continueButton:hover {
+background-color: #00acae;
+transition: 0.2s;
+cursor: pointer;
+}
+
+.buttonCont {
+display: flex;
+width: 100%;
+justify-content: center;
 }
 
 .button:hover {
@@ -152,8 +175,11 @@ width: calc(100% - 40px);
 }
 #delButton{
   right: 1em;
-  margin-top: -0.1em;
+  margin-top: 0.1em;
+  width:50px;
+  height:50px;
   position: absolute;
+  cursor: pointer;
 }
 
 #addButton{
@@ -163,6 +189,12 @@ width: calc(100% - 40px);
   width: 3em;
   position: absolute;
   border-radius: 1.5em;
+  margin-right:195px;
+  margin-top: 177px;
+}
+
+#addButton:hover{
+  cursor:pointer;
 }
 
 .showQuestions{
@@ -179,21 +211,27 @@ width: calc(100% - 40px);
 
 .Qtext{
 position: absolute;
-margin-top: 0.3em;
 max-width:77vw;
 word-wrap:break-word;
+align-self: center;
 
 }
 .writtenQuestions{
  margin-bottom: 1em;
-  border-style: outset;
+  border-style: solid;
+  border-radius:10px;
   background-color: #16534188;
  border-color: black, red;
   min-height: 2.8em !important;
  margin-right: 1.5em;
   padding: 0.4em;
   margin-top: -0.5em;
+  display: flex;
+  align-content: center;
+
+
 }
+
 
 #questionInputField{
   font-family: Righteous;
@@ -218,6 +256,35 @@ input {
  
 }
 
+.writeQ{
+  display:flex;
+  justify-content: center;
+}
+
+
+@media (max-width: 450px){
+  h1 {
+    margin-top: 95px;
+    font-size: 30px;
+  }
+
+  #questionInputField {
+    margin-top: 15px;
+    margin-right:40px;
+  }
+
+  #addButton {
+    margin-top:87px;
+    margin-right:17px;
+  }
+
+  #delButton {
+    margin-top: 7px;
+    margin-right:0px;
+    width:40px;
+    height:40px;
+  }
+}
 /* @media screen and (max-width:50em) {
 .showQuestions{
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,

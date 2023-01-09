@@ -33,9 +33,9 @@
 </div>
  <div class="bottomArea">
     
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="addParticipant();">
 
-      Join
+      JOIN!
     </button>
  </div>
   </body>
@@ -143,13 +143,7 @@ export default {
     },
   //Metod för att ta bort placeholder
   methods: {
-    getPlayerInfo: function(){
-          console.log(this.playerInfo)
-    },
-
     addParticipant: function() {
-      console.log('participant added');
-      console.log(this.playerInfo.username);
       socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
     },
     onEnter:function(){
@@ -160,21 +154,18 @@ export default {
     },
     selectThisCharacter: function (avatar){
     var avt = avatar.image
-    console.log(avt);
       if (this.playerInfo.clickedAvatars.length===0){
         this.playerInfo.clickedAvatars.push(avatar)
-        console.log(this.playerInfo);
-        console.log(avatar.image)
+
 
       }
       else {
         this.playerInfo.clickedAvatars.splice(0,1);
         this.playerInfo.clickedAvatars.push(avatar);
-        console.log(this.playerInfo);
+
 
       }
       var avataren =document.getElementById("profile");
-      console.log(avataren)
       avataren.innerHTML="<img id='pictureAvatar' src='img/"+avt+".png' width=\"100em\" height=\"100em\" >";
 
     },
@@ -259,7 +250,7 @@ margin-left: 0.5em;
   display: flex;
   scroll-snap-type: x mandatory;
   width: 20%;
-  box-shadow: 0px 0px 25px 25px rgba(55,54,51, 1);
+  box-shadow: 0px 0px 25px 25px  #0a292d;
   margin-top:5em;
   background-color: #046B79;
 
@@ -387,10 +378,26 @@ margin-left: 0.5em;
   margin-top:3em;
 }
 #joinGameButton{
-
-margin-bottom: 1em;
-  font-family: righteous;
+  font-family: Righteous;
+    font-size: 2em;
+    margin-top: -0.5em;
+    padding: 0.5em;
+    height:3em;
+    width: 7em;
+    border: 1px solid;
+    border-radius: 20px;
+    background-color: #046B79;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0px 5px 4px #046B79;
 }
+#joinGameButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+
 #joinGameButton:hover{
   transform: scale(1.1);
 }

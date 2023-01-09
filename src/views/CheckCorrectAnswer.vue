@@ -3,18 +3,18 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css' >
 
-        <div>
-        {{GuessObj}}
-        Svar: {{answerTest}}
+
+
         <h1 class="title">Bra jobbat!!</h1> 
-        </div>
+
         <div class="amountOfPoints">
             
            <div v-if="(loaded == true)">
-             Du har just nu: {{points}} poäng
-             Av totatlt: {{TotalPoints}}
+             Du fick {{points}} rätt!
+
             </div>
-        </div>
+            </div>
+
         
     </body>
 
@@ -76,12 +76,10 @@ import io from 'socket.io-client';
     // ],
     GuessObj:[],
 
-    answerTest: []  ,
-       timerId: setInterval(this.timer, 1000),
-       timeLeft: 10,
-       sendTimer: false,
+    answerTest: [],
     loaded: false,
-    TotalPoints:""
+    TotalPoints:"",
+    pointsSent:false,
 
     }
 
@@ -96,13 +94,12 @@ created: function () {
    socket.on("CurrentGuesses", (guessOBJ) => {
       this.GuessObj = guessOBJ;
     socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
-
-      
-
   })
   socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
         this.answerTest = update;
+        if(this.pointsSent==false){
         this.checkAnswer();
+        }
           });
     socket.emit("getCurrentGuess", this.pollId)
 
@@ -110,7 +107,6 @@ created: function () {
 
     socket.on('getPoints', (update) => { //denna ska scoreboard ha
     this.TotalPoints = update;
-    console.log("Totalpoäng",this.TotalPoints)
   });
   socket.emit('getPlayerPoints', this.pollId) //denna ska scoreboard ha
 
@@ -121,10 +117,12 @@ created: function () {
    socket.on("dataUpdate", (data) =>           //Oklart om denna behövs?
       this.data = data
     )
-
-  socket.on("goToPlaceDisplay", () => {
-    this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId + '/' + this.playerId);
-  });
+      socket.on("goToScoreBoard", () => {
+      this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+    });
+        socket.on("goToPodium", () => {
+      this.$router.push('/roundPlace/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+    });
 
     },
 
@@ -138,37 +136,19 @@ checkAnswer: function() {
                     if( AO.playerId==guessP){
                         if( AO.answer==GO.guess)
                         this.points++;
-                        console.log("mina poäng är:", this.points)
                     }
                 }
             }  
         }
     }
-    this.loaded=true
-    this.sendPoints()
+    this.loaded=true;
+    this.sendPoints();
+    this.pointsSent =true;
 
 },
-      timer: function(timerId){
-        if (this.timeLeft == 0) {
-          if(!this.sendTimer)
-          {
-            console.log("slut")
-            socket.emit("goToPlaceDisplay",this.pollId)
-
-            clearTimeout(timerId);
-            timerId = null;
-            this.sendTimer = true;
-          }
-
-        } else {
-          console.log(this.timeLeft)
-          return this.timeLeft--;
-        }
-      },
 
 
 sendPoints: function(){
-    console.log("kommer jag till sendAnswer?")
     socket.emit("submitPoints", {pollId: this.pollId, pid: this.playerId, points: this.points})
 }
    },
@@ -179,10 +159,13 @@ sendPoints: function(){
 
 </script>
 
-<style>
+<style scoped>
 body {
+    position: fixed;
     background-color: #24a07b;
     font-family:Righteous ;
+    width: 100vw;
+    min-height: 100vh;
   
 }
 .title {

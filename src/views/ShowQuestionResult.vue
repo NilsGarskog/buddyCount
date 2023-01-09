@@ -76,7 +76,8 @@ data: function () {
       Answers:[],
       players:[],
       playerWansArr:[],
-      shuffleAnswer: []
+      shuffleAnswer: [],
+      assembled: false,
 
     }
 },
@@ -94,6 +95,9 @@ data: function () {
     socket.on("goToScoreBoard", () => {
       this.$router.push('/ScoreBoard2/' + this.lang+'/'+this.pollId);
     });
+        socket.on("goToPodium", () => {
+      this.$router.push('/PodiumView/' + this.lang+'/'+this.pollId);
+    });
 
     socket.on("AnswersForResult", (Answers) => {
       this.Answers = Answers
@@ -102,8 +106,12 @@ data: function () {
 
     socket.on("sendPlayers", (players) => {
       this.players = players
+      if(this.assembled==false){
     this.assembleArr()
+      }
     })
+
+    
     socket.emit("getAnswerForResult", this.pollId)
 
   },
@@ -130,7 +138,6 @@ methods: {
         }
         this.shuffleAnswer = myRandomizedList;
 
-        console.log(this.shuffleAnswer);
 
     },
 
@@ -138,9 +145,8 @@ methods: {
     if (this.timeLeft == 0) {
       if(!this.sendTimer)
       {
-        console.log("slut")
-        socket.emit("roundOver", this.pollId)
         socket.emit("goToScoreBoard",this.pollId)
+        socket.emit("roundOver", this.pollId)
 
         clearTimeout(timerId);
         timerId = null;
@@ -148,7 +154,6 @@ methods: {
       }
 
     } else {
-      console.log(this.timeLeft)
       return this.timeLeft--;
     }
   },
@@ -164,6 +169,7 @@ methods: {
         let myPlayersAnswersClone = structuredClone(this.playerWansArr);
         this.shuffleAnswer = myPlayersAnswersClone.sort(() => Math.random() - 0.5);
         this.draw();
+        this.assembled=true;
     },
 
 
@@ -204,7 +210,6 @@ ctx.stroke();
                 var colors = ["red",   "yellow",   "blue",   "orange",   "purple","pink","brown","aquamarine","black","white"];
                  for(let i = 0; i < this.playerWansArr.length; i++){
                     //const randomColor = Math.floor(Math.random()*16777215).toString(16);
-                    console.log(this.playerWansArr[i]);
                    let endIndex;
                    for(let j = 0; j < this.shuffleAnswer.length; j++){
                     if(this.playerWansArr[i].answer == this.shuffleAnswer[j].answer && this.playerWansArr[i].name == this.shuffleAnswer[j].name){
@@ -268,11 +273,13 @@ ctx.stroke();
 }
 </script>
 
-<style>
+<style scoped>
 
 body {
-    background-color: #24a07b;
+  background-color: #24a07b;
    overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
   
 }
 

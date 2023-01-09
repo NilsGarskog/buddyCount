@@ -81,29 +81,22 @@ function sockets(io, socket, data) {
   socket.on('goToNextPage', function(pollId) {
     io.to(pollId).emit('goToNextPage');
   });
-  socket.on('goToShowQResult', function(d) {
-    //io.to(pollId).emit('goToShowQResults');
-    data.answerSubmit(d.pollId ,d.playerId);
-    io.to(d.pollId).emit('goToShowQResults', data.answerSubmit(d.pollId))
-  });
-  socket.on('goToShowQResultatet', function(pollId) {
-    io.to(pollId).emit('goToShowQResultss');
 
-  });
   socket.on('getCurrentQuestion', function(pollId) {
     io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
   });
   socket.on("PlayerGuessAnswer", function(obj) {
     data.guessSubmit(obj.pollId ,obj.guessObj);
-    if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har svart på frågorna
-      io.to(obj.pollId).emit('goToResultPage')
-    }
+    // if (data.checkAmountguessed(obj.pollId) === true){     //kikar om alla har gissat på frågorna
+    //   io.to(obj.pollId).emit('goToResultPage')
+    // }
     io.to(obj.pollId).emit('playerDoneGuess', obj.guessObj.playerId)
 
   });
-  socket.on('goToResult', function(pollId) {
-    io.to(pollId).emit('goToResultPage');
-  });
+  
+   socket.on('goToResult', function(pollId) {
+       io.to(pollId).emit('goToResultPage');
+   });
 
   socket.on("getCurrentGuess", function(pollId) {
     socket.emit("CurrentGuesses", data.getGuesses(pollId));
@@ -117,11 +110,16 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('goToNextRound');
   });
   socket.on('goToScoreBoard', function(pollId) {
-    io.to(pollId).emit('goToScoreBoard');
+    currentRound = data.getCurrentRound(pollId);
+    amountOfQuestions = data.getAmountOfQ(pollId);
+    if (currentRound != (amountOfQuestions - 1)){
+      io.to(pollId).emit('goToScoreBoard');
+    }else{
+
+      io.to(pollId).emit('goToPodium');
+    }
   });
-  socket.on('goToPlaceDisplay', function(pollId) {
-    io.to(pollId).emit('goToPlaceDisplay');
-  });
+
   socket.on('goToNextQuestion', function(pollId) {
     io.to(pollId).emit('goToNextQuestion');
   });

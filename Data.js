@@ -272,7 +272,6 @@ Data.prototype.getPoints = function(pollId){
     for(let i=0; i<poll.participants.length; i++){
       poll.playerPoints[i] = { playerId: poll.participants[i].playerId, points: poll.participants[i].points}
     }
-    console.log("Spelar poängen är: ",poll.playerPoints)
     return poll.playerPoints;
   }
   
@@ -282,7 +281,22 @@ Data.prototype.getPoints = function(pollId){
 Data.prototype.roundCounterAddition = function(pollId){
   const poll = this.polls[pollId];
   if (typeof poll !== 'undefined'){
+    poll.playersAnswered = 0;
+    poll.playerGuessed = 0; 
     poll.currentRound +=1;
+  }
+}
+
+Data.prototype.getCurrentRound = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    return poll.currentRound
+  }
+}
+Data.prototype.getAmountOfQ = function(pollId){
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined'){
+    return poll.questions.length
   }
 }
 

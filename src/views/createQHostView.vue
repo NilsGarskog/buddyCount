@@ -5,7 +5,7 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <div class ="headerContainer">
       <div class ="gameCode">
-    <p>Code: {{pollId}}</p>
+    <p>CODE: {{pollId}}</p>
   </div>
     <div id="hideQuestions">
   <img class="hideEye" :src="hidePic" v-on:click="hideQuestion" > 
@@ -16,7 +16,8 @@
 <div v-if="!hide">
     <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
             {{question.q}}
-            <br>
+                <hr style="width:50%;">
+
 
             
   </div>
@@ -34,6 +35,10 @@
           <p class="buttonText">Start game</p>
         </button>
       </router-link> -->
+      <!--
+      <div id="footer">
+        <button class="startGameButton" v-on:click="moveOn()">START GAME!</button>
+      </div>-->
 
 </body>
 
@@ -54,7 +59,7 @@ export default {
       data: {},
       uiLabels: {},
       hide: false,
-      hidePic: require('../Icons/eyeOpen.png')
+      hidePic: require('../Icons/eyeOpen.svg')
     }
   },
     created: function () {
@@ -77,14 +82,17 @@ export default {
     hideQuestion: function(){
       if(this.hide){
         this.hide=false
-        this.hidePic=require('../Icons/eyeOpen.png')
+        this.hidePic=require('../Icons/eyeOpen.svg')
       }
       else{
       this.hide = true
-      this.hidePic = require('../Icons/eyeClosed.png')
+      this.hidePic = require('../Icons/eyeClosed.svg')
       }
       
       
+    },
+    moveOn: function () {
+      socket.emit('goToNextPage', this.pollId)
     }
 },
 }
@@ -98,12 +106,14 @@ export default {
     justify-content: space-between;
     margin: 1em;
     margin-top: 0em;
+    cursor:default;
 }
 .questionTitle {
 font-family: 'monoton';
 font-size: 5em;
 margin-top: -1em;
 font-weight: 300;
+cursor:default;
 }
 .questions{
   font-size: 2em;
@@ -137,9 +147,44 @@ body{
   cursor: pointer;
 }
 .hideEye{
-  height:7em;
-  width: 7em;
+  height:8.5em;
+  width: 8.5em;
   cursor: pointer;
- 
+  margin-right: -100px;
+  margin-top:-20px;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.hideEye:hover {
+  opacity: 1;
+  transition:0.3s;
+  height:9em;
+  width:9em;
+}
+
+#footer {
+  
+  position: absolute;
+  bottom: 10%;
+   width: 100%;
+}
+
+.startGameButton {
+    font-family: Righteous;
+    font-size: 2.5em;
+    margin-top: 0.5em;
+    padding: 0.5em;
+    border: 1px solid;
+    border-radius: 20px;
+    background-color: #046B79;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0px 5px 4px #046B79;
+}
+.startGameButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
 }
 </style>

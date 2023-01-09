@@ -6,8 +6,6 @@
     <div v-if="loaded===true">
      <h1 id="firstQ">
     {{question}}
-    {{donePlayers}}
-       {{showPlayers[1].playerId}}
 
      </h1>
     </div>
@@ -112,6 +110,9 @@ export default {
     socket.on("playerDoneGuess", (playerId) => {
       this.donePlayers.push(playerId);
       this.displayGuessedAvatars(playerId);
+      if(this.donePlayers.length == this.showPlayers.length){
+        socket.emit("goToResult",this.pollId)
+      }
     });
     socket.emit("getPlayers",this.pollId)
     //frågeinfo
@@ -128,28 +129,26 @@ export default {
 
   methods:{
 
-    answerSubmit: function(timerId){
-      if (this.timeLeft == 0) {
-        if(!this.sendAnswer)
-        {
-          console.log("slut")
-          //socket.emit("goToResult",this.pollId)
+    // answerSubmit: function(timerId){
+    //   if (this.timeLeft == 0) {
+    //     if(!this.sendAnswer)
+    //     {
+
+    //       socket.emit("goToResult",this.pollId)
           
-          clearTimeout(timerId);
-          timerId = null;
-          this.sendAnswer = true;
-        }
+    //       clearTimeout(timerId);
+    //       timerId = null;
+    //       this.sendAnswer = true;
+    //     }
 
-      } else {
-        //console.log(this.timeLeft)
-        return this.timeLeft--;
-      }
+    //   } else {
 
-    },
+    //     return this.timeLeft--;
+    //   }
+
+    // },
     displayGuessedAvatars: function(playId){
-      console.log(playId)
       for(let i=0; i<this.showPlayers.length; i++) {
-        console.log(this.showPlayers[i].playerId)
         if (this.showPlayers[i].playerId==playId){
           document.getElementById(''+playId+'').style.opacity = "1";
         }
