@@ -34,9 +34,10 @@
           <p class="buttonText">Start game</p>
         </button>
       </router-link> -->
+      <!--
       <div id="footer">
         <button class="startGameButton" v-on:click="moveOn()">START GAME!</button>
-    </div>
+      </div>-->
 
 </body>
 
