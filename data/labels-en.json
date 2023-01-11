@@ -65,5 +65,8 @@
 	"hostRemember3":"the game will start for everyone!",
 	"hostRemember4": "So don't press it until",
 	"hostRemember5":"everyone has submitted their questions!",
-	"playagain": "Play again!"
+	"playagain": "Play again!",
+	"currentRound": "Round",
+	"of": "of",
+	"continue": "continue"
 }

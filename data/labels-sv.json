@@ -64,5 +64,8 @@
 	"hostRemember3":"börjar spelet för alla!",
 	"hostRemember4": "Så klicka inte förrän",
 	"hostRemember5":"alla har skickat in sina frågor!",
-	"playagain": "Spela igen!"
+	"playagain": "Spela igen!",
+	"currentRound": "Runda",
+	"of": "av",
+	"continue": "fortsätt"
 }

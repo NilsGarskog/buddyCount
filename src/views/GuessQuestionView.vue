@@ -147,7 +147,7 @@ interact('.dropzone').dropzone({
   // only accept elements matching this CSS selector
   accept: '.drag-drop',
   // Require a 75% element overlap for a drop to be possible
-  overlap: 0.75,
+  overlap: 0.5,
   // listen for drop related events:
   ondropactivate: function (event) {
     // add active dropzone feedback

@@ -2,7 +2,7 @@
 <body>
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <div class ="headerContainer">
-    <div class="roundCounter"> Round {{CurrentRound}} of {{AmountQuestion}} </div>
+    <div class="roundCounter"> {{uiLabels.currentRound}} {{CurrentRound}} {{uiLabels.of}} {{AmountQuestion}} </div>
     </div>
     <h3 id="correctAnswers">{{uiLabels.correctAnswers}}</h3>
    <div class="questionResultPage">
