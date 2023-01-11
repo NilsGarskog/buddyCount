@@ -1,6 +1,9 @@
 <template>
 <body>
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+    <div class ="headerContainer">
+    <div class="roundCounter"> Round {{CurrentRound}} of {{AmountQuestion}} </div>
+    </div>
     <h3 id="correctAnswers">{{uiLabels.correctAnswers}}</h3>
    <div class="questionResultPage">
     <div class="resultList">
@@ -49,6 +52,8 @@ data: function () {
       shuffleAnswer: [],
       assembled: false,
       uiLabels: {},
+      CurrentRound:0,
+      AmountQuestion:0
 
     }
 },
@@ -61,6 +66,10 @@ data: function () {
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels
+    })
+        socket.on("thisRound", (Obj) => {
+      this.CurrentRound = Obj.R + 1
+      this.AmountQuestion = Obj.Q
     })
 
     socket.on("goToScoreBoard", () => {
@@ -84,6 +93,7 @@ data: function () {
 
     
     socket.emit("getAnswerForResult", this.pollId)
+    socket.emit("whatRound", this.pollId)
 
   },
 
@@ -254,6 +264,22 @@ body {
   
 }
 
+.headerContainer {
+    display:flex;
+    justify-content:flex-end;
+    width: 100%;
+    font-family: righteous;
+    font-weight: bold;
+    color: black;
+    margin: 1em;
+    margin-top: 0em;
+    font-size: 3em;
+}
+.roundCounter{
+margin-right:2em ;
+margin-bottom: -1em;
+margin-top: 0.1em;
+}
 .avatarImage {
 
     width: 40px;
