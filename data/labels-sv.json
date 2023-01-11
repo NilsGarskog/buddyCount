@@ -19,7 +19,7 @@
 	"lastPlaceEnd": "Wow!",
 	"lastPlaceEndText": "Du kom allra sist.",
 	"mediocrePLaceEnd":"Nu va det slut!",
-	"mediocrePLaceEndText":"Du hamnade i mitten. Inte bra, inte dåligt."
+	"mediocrePLaceEndText":"Du hamnade i mitten. Inte bra, inte dåligt.",
 	"rules1":  "Innan spelet börjar:",
 	"rules2": " Varje person skriver upp till 3 frågor om något som de vill veta om sina vänner, svaret ska anges som en siffra. Exempel: Hur många gånger har du diskat den senaste veckan?",
 	"rules3": "När alla frågor är inskickade ska varje person svara på alla frågor utifrån sig själv.",
@@ -29,7 +29,7 @@
 	"atQ": "Svara på frågorna!",
 	"beHonest": "Se till att vara ärlig!",
 	"qAnswered": "Alla frågor är besvarade!",
-	"send":"SKICKA!"
+	"send":"SKICKA!",
 	"ChooseCharacter": "Välj en avatar:",
 	"YourProfile": "Din profil",
 	"joinCC": "Starta",
