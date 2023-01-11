@@ -111,7 +111,7 @@ export default {
       if (this.timeLeft == 0) {
         if(!this.sendTimer)
         {
-          //socket.emit("goToNextRound",this.pollId)
+          socket.emit("goToNextRound",this.pollId)
 
           clearTimeout(timerId);
           timerId = null;

@@ -15,6 +15,12 @@
             </div>
             </div>
 
+  <router-link v-bind:to= " '/answerq/' + lang + '/' + pollId + '/' + playerId ">
+      <div class="buttonCont">
+    <button class="continueButton" v-if="this.playerId === '1'" v-on:click = continueEmit()>Continue</button>
+  </div>
+  </router-link>
+
         
     </body>
 
@@ -147,6 +153,11 @@ checkAnswer: function() {
     this.pointsSent =true;
 
 },
+ continueEmit: function(){
+         socket.emit("goToScoreBoard",this.pollId)
+         socket.emit("roundOver", this.pollId)
+      this.$router.push('/answerq/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
+    },
 
 
 sendPoints: function(){
@@ -178,6 +189,58 @@ font-weight: 300;
 font-size: 2em;
 margin-top: 2em;
 font-weight: 300;
+}
+button {
+  height: 5em;
+  width: 14em;
+  background-color: #78df73;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 20px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 2em;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 12px;
+  position: relative;
+  text-align:center;
+
+}
+
+.continueButton {
+position: absolute;
+font-family: Righteous;
+bottom: 3em;
+color: white;
+background-color: #046B79;
+width: 300px;
+height: 100px;
+box-shadow: 0px 7px 10px #063d45;
+border: 1px solid white;
+margin-bottom:50px;
+
+}
+
+
+
+.buttonCont {
+display: flex;
+width: 100%;
+justify-content: center;
+}
+
+.button:hover {
+  background-color: #67b3a5b7;
+}
+
+.signButton{
+
+  width: 2em;
+
 }
 
 </style>

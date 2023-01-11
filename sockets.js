@@ -141,8 +141,11 @@ function sockets(io, socket, data) {
       socket.emit('ItIsOver');
     }
   });
-  
-
+  socket.on('whatRound', function(pollId){
+    currentRound = data.getCurrentRound(pollId);
+    amountOfQuestions = data.getAmountOfQ(pollId);
+    socket.emit('thisRound', {R: currentRound,Q: amountOfQuestions});
+  });
 }
 
 module.exports = sockets;

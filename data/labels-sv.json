@@ -57,5 +57,11 @@
 	"correctAnswers": "De rätta svaren är:",
 	"CodeHolder": "GAME CODE...",
 	"QuestionPrompt": "Skriv frågor här:",
-	"QuestionPromptPlaceholder": "Fråga..."
+	"QuestionPromptPlaceholder": "Fråga...",
+	"remember": "Kom ihåg -",
+	"hostRemember1": "du är spelledare!",
+	"hostRemember2": "När du klickar på 'STARTA SPELET'-knappen,",
+	"hostRemember3":"börjar spelet för alla!",
+	"hostRemember4": "Så klicka inte förrän",
+	"hostRemember5":"alla har skickat in sina frågor!"
 }
