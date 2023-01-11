@@ -1,7 +1,7 @@
 <template>
 <body>
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-    <h3>The correct answers are:</h3>
+    <h3 id="correctAnswers">{{uiLabels.correctAnswers}}</h3>
    <div class="questionResultPage">
     <div class="resultList">
         <div class="participants">
@@ -67,7 +67,7 @@ data: function () {
         // playerWansArr: playerWansArr,
         // shuffleAnswer: shuffleAnswer,
       pollId:'',
-      lang:'',
+      lang:'en',
       playerId:'',
 
       timerId: setInterval(this.timer, 1000),
@@ -78,6 +78,7 @@ data: function () {
       playerWansArr:[],
       shuffleAnswer: [],
       assembled: false,
+      uiLabels: {},
 
     }
 },
@@ -287,6 +288,9 @@ body {
 
     width: 40px;
 
+}
+#correctAnswers{
+  color:black;
 }
 
 h3 {
