@@ -44,7 +44,7 @@
       </div>
   
     
-    <button id='sendbutton' v-on:click="sendFunc()">SEND</button>
+    <button id='sendbutton' v-on:click="sendFunc()">{{uiLabels.guessSend}}</button>
   
  
 
@@ -354,8 +354,9 @@ data: function () {
     ],
     showButtonBoolean: false,
     //timerobj: null,
+    uiLabels: {},
+    lang: "en",
     pollId:"",
-      lang:"",
     playerId:"",
     answerArray:[],
     players:[],
@@ -368,6 +369,10 @@ data: function () {
 created(){
   this.pollId = this.$route.params.id;
   this.lang = this.$route.params.lang;
+  socket.emit("pageLoaded",this.lang);
+  socket.on("init", (labels) => {
+      this.uiLabels = labels;
+    });
   this.playerId = this.$route.params.playid;
   socket.emit('joinPoll', this.pollId)
   socket.on("currentQuestion", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
@@ -388,6 +393,7 @@ created(){
  socket.on("goToResultPage", () => { 
     this.$router.push('/CheckCorrectAnswer/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
     }); 
+   
 },
   
 methods: {
@@ -489,15 +495,18 @@ function createGuessArr (players, id){
   background-color: #046B79;
   font-family: Righteous;
   font-size: 2em !important;
+  width: auto !important;
+  height: 1.7em !important;
   color: white;
   border: 1px white solid;
   border-radius: 5px;
   box-shadow: 0px 5px 4px #046B79;
-  
+  text-align: center;
+  padding-left:0.5em;
+  padding-right:0.5em;
+  transition:0.3s;
 }
-#sendbutton:hover {
-  cursor: pointer;
-}
+
 body{
   position: fixed;
   background-color: #24a07b;
@@ -767,5 +776,13 @@ z-index: 100;
   #sendbutton {
     font-size:25px;
   }
+}
+
+@media (min-width: 500px){
+  #sendbutton:hover {
+  cursor: pointer;
+  background-color: #1c8896;
+  transition:0.3s;
+}
 }
 </style>
