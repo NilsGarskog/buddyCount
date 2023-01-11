@@ -57,7 +57,7 @@
 <div class="ButtomArea">
   <router-link v-bind:to="'/'">
       <button class="Button" id="joinGameButton" >
-      Play Again!
+        {{uiLabels.playagain}}
       </button>
     </router-link>
       </div>
