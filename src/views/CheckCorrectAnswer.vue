@@ -5,12 +5,12 @@
 
 
 
-        <h1 class="title">Bra jobbat!!</h1> 
+        <h1 class="title"> {{uiLabels.goodwork}}</h1> 
 
         <div class="amountOfPoints">
             
            <div v-if="(loaded == true)">
-             Du fick {{points}} rätt!
+             {{uiLabels.yougot}} {{points}} {{uiLabels.amount}}
 
             </div>
             </div>
@@ -48,7 +48,7 @@ import io from 'socket.io-client';
    data: function () {
      return {
         
-        lang: "",
+        lang: "en",
         pollId: "",
         playerId: "",
         questionObject: "",
@@ -56,6 +56,7 @@ import io from 'socket.io-client';
         data: {},
         uiLabels: {}, 
         points: 0,
+        
         //playersA: [player1A,player2A,player3A],
     //     playersAnswers: [],
     //     player1G:[[

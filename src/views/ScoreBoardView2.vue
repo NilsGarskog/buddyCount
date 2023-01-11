@@ -4,7 +4,7 @@
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 
     <div>
-        <h1 class="title">ScoreBoard</h1> 
+        <h1 class="title">{{uiLabels.scoreboard}}</h1> 
     </div>
 
     <div class="topfive">
@@ -56,7 +56,6 @@ export default {
   components: {},
   data: function () {
     return {
-        lang: "",
         pollId: "",
         timerId: setInterval(this.timer, 1000),
         timeLeft: 10,
@@ -65,10 +64,13 @@ export default {
         PlayersAndPoints: [{playerId: 4, points: 1}, {playerId: 1, points: 6}],
         loaded: false,
         data: {},
+        uiLabels: {},
+        lang: "en",
 
         playerInfo: {
         clickedAvatars:[],
         username:"",
+        
       },
     }
 
@@ -77,6 +79,9 @@ export default {
   created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang
+    socket.on("init", (labels) => {
+      this.uiLabels = labels;
+    });
     socket.emit('joinPoll', this.pollId);
     socket.emit("pageLoaded", this.lang);
     socket.on("sendPlayers", (players) => {
