@@ -55,5 +55,8 @@
 	"usernameCC": "Username...",
 	"codeCreateQHost": "CODE:",
 	"questionCreateQHost": "QUESTIONS:",
-	"correctAnswers": "The correct answers are:"
+	"correctAnswers": "The correct answers are:",
+	"CodeHolder": "GAME CODE...",
+	"QuestionPrompt": "Write questions here:",
+	"QuestionPromptPlaceholder": "Question..."
 }
