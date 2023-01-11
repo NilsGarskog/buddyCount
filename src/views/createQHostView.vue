@@ -49,7 +49,7 @@ export default {
       questions: "", /* la till en tom array*/
       data: {},
       uiLabels: {},
-      hide: false,
+      hide: true,
       hidePic: require('../Icons/eyeOpen.svg')
     }
   },
@@ -79,11 +79,11 @@ export default {
     hideQuestion: function(){
       if(this.hide){
         this.hide=false
-        this.hidePic=require('../Icons/eyeOpen.svg')
+        this.hidePic=require('../Icons/eyeClosed.svg')
       }
       else{
       this.hide = true
-      this.hidePic = require('../Icons/eyeClosed.svg')
+      this.hidePic = require('../Icons/eyeOpen.svg')
       }
       
       
