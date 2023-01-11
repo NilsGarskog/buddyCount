@@ -9,14 +9,6 @@ const routes = [
   },
 
   {
-    path: '/create/:lang',
-    name: 'CreateView',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/CreateView.vue')
-  },
-  {
     path: '/chooseplayer/:lang/:id/:playid',
     name: 'ChoosePlayerView',
     // route level code-splitting
