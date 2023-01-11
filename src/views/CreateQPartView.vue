@@ -3,9 +3,9 @@
     <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-    <h1>Write questions here:</h1>
+    <h1>{{uiLabels.QuestionPrompt}}</h1>
     <div class="writeQ">
-    <input maxlength="60" type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
+    <input maxlength="60" type="text" v-model="question" :placeholder="uiLabels.QuestionPromptPlaceholder" id="questionInputField">
        <img src="../Icons/plusButton.svg" class="signButton" id="addButton" v-on:click="addQuestion" v-bind:style= "[(this.questions.length < 3) ? {opacity: 1} : {opacity: 0.3}]">
     </div>
        <div class="showQuestions">
@@ -35,7 +35,7 @@ name: 'CreateQPartView',
   data: function () {
     return {
       players: [],
-      lang: "",
+      lang: "en",
       pollId: "",
       playerId: "",
       question: "",

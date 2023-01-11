@@ -1,6 +1,6 @@
 <template>
-  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <body id="body">
+  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <div id="fullPage">
    <!--  <div v-if="first===show">
     <ConfettiExplosion /> 
@@ -63,7 +63,7 @@ export default {
       placement: "",
       players:[],
       confettiDone: false,
-      ang:"en",
+      lang:"en",
       uiLabels: {},
       over: false
       
