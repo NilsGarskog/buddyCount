@@ -15,7 +15,21 @@
       </div>
     </div>
 
+    <div v-if="popupTriggers.buttonTriggerHost && this.playerId === '1'">
+  <PopUp class="popup"
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+        v-on:closeCurrentPopup="togglePopup()"
+      >
+      <div class = "popuphost">
+      <h1 id="hostTitle">{{uiLabels.remember}}<br>{{uiLabels.hostRemember1}}</h1>
+<h2 class="hostTitle2">{{uiLabels.hostRemember2}}<br>{{uiLabels.hostRemember3}}<br>{{uiLabels.hostRemember4}}<br>{{uiLabels.hostRemember5}}</h2>
 
+
+<button class="gotItButton" v-on:click="togglePopup()">{{uiLabels.okGotIt}}</button> 
+</div>
+</PopUp>
+</div>
 
     <router-link v-bind:to= " '/answerq/' + lang + '/' + pollId + '/' + playerId ">
       <div class="buttonCont">
@@ -29,9 +43,25 @@
 <script>
 import io from 'socket.io-client';
 const socket = io();
+import PopUp from "../components/PopUp.vue";
+import { ref } from "vue";
 
 export default {
 name: 'CreateQPartView',
+
+components: {
+    PopUp,
+  },
+
+  setup() {
+    const popupTriggers = ref({
+      buttonTriggerHost: true,
+    });
+    return {
+      popupTriggers,
+      
+    };
+  },
   data: function () {
     return {
       players: [],
@@ -98,7 +128,14 @@ name: 'CreateQPartView',
     },
     runQuestion: function () {           //Oklart om denna behövs?
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
-    }
+    },
+    togglePopup: function () {
+     
+     this.popupTriggers.buttonTriggerHost =
+       !this.popupTriggers.buttonTriggerHost;
+       this.popUpClosed = true;
+   
+ },
 }
 }
 </script>
@@ -163,6 +200,20 @@ justify-content: center;
 
 .button:hover {
   background-color: #67b3a5b7;
+}
+
+.gotItButton {
+font-family: Righteous;
+color: white;
+background-color: #046B79;
+font-size:23px;
+width: 200px;
+height: 70px;
+box-shadow: 0px 7px 10px #063d45;
+border: 1px solid white;
+margin-bottom:20px;
+margin-top:10px;
+transition: 0.2s;
 }
 
 .signButton{
@@ -258,11 +309,34 @@ input {
   justify-content: center;
 }
 
+#hostTitle {
+    margin-top:20px;
+    font-size:3em;
+  }
+
+  .hostTitle2, .hostTitle3 {
+    font-size:1.5em;
+    color:white;
+  }
 
 @media (max-width: 450px){
+
+  .popupinner {
+    height:10%;
+  }
+  
   h1 {
     margin-top: 95px;
     font-size: 30px;
+  }
+
+  #hostTitle {
+    margin-top:20px;
+    font-size:30px;
+  }
+
+  .hostTitle2, .hostTitle3 {
+    font-size:15px;
   }
 
   #questionInputField {
@@ -290,6 +364,17 @@ transition: 0.2s;
 cursor: pointer;
 }
 }
+@media (min-width:600px){
+
+
+  .gotItButton:hover, .click:hover {
+background-color: #00acae;
+transition: 0.2s;
+cursor: pointer;
+
+  }
+}
+
 /* @media screen and (max-width:50em) {
 .showQuestions{
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,

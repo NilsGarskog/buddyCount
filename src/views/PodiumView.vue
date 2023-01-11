@@ -54,6 +54,13 @@
     </div>
   </div>
 </div>
+<div class="ButtomArea">
+  <router-link v-bind:to="'/'">
+      <button class="Button" id="joinGameButton" >
+      Play Again!
+      </button>
+    </router-link>
+      </div>
 
 </body>
 </template>
@@ -106,6 +113,37 @@ body {
   font-family: Righteous;
 }
 
+.Button{
+  height: 5em;
+  width: 14em;
+  background-color: #70c1b3;
+  border: 0.1em solid rgba(27, 31, 35, 0.15);
+  border-radius: 0.3em;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: black;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+  sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  cursor: pointer;
+  font-size: 2em;
+  font-weight: 800;
+  line-height: 2em;
+  padding: 1em 2em;
+}
+
+.ButtomArea{
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  margin-top:-7em;
+}
+
+#joinGameButton:hover {
+    background-color: #00acae;
+    transition: 0.2s;
+    cursor: pointer;
+}
 .flexContainer{
   display: flex;
   flex-direction: row-reverse;
