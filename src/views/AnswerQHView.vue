@@ -1,12 +1,13 @@
 <template>
-        <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <body>
+        <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+  
 
     <Particles id="tsparticles" :particlesInit="particlesInit" :options="particlesOptions" />
     
     <div class="bigContainer">
-<h1>Answer the questions!</h1>
-<h2>Make sure to be honest!</h2>
+<h1>{{uiLabels.atQ}}</h1>
+<h2>{{uiLabels.beHonest}}</h2>
 <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_3RIxZt.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
 </div>
 </body>
@@ -25,16 +26,23 @@ export default {
   components: {
     LottiePlayer,
   },
+  data: function() {
+    return{
+      uiLabels: {},
+      lang: "en"
+    }
+  },
 
 created: function () {
 
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
+    
+    socket.on("init", (labels) => {
+      this.uiLabels = labels;
+    });
     socket.emit('joinPoll', this.pollId)
     socket.emit("pageLoaded", this.lang);
-    socket.on("init", (labels) => {
-      this.uiLabels = labels
-    })
     socket.on("goToNextPage", () => {
     this.$router.push('/QuestionLobby/' + this.lang+'/'+this.pollId);
     })
