@@ -12,7 +12,7 @@
         v-bind:key="PopUpFonster"
         v-on:closeCurrentPopup="togglePopup('join')"
       >
-        <input class="codeInput" type="text" v-model="joinId" placeholder="Code..." />
+        <input class="codeInput" pattern="[0-9]*" type="text" v-model="joinId" placeholder="Code..." />
         <router-link v-bind:to="'/chooseplayer/' + lang+'/'+joinId +'/'+this.id">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
@@ -417,7 +417,7 @@ display: none;
   display:none;
 }
 #joinGameButton{
-  margin-top: 3em;
+  margin-top: -1em;
 }
   #codeSubmitButton {
 

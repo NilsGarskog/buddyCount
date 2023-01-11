@@ -82,6 +82,11 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('goToNextPage');
   });
 
+  socket.on('goToStart', function(pollId) {
+    io.to(pollId).emit('goToStart');
+  });
+
+
   socket.on('getCurrentQuestion', function(pollId) {
     io.to(pollId).emit('currentQuestion', data.getCurrentQnA(pollId));
   });

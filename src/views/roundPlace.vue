@@ -83,6 +83,9 @@ export default {
     socket.on("goToNextRound", () => {
       this.$router.push('/guessQuestion/' + this.lang+'/'+this.pollId+'/'+this.playerId);
     }),
+    socket.on("goToStart", () => {
+      this.$router.push('/');
+    }),
     socket.on("ItIsOver", () => {
       this.over=true;
     })

@@ -55,11 +55,9 @@
   </div>
 </div>
 <div class="ButtomArea">
-  <router-link v-bind:to="'/'">
-      <button class="Button" id="joinGameButton" >
+      <button v-on:click="sendToStart()" class="Button" id="joinGameButton" >
         {{uiLabels.playagain}}
       </button>
-    </router-link>
       </div>
 
 </body>
@@ -99,6 +97,15 @@ socket.emit("pageLoaded", this.lang);
    this.loaded = true
  });
  socket.emit("getPlayers", this.pollId)
+},
+
+methods: {
+
+  sendToStart: function() {
+    socket.emit('goToStart', this.pollId);
+    this.$router.push('/');
+  }
+
 },
 }
 </script>
