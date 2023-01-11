@@ -17,7 +17,7 @@
 
   <router-link v-bind:to= " '/answerq/' + lang + '/' + pollId + '/' + playerId ">
       <div class="buttonCont">
-    <button class="continueButton" v-if="this.playerId === '1'" v-on:click = continueEmit()>Continue</button>
+    <button class="continueButton" v-if="this.playerId === '1'" v-on:click = continueEmit()>{{uiLabels.continue}}</button>
   </div>
   </router-link>
 

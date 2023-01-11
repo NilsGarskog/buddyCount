@@ -25,7 +25,7 @@
   <div v-else>
     <div v-for="(question,index) in questions"
     v-bind:key="question">
-    Question {{index+1}}
+    {{uiLabels.questionHide}} {{index+1}}
     <hr style="width:50%;">
   </div>
   </div>
