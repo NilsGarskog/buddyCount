@@ -133,7 +133,10 @@
     
     
  <style scoped>
-    
+
+h1 {
+  font-family: Righteous;
+}
 
 .questions{
   font-size: 2em;
