@@ -15,6 +15,11 @@
 	"atQ": "Answer the questions!",
 	"beHonest": "Make sure to be honest!",
 	"qAnswered": "All questions are answered!",
-	"send": "SEND!"
-
-}
+	"send": "SEND!",
+	"ChooseCharacter": "Choose a character:",
+	"YourProfile": "Your profile",
+	"joinCC": "Join",
+	"usernameCC": "Username...",
+	"codeCreateQHost": "CODE:",
+	"questionCreateQHost": "QUESTIONS:",
+	"correctAnswers": "The correct answers are:"

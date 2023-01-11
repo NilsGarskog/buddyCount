@@ -15,4 +15,11 @@
 	"beHonest": "Se till att vara ärlig!",
 	"qAnswered": "Alla frågor är besvarade!",
 	"send":"SKICKA!"
+	"ChooseCharacter": "Välj en avatar:",
+	"YourProfile": "Din profil",
+	"joinCC": "Starta",
+	"usernameCC": "Användarnamn...",
+	"codeCreateQHost": "KOD:",
+	"questionCreateQHost": "FRÅGOR:",
+	"correctAnswers": "De rätta svaren är:"
 }
