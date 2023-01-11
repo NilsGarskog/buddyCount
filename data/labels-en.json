@@ -7,5 +7,10 @@
 	"changeLanguage": "Byt till svenska",
 	"rules1":  "Answer the questions and then guess which answer each person wrote.",
 	"rules2": "The person with the most right answers will win!",
-	"rules3": "Have fun and answer honestly."
+	"rules3": "Have fun and answer honestly.",
+	"scoreboard": "ScoreBoard",
+	"goodwork": "Good job!!",
+	"yougot": "You got",
+	"amount": "right"
+
 }
