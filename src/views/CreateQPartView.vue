@@ -312,11 +312,13 @@ input {
 #hostTitle {
     margin-top:20px;
     font-size:3em;
+    cursor:default;
   }
 
   .hostTitle2, .hostTitle3 {
     font-size:1.5em;
     color:white;
+    cursor:default;
   }
 
 @media (max-width: 450px){
