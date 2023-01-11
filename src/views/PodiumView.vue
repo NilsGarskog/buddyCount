@@ -21,7 +21,7 @@
     </div>
   <div class="flexContainerHnP">
     <div class="Heading">
-      Thank you for counting your buddies!
+      {{uiLabels.thankyou}}
     </div>
     <div v-if="loaded == true" class="PodiumContainer">
       <div class="thirdPlace">
