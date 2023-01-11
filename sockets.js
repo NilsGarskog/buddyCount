@@ -134,6 +134,13 @@ function sockets(io, socket, data) {
   socket.on('roundOver', function(pollId){
     data.roundCounterAddition(pollId)
   });
+  socket.on('isItOver', function(pollId){
+    currentRound = data.getCurrentRound(pollId);
+    amountOfQuestions = data.getAmountOfQ(pollId);
+    if (currentRound == (amountOfQuestions)){
+      socket.emit('ItIsOver');
+    }
+  });
   
 
 }
