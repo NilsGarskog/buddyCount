@@ -9,8 +9,8 @@
     <label for="name" id="labelUse" class="labelUsername" >{{ uiLabels.usernameCC}}</label>
   </div>
 
-  <div>
-    <b id="characterText">
+  <div id="characterText">
+    <b >
       <h1> {{uiLabels.ChooseCharacter}}</h1>
     </b>
   </div>
@@ -275,9 +275,7 @@ margin-left: 0.5em;
 .usernameGroup{
   position:relative;
   padding: 0.675em 0 0;
-  margin-top: 0.625em;
   width:50%;
-  margin-bottom: 1em;
 }
 .inputUsername {
 
@@ -426,6 +424,40 @@ button.Button:disabled{
   .profileContainer{
     width:80%
   }
+  .usernameGroup{
+    margin-top: -0.6em;
 }
+  }
+#characterText{
+  font-size: 1em;
+}
+.FlexCenter{
+  margin-top:-3em;
+}
+#joinGameButton{
+  height: 2em;
+  width: 4em;
+  text-align: center;
+  padding: 0;
+}
+.box {
+  height: 140px;
+  width: 200px;
+  padding: 0;
+  margin-top: 0em;
+  margin-left: -3em;
+  margin-right: -3em;
 
+}
+#avatarer{
+  width:40%;
+  height:auto;
+}
+.profileContainer{
+  min-height: 50%;
+  min-width: 25%;
+  height:6em;
+
+  font-size: 1.5em;
+}
 </style>-->
