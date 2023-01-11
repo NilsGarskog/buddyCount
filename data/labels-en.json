@@ -5,7 +5,16 @@
 	"joinGame": "JOIN GAME",
 	"question": "Question",
 	"changeLanguage": "Byt till svenska",
-	"rules1":  "Answer the questions and then guess which answer each person wrote.",
-	"rules2": "The person with the most right answers will win!",
-	"rules3": "Have fun and answer honestly."
+	"rules1":  "Each person submits up to 3 questions they want their friends to answer, the answer can only be a number",
+	"rules2": "Each person then answer all the submitted questions based on themselves",
+	"rules3": "Then it's time to guess who answered what",
+	"rules4": "Example question: How many times have you done the dishes in the last week? ",
+	"rules5": "For 3 or more players",
+	"rules6": "Have fun and answer honestly!",
+	"Question": "Question",
+	"atQ": "Answer the questions!",
+	"beHonest": "Make sure to be honest!",
+	"qAnswered": "All questions are answered!",
+	"send": "Send"
+
 }
