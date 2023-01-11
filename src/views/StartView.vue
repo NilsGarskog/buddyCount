@@ -32,14 +32,15 @@
            <pre> </pre>
 
           <div class="ruleText">
-            <ul>
-          <li>{{uiLabels.rules1}}</li>
-          <li>{{uiLabels.rules2}}</li>
-          <li>{{uiLabels.rules3}}</li>
-          <li>{{uiLabels.rules4}}</li>
-          <li>{{uiLabels.rules5}}</li>
-          <li>{{uiLabels.rules6}}</li>
-          </ul>
+            <div id="Rules">{{uiLabels.rules1}}</div>
+            {{uiLabels.rules2}}
+            <br>
+            {{uiLabels.rules3}}
+            <div id="Rules">{{uiLabels.rules4}}</div>
+            {{uiLabels.rules5}}
+            <br>
+            {{uiLabels.rules6}}
+          
           </div>
       </PopUp>
     </div>
@@ -196,14 +197,18 @@ export default {
   opacity:1;
 }
 .ruleText{
-  font-size: 2.5vw;
+  font-size: 1.5em;
   text-align: left;
   position: relative;
   margin-left: 2vw;
   font-family: Righteous;
   font-weight: 200;
+  padding: 0.5em;
 }
-
+#Rules{
+  font-size:1.7em;
+  font-weight: bold;
+}
 ul {
   list-style-position: outside;
 }

@@ -29,6 +29,7 @@ export default {
   data: function() {
     return{
       uiLabels: {},
+      lang: "en"
     }
   },
 
@@ -36,7 +37,7 @@ created: function () {
 
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
-    socket.emit("switchLanguage", this.lang);
+    
     socket.on("init", (labels) => {
       this.uiLabels = labels;
     });
