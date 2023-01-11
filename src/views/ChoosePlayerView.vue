@@ -6,12 +6,12 @@
 
   <div class="usernameGroup">
     <input type="text" autocomplete="off" class="inputUsername" v-model="playerInfo.username" placeholder="Username" name="name" id='name' required v-on:keyup.enter="onEnter"/>
-    <label for="name" id="labelUse" class="labelUsername" >Username... </label>
+    <label for="name" id="labelUse" class="labelUsername" >{{ uiLabels.usernameCC}}</label>
   </div>
 
   <div>
     <b id="characterText">
-      Choose a character:
+      <h1> {{uiLabels.ChooseCharacter}}</h1>
     </b>
   </div>
 
@@ -25,7 +25,7 @@
 </div>
 </div>
 <div class="profileContainer">
-  <p id="profileHeadingText">Your profile</p>
+  <p id="profileHeadingText">{{uiLabels.YourProfile}}</p>
   <div class="nameAndProfile">
   <div id="profile"></div>
   <div id="profileName"> {{playerInfo.username}}</div>
@@ -33,9 +33,9 @@
 </div>
  <div class="bottomArea">
     
-    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="getPlayerInfo(); addParticipant();">
+    <button class="Button" id="joinGameButton" :disabled="correctInput" v-on:click="addParticipant();">
 
-      JOIN!
+       {{uiLabels.joinCC}}
     </button>
  </div>
   </body>
@@ -104,7 +104,7 @@ export default {
         username:"",
       },
       
-      lang: "",
+      lang: "en",
       pollId: "",
       playerId: "",
       question: "",
@@ -143,10 +143,6 @@ export default {
     },
   //Metod för att ta bort placeholder
   methods: {
-    getPlayerInfo: function(){
-          console.log(this.playerInfo)
-    },
-
     addParticipant: function() {
       socket.emit("editParticipant", {pollId: this.pollId, nm: this.playerInfo.username, av: this.playerInfo.clickedAvatars, playerId: this.playerId})
     },

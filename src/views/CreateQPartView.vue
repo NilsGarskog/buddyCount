@@ -3,9 +3,9 @@
     <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-    <h1>Write questions here:</h1>
+    <h1>{{uiLabels.QuestionPrompt}}</h1>
     <div class="writeQ">
-    <input maxlength="60" type="text" v-model="question" placeholder="Write a question..." id="questionInputField">
+    <input maxlength="60" type="text" v-model="question" :placeholder="uiLabels.QuestionPromptPlaceholder" id="questionInputField">
        <img src="../Icons/plusButton.svg" class="signButton" id="addButton" v-on:click="addQuestion" v-bind:style= "[(this.questions.length < 3) ? {opacity: 1} : {opacity: 0.3}]">
     </div>
        <div class="showQuestions">
@@ -35,7 +35,7 @@ name: 'CreateQPartView',
   data: function () {
     return {
       players: [],
-      lang: "",
+      lang: "en",
       pollId: "",
       playerId: "",
       question: "",
@@ -74,7 +74,8 @@ name: 'CreateQPartView',
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
     },
       continueEmit: function(){
-      socket.emit('goToNextPage', this.pollId)
+      socket.emit('goToNextPage', this.pollId);
+      this.$router.push('/answerq/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
     },
     addQuestion: function () {           //Lagt till fråge-id mm.
       if (this.questions.length < 3){
@@ -152,11 +153,7 @@ margin-bottom:50px;
 
 }
 
-.continueButton:hover {
-background-color: #00acae;
-transition: 0.2s;
-cursor: pointer;
-}
+
 
 .buttonCont {
 display: flex;
@@ -284,6 +281,14 @@ input {
     width:40px;
     height:40px;
   }
+}
+
+@media (min-width: 600px) {
+  .continueButton:hover {
+background-color: #00acae;
+transition: 0.2s;
+cursor: pointer;
+}
 }
 /* @media screen and (max-width:50em) {
 .showQuestions{

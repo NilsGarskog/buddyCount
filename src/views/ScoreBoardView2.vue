@@ -4,7 +4,7 @@
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 
     <div>
-        <h1 class="title">ScoreBoard</h1> 
+        <h1 class="title">{{uiLabels.scoreboard}}</h1> 
     </div>
 
     <div class="topfive">
@@ -14,10 +14,11 @@
 
     <div v-if="(loaded == true)">
         <div v-for="element in PlayersAndPoints" v-bind:key="element"> 
+          <div class="showpointsCont">
             <div class="showpoints">
-                <img class ="avatarImage" :src="require('../Icons/' + element.avatar[0].image + '.png')" /> {{element.name}} {{element.points}}
+                <img class ="avatarImage" :src="require('../Icons/' + element.avatar[0].image + '.png')" /> <span class ="space"></span><span class ="name">{{element.name}} </span><span class ="space"></span><span class ="point">{{element.points}}</span>
             </div>
-                
+          </div>
             </div>
              
             </div>
@@ -56,7 +57,6 @@ export default {
   components: {},
   data: function () {
     return {
-        lang: "",
         pollId: "",
         timerId: setInterval(this.timer, 1000),
         timeLeft: 10,
@@ -65,10 +65,13 @@ export default {
         PlayersAndPoints: [{playerId: 4, points: 1}, {playerId: 1, points: 6}],
         loaded: false,
         data: {},
+        uiLabels: {},
+        lang: "en",
 
         playerInfo: {
         clickedAvatars:[],
         username:"",
+        
       },
     }
 
@@ -77,6 +80,9 @@ export default {
   created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang
+    socket.on("init", (labels) => {
+      this.uiLabels = labels;
+    });
     socket.emit('joinPoll', this.pollId);
     socket.emit("pageLoaded", this.lang);
     socket.on("sendPlayers", (players) => {
@@ -105,8 +111,7 @@ export default {
       if (this.timeLeft == 0) {
         if(!this.sendTimer)
         {
-          console.log("slut")
-          socket.emit("goToNextRound",this.pollId)
+          //socket.emit("goToNextRound",this.pollId)
 
           clearTimeout(timerId);
           timerId = null;
@@ -114,20 +119,10 @@ export default {
         }
 
       } else {
-        console.log(this.timeLeft)
         return this.timeLeft--;
       }
     },
     
-   
-  showPoints: function() {
-    for (let element of this.PlayersAndPoints){
-        console.log("Spelaren är", element.playerId)
-        console.log("Spelaren har poängen", element.points)
-   // return(element.playerId)
-        
-    }
-  },
 
 }
 }
@@ -138,20 +133,22 @@ export default {
 
 body {
     background-color: #24a07b;
+    position: fixed;
     font-family:Righteous ;
     width: 100vw;
-    min-height: 100vh;
+    height: 100vh;
   
 }
 .title {
 font-family: monoton;
-font-size: 4em;
-margin-top: 0em;
+font-size: 6em;
+margin-top: 1em;
 font-weight: 300;
 }
 
 .avatarImage {
-    width: 40px;
+    width: 70px;
+    align-self:left;
 }
 
 .topfive {
@@ -159,11 +156,42 @@ font-weight: 300;
   justify-content: center;
 }
 
-.showpoints{
-font-size: 3em;
+.showpointsCont {
+  display:flex;
+  width:100%;
+  justify-content: center;
+}
+
+.showpoints {
+  display: flex;
+  width:35%;
+  justify-content: space-between;
+  align-items: center;
+}
+.topfive {
+  display:flex;
+  flex-direction:column;
+  height: 50%;
+  justify-content: center;
+}
+
+.name {
+  font-size:2.2em;
+  text-align: left;
+  width:100%;
+  margin-left:0.2em;
+
+}
+
+.point {
+ display: flex;
  text-align: right;
- margin-right: 7em;
- margin-top: 1em;
+ font-size:2.2em;
+
+}
+
+.space {
+  margin-right:1em;
 }
 
 </style>

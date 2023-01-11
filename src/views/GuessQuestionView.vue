@@ -1,5 +1,13 @@
 <template>
   <body @mousedown="closeAnimation()" @touchstart="closeAnimation()">
+        <PopUp
+        v-bind:PopUp="PopUp"
+        v-bind:key="PopUpFonster"
+        v-if="popupTriggers.buttonTrigger"
+        class ="popupWindow"
+      >
+      <h1> All guesses are made!</h1>
+      </PopUp>
     <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
       <h1 class="heading">{{Qobj.question}} </h1>
@@ -36,7 +44,7 @@
       </div>
   
     
-    <button id='sendbutton' v-on:click="sendFunc()">SEND</button>
+    <button id='sendbutton' v-on:click="sendFunc()">{{uiLabels.guessSend}}</button>
   
  
 
@@ -46,6 +54,8 @@
 
 <script>
 /*import vSelect from 'vue-select'*/
+import PopUp from "../components/PopUp.vue";
+import { ref } from "vue";
 import interact from "interactjs";
 import io from 'socket.io-client';
 import LottiePlayer from '@lottiefiles/lottie-player';
@@ -295,7 +305,16 @@ name: "AnswerQuestionView",
         components: {
       interact,
       LottiePlayer,
+      PopUp,
         },
+    setup() {
+    const popupTriggers = ref({
+      buttonTrigger: false,
+    });
+      return {
+        popupTriggers,
+        };
+          },
 data: function () {
     return {
       drag: false,
@@ -335,8 +354,9 @@ data: function () {
     ],
     showButtonBoolean: false,
     //timerobj: null,
+    uiLabels: {},
+    lang: "en",
     pollId:"",
-      lang:"",
     playerId:"",
     answerArray:[],
     players:[],
@@ -349,6 +369,10 @@ data: function () {
 created(){
   this.pollId = this.$route.params.id;
   this.lang = this.$route.params.lang;
+  socket.emit("pageLoaded",this.lang);
+  socket.on("init", (labels) => {
+      this.uiLabels = labels;
+    });
   this.playerId = this.$route.params.playid;
   socket.emit('joinPoll', this.pollId)
   socket.on("currentQuestion", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
@@ -369,10 +393,14 @@ created(){
  socket.on("goToResultPage", () => { 
     this.$router.push('/CheckCorrectAnswer/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
     }); 
+   
 },
   
 methods: {
 
+    togglePopup: function () {
+      this.popupTriggers.buttonTrigger = true;
+    },
   closeAnimation: function(){
     console.log('hej')
     document.querySelector('.animation').remove();
@@ -419,7 +447,7 @@ methods: {
    return noEmpty
   },
   sendFunc: function (){
-  
+  this.togglePopup()
   console.log("send!")
   for (var i = 0; i < this.GuessArray.length; i++){
    
@@ -461,21 +489,24 @@ function createGuessArr (players, id){
 }
 </script>
 
-<style>
+<style scoped>
 
 #sendbutton {
   background-color: #046B79;
   font-family: Righteous;
   font-size: 2em !important;
+  width: auto !important;
+  height: 1.7em !important;
   color: white;
   border: 1px white solid;
   border-radius: 5px;
   box-shadow: 0px 5px 4px #046B79;
-  
+  text-align: center;
+  padding-left:0.5em;
+  padding-right:0.5em;
+  transition:0.3s;
 }
-#sendbutton:hover {
-  cursor: pointer;
-}
+
 body{
   position: fixed;
   background-color: #24a07b;
@@ -637,6 +668,11 @@ z-index: 100;
   margin-top:40px;
   z-index:10000;
 }
+
+.popupWindow{
+  z-index:100000;
+}
+
 @media (max-width: 450px){
   body{
     position: absolute;
@@ -740,5 +776,13 @@ z-index: 100;
   #sendbutton {
     font-size:25px;
   }
+}
+
+@media (min-width: 500px){
+  #sendbutton:hover {
+  cursor: pointer;
+  background-color: #1c8896;
+  transition:0.3s;
+}
 }
 </style>

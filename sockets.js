@@ -79,7 +79,6 @@ function sockets(io, socket, data) {
   });
 
   socket.on('goToNextPage', function(pollId) {
-    console.log("goToNextPage kallas på")
     io.to(pollId).emit('goToNextPage');
   });
 
@@ -96,7 +95,6 @@ function sockets(io, socket, data) {
   });
   
    socket.on('goToResult', function(pollId) {
-     console.log("goToResult kallas på")
        io.to(pollId).emit('goToResultPage');
    });
 
@@ -109,25 +107,20 @@ function sockets(io, socket, data) {
   });
 
   socket.on('goToNextRound', function(pollId) {
-    console.log("goToNextRound kallas på")
     io.to(pollId).emit('goToNextRound');
   });
   socket.on('goToScoreBoard', function(pollId) {
-    console.log("goToScoreBoard kallas på")
     currentRound = data.getCurrentRound(pollId);
     amountOfQuestions = data.getAmountOfQ(pollId);
     if (currentRound != (amountOfQuestions - 1)){
       io.to(pollId).emit('goToScoreBoard');
-      console.log("goToScoreBoard emittas")
     }else{
 
       io.to(pollId).emit('goToPodium');
-      console.log("goToPodium emittas")
     }
   });
 
   socket.on('goToNextQuestion', function(pollId) {
-    console.log("goToNextQuestion kallas på")
     io.to(pollId).emit('goToNextQuestion');
   });
  
@@ -140,6 +133,13 @@ function sockets(io, socket, data) {
   });
   socket.on('roundOver', function(pollId){
     data.roundCounterAddition(pollId)
+  });
+  socket.on('isItOver', function(pollId){
+    currentRound = data.getCurrentRound(pollId);
+    amountOfQuestions = data.getAmountOfQ(pollId);
+    if (currentRound == (amountOfQuestions)){
+      socket.emit('ItIsOver');
+    }
   });
   
 

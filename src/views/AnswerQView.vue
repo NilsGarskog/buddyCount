@@ -8,7 +8,7 @@
         v-bind:key="PopUpFonster"
         v-if="popupTriggers.buttonTrigger"
       >
-      <h1> All questions are answered!</h1>
+      <h1> {{uiLabels.qAnswered}}</h1>
       </PopUp>
       <div class="bigContainer">
         <div class ="smallContainer">
@@ -28,7 +28,7 @@
       </div>
       </div>
 
-    <button class="sendButton" v-on:click="sendBTNfunc(questions[currentQ].i)"> SEND! </button>
+    <button class="sendButton" v-on:click="sendBTNfunc(questions[currentQ].i)"> {{uiLabels.send}}</button>
   </div>
   </div>
 
@@ -61,7 +61,7 @@
   },
       data: function () {
         return {
-          lang: "",
+          lang: "en",
           pollId: "",
           questionObject: "",
           question:"",
@@ -79,6 +79,10 @@
         created: function () {
           this.pollId = this.$route.params.id
           this.lang = this.$route.params.lang;
+          
+    socket.on("init", (labels) => {
+      this.uiLabels = labels;
+    });
           this.playerId = this.$route.params.playid;
           socket.emit('joinPoll', this.pollId);
           socket.on("goToNextPage", () => {
@@ -92,9 +96,6 @@
           socket.emit('getQuestions', this.pollId)
           
           socket.emit("pageLoaded", this.lang);
-          socket.on("init", (labels) => {
-            this.uiLabels = labels
-          });
 
       },
         methods: {
@@ -132,7 +133,10 @@
     
     
  <style scoped>
-    
+
+h1 {
+  font-family: Righteous;
+}
 
 .questions{
   font-size: 2em;
@@ -241,6 +245,8 @@ input::-webkit-inner-spin-button {
       height: 100%;
       width:100%;
       position: relative;   
+      display:flex;
+      justify-content: center;
      
     }
     .smallContainer {
@@ -250,5 +256,10 @@ input::-webkit-inner-spin-button {
   -ms-transform: translateY(40%);
   transform: translateY(40%);
     }
+
+  .text{
+    font-family: Righteous;
+    font-size: 2em;
+  }
    
     </style>

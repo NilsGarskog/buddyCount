@@ -1,21 +1,39 @@
 <template>
-  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <body id="body">
+  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <div id="fullPage">
    <!--  <div v-if="first===show">
     <ConfettiExplosion /> 
     </div>-->
   <div class="firstPlace" v-if="first===show">
-    <h1>First Place!</h1>
-    <h2> Keep up the good work!</h2>
+    <div v-if="over===false">
+    <h1>{{uiLabels.firstPlace}}</h1>
+    <h2> {{uiLabels.firstPLaceText}}</h2>
+    </div>
+    <div v-if="over===true">
+    <h1>{{uiLabels.firstPlaceEnd}}</h1>
+    <h2> {{uiLabels.firstPlaceEndText}}</h2>
+    </div>
   </div>
   <div class="lastPlace" v-if="last===show">
-    <h1>Last Place!</h1>
-    <h2> What are you even doing??</h2>
+    <div v-if="over===false">
+    <h1>{{uiLabels.lastPLace}}</h1>
+    <h2> {{uiLabels.lastPLaceText}}</h2>
+    </div>
+    <div v-if="over===true">
+    <h1>{{uiLabels.lastPlaceEnd}}</h1>
+    <h2> {{uiLabels.lastPlaceEndText}}</h2>
+    </div>
   </div>
   <div class="mediokerPlace" v-if="medioker===show">
-    <h1>You are the definition of average</h1>
-    <h2> Stop being so mellanmjölkig!</h2>
+    <div v-if="over===false">
+    <h1>{{uiLabels.mediocrePlace}}</h1>
+    <h2> {{uiLabels.mediocrePLaceText}}</h2>
+    </div>
+    <div v-if="over===true">
+    <h1>{{uiLabels.mediocrePLaceEnd}}</h1>
+    <h2> {{uiLabels.mediocrePLaceEndText}}</h2>
+    </div>
   </div>
 </div>
   </body>
@@ -44,6 +62,10 @@ export default {
       medioker:'MP',
       placement: "",
       players:[],
+      confettiDone: false,
+      lang:"en",
+      uiLabels: {},
+      over: false
       
 
     }
@@ -60,6 +82,9 @@ export default {
     })
     socket.on("goToNextRound", () => {
       this.$router.push('/guessQuestion/' + this.lang+'/'+this.pollId+'/'+this.playerId);
+    }),
+    socket.on("ItIsOver", () => {
+      this.over=true;
     })
     socket.on("sendPlayers", (players) => {
       this.players = players
@@ -70,11 +95,15 @@ export default {
           console.log("inside if loop, i =",i)
           this.placement = i;
           this.checkPlace()
+          if(this.confettiDone == false){
           this.confetti()
+          this.confettiDone = true;
         }
+      }
       }
       
     })
+    socket.emit("isItOver", this.pollId)
     socket.emit("getPlayers", this.pollId)
     
   },
@@ -177,6 +206,17 @@ button{
         padding-top: min(0vmin, env(safe-area-inset-top));
         padding-bottom: min(0vmin, env(safe-area-inset-bottom));
     }
+}
+
+@media (min-width: 500px){
+  h1 {
+    font-size: 5em;
+    margin-top:20%;
+  }
+  h2 {
+    font-size: 2em;
+    margin-top:-2%;
+  }
 }
 
 </style>

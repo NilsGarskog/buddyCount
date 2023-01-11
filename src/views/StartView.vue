@@ -12,7 +12,7 @@
         v-bind:key="PopUpFonster"
         v-on:closeCurrentPopup="togglePopup('join')"
       >
-        <input class="codeInput" type="text" v-model="joinId" placeholder="GAME CODE..." />
+        <input class="codeInput" type="text" v-model="joinId" placeholder="Code..." />
         <router-link v-bind:to="'/chooseplayer/' + lang+'/'+joinId +'/'+this.id">
           <button class="standardButton" role="button" id="codeSubmitButton">
             OK
@@ -21,7 +21,7 @@
       </PopUp>
     </div>
     <div class="animationCont">
-    <lottie-player class="animation" src="https://assets7.lottiefiles.com/packages/lf20_j7wzhpuq.json"  background="transparent"  speed="0.03"  style="width: 2000px; height: 2000px;"  autoplay></lottie-player>
+    <lottie-player class="animation" src="https://assets7.lottiefiles.com/packages/lf20_j7wzhpuq.json"  background="transparent"  speed="0.03"  style="width: 2600px; height: 2600px;"  autoplay></lottie-player>
     </div>
     <div v-if="popupTriggers.buttonTriggerRules"> <!-- Popup för regler -->
       <PopUp
@@ -32,11 +32,15 @@
            <pre> </pre>
 
           <div class="ruleText">
-            <ul>
-          <li>{{uiLabels.rules1}}</li>
-          <li>{{uiLabels.rules2}}</li>
-          <li>{{uiLabels.rules3}}</li>
-          </ul>
+            <div id="Rules">{{uiLabels.rules1}}</div>
+            {{uiLabels.rules2}}
+            <br>
+            {{uiLabels.rules3}}
+            <div id="Rules">{{uiLabels.rules4}}</div>
+            {{uiLabels.rules5}}
+            <br>
+            {{uiLabels.rules6}}
+          
           </div>
       </PopUp>
     </div>
@@ -114,7 +118,7 @@ export default {
       lang: "en",
       hideNav: true,
       audioOn: false,
-      audio: new Audio(require("../Music/FunkyMusic.mp3")),
+      audio: new Audio(require("../Music/GameMusic.mp3")),
       audioPicture: require("../Icons/music-on.svg"),
       rulesPicture: require("../Icons/question.svg"),
       langImg: require("../Icons/Sweden.png"),
@@ -193,14 +197,18 @@ export default {
   opacity:1;
 }
 .ruleText{
-  font-size: 2.5vw;
+  font-size: 1.5em;
   text-align: left;
   position: relative;
   margin-left: 2vw;
   font-family: Righteous;
   font-weight: 200;
+  padding: 0.5em;
 }
-
+#Rules{
+  font-size:1.7em;
+  font-weight: bold;
+}
 ul {
   list-style-position: outside;
 }
