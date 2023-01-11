@@ -69,5 +69,7 @@
 	"currentRound": "Round",
 	"of": "of",
 	"continue": "continue",
-	"thankyou": "Thank you for counting your buddies!"
+	"thankyou": "Thank you for counting your buddies!",
+	"questionHide": "Question",
+	"allQuestions": "All guesses are made!"
 }

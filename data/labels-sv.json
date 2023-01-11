@@ -68,5 +68,7 @@
 	"currentRound": "Runda",
 	"of": "av",
 	"continue": "fortsätt",
-	"thankyou": "Tack för du spelade!"
+	"thankyou": "Tack för du spelade!",
+	"questionHide": "Fråga",
+	"allQuestions": "Alla gissningar är gjorda!"
 }

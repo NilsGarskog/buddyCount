@@ -6,7 +6,7 @@
         v-if="popupTriggers.buttonTrigger"
         class ="popupWindow"
       >
-      <h1> All guesses are made!</h1>
+      <h1> {{uiLabels.allQuestions}}</h1>
       </PopUp>
     <component :is="interact" />
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
