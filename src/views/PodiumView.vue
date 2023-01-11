@@ -1,211 +1,298 @@
 <template>
-
-    <body>
+<body>
         <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Patrick Hand' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-        <div class ="headerContainer">
-            <div>
-                <p>{{uiLabels.noPlayers}}: {{this.players.length}}</p>
-            </div>
-            <div class ="gameCode">
-            <p>{{uiLabels.code}}: {{pollId}} </p>
-            </div>
+
+<div class="flexContainer">
+  <div class="Credits">
+    <div class="fade"></div>
+
+    <section class="star-wars">
+
+      <div class="crawl">
+        <div class="title">
+    <h1>{{uiLabels.CreditsHeading}}</h1>
         </div>
-        <div>
-        <h1 class ="playersTitle">{{uiLabels.players}}</h1>
-        <h3 class="removeText">{{uiLabels.removeText}}</h3>
-        </div>
-        <section class="playerListContainer">
-            
-        <div class = "playerList">
-        <div v-for="player in players"
-        v-bind:player="player"
-        v-bind:key="player.name">
-        <span v-on:click="removeParticipant(player)"><span id="playerNameInList"> <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />{{player.name}}</span></span>
-        </div>
-    </div>
-        
+     <p>{{uiLabels.Credits}}
+    </p>
+  </div>
     </section>
-    <!--
-    <div id="footer">
-        <button class="startGameButton" v-on:click="goToQuestion()">{{uiLabels.startGame}}</button>
     </div>
--->
-    </body>
+  <div class="flexContainerHnP">
+    <div class="Heading">
+      {{uiLabels.thankyou}}
+    </div>
+    <div v-if="loaded == true" class="PodiumContainer">
+      <div class="thirdPlace">
+        <div class="thirdPlaceBox">
 
+        </div>
+        <div class="thirdPlaceAvatar">
+          <h1>{{players[2].name}}</h1><p>{{players[2].points}}</p>
+          <img class ="avatarImage" :src="require('../Icons/' + players[2].avatar[0].image + '.png')" />
+        </div>  
+      </div>
+      <div class="firstPlace">
+        <div class="firstPlaceBox">
+
+        </div>
+        <div class="firstPlaceAvatar">
+          <h1>{{players[0].name}}</h1> <p>{{players[0].points}}</p>
+          <img class ="avatarImage" :src="require('../Icons/Winner/' + players[0].avatar[0].image + 'Crown' + '.png')" />
+        </div>  
+      </div>
+      <div class="secondPlace">
+        <div class="secondPlaceBox">
+
+        </div>
+        <div class="secondPlaceAvatar">
+          <h1>{{players[1].name}}</h1> <p>{{players[1].points}}</p>
+          <img class ="avatarImage" :src="require('../Icons/' + players[1].avatar[0].image + '.png')" />
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footerForButton">
+      <button v-on:click="sendToStart()" class="Button playAgainButton" id="joinGameButton" >
+        {{uiLabels.playagain}}
+      </button>
+      </div>
+
+</body>
 </template>
-
-
 
 <script>
 import io from 'socket.io-client';
 const socket = io();
 
-
-
 export default {
+data: function () {
+  return {
+    players:[
+      {name: "Isak", avatar: "Tintin", points: 10},
+      {name: "Nils", avatar: "Mononoke", points: 5},
+      {name: "Hanna", avatar: "Voldermort", points: 2}
+    ],
+    placement:[],
+    loaded: false,
+    pollId:"",
+    lang:"en",
+    uiLabels: {},
+  }
+},
+created: function () {
+this.pollId = this.$route.params.id;
+this.lang = this.$route.params.lang;
+socket.emit('joinPoll', this.pollId);
+socket.emit("pageLoaded", this.lang);
+  socket.on("init", (labels) => {
+    this.uiLabels = labels
+})
+ socket.on("sendPlayers", (players) => {
+   this.players = players
+   this.players.sort((a,b) => a.points - b.points);
+   this.players.reverse()
+   this.loaded = true
+ });
+ socket.emit("getPlayers", this.pollId)
+},
 
-    data: function () {
-        return {
-            uiLabels: {},
-            lang: "en",
-            players: [],
-            pollId: "",
-            
-            
-        }
-    },
-    created: function () {
-    this.pollId = this.$route.params.id
-    this.lang = this.$route.params.lang
-    socket.emit("pageLoaded",this.lang)
-    socket.on("init", (labels) => {
-      this.uiLabels = labels;
-    });
-    socket.emit('joinPoll', this.pollId)
-    socket.on("sendPlayers", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
-    this.players = update;
-    });
-    socket.emit('getPlayers', this.pollId)
-    socket.on("playerEdited", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
-    this.players = update;
-    });
-    socket.on("goToNextPage", () => {
-      this.$router.push('/creatqhost/' + this.lang+'/'+this.pollId);
-    })
-    },
+methods: {
 
-    methods: {
-  
-    
+  sendToStart: function() {
+    socket.emit('goToStart', this.pollId);
+    this.$router.push('/');
+  }
 
-    removeParticipant: function (player) {
-        if(player.playerId != 1){
-            socket.emit('removeParticipant', {pollId: this.pollId, playerId: player.playerId})
-        }
-        
-    },
-    goToQuestion: function(){
-        socket.emit('goToNextPage', this.pollId)
-    }
-
-    
-}}
-
+},
+}
 </script>
 
-
-
 <style scoped>
-
 body {
-    background-color:#24a07b;
-    cursor: default;
-    width: 100%;
-    position: fixed;  
-    min-height: 100vh;
+  position: fixed;
+  background-color: #24a07b;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 0;
+  font-family: Righteous;
 }
-#footer {
+
+.Button{
+  height: 5em;
+  width: 14em;
+  background-color: #70c1b3;
+  border: 0.1em solid rgba(27, 31, 35, 0.15);
+  border-radius: 0.3em;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: black;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+  sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  cursor: pointer;
+  font-size: 1.8em;
+  font-weight: 800;
+  line-height: 2em;
   
-    position: absolute;
-    bottom: 10%;
-     width: 100%;
-
-}
-.headerContainer {
-    display:flex;
-    justify-content: space-between;
-    font-family: righteous;
-    font-weight: bold;
-    color: white;
-    margin: 1em;
-    margin-top: 0em;
-    font-size: 3em;
 }
 
-.playersTitle {
-font-family: 'monoton';
-font-size: 5em;
-margin-top: -1em;
-font-weight: 300;
+.footerForButton {
+display:flex;
+justify-content: center;
+
+
 }
-
-.removeText {
-    font-family: Righteous;
-    margin-top: -2.5em;
-    margin-bottom: 3em;
-    font-size: 1.5em;
-    color: white;
-
-    
-}
-
-.playerList {
-    text-align: left;
-    width: 100%;
-    height: 6em;
-    font-family: Righteous;
-    font-weight: 100;
-    font-size: 3em;
-    padding-top: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: space-evenly;
+.playAgainButton {
+ 
+position: absolute;
+font-family: Righteous;
+color: white;
+background-color: #046B79;
+width: 230px;
+height: 60px;
+box-shadow: 0px 7px 10px #063d45;
+border: 1px solid white;
+margin-top:-2em;
+margin-right:16.5em;
 
 
 
 }
 
-.playerListContainer {
-    display: flex;
-    justify-content: center;
-    
-}
 
-.startGameButton {
-    font-family: Righteous;
-    font-size: 2.5em;
-    margin-top: 0.5em;
-    padding: 0.5em;
-    border: 1px solid;
-    border-radius: 20px;
-    background-color: #046B79;
-    color: white;
-    transition: 0.2s;
-    box-shadow: 0px 5px 4px #046B79;
-}
-.startGameButton:hover {
+#joinGameButton:hover {
     background-color: #00acae;
     transition: 0.2s;
     cursor: pointer;
 }
+.flexContainer{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  margin-top: 3em;
+}
+.Credits{
+width: 30%;
+height: 90vh;
+overflow: hidden;
+border-left: 6px solid white;
+border-right: 6px solid white;
 
-/*.gameCode {
-    font-family: righteous;
-    font-weight: bold;
-    color: white;
-    text-align: right;
-    margin-right: 1.5em;
-    margin-top: 1em;
-    font-size: 3em;
-}*/
+}
+.flexContainerHnP{
+  display: flex;
+  flex-direction: column;
+}
+.Heading{
+  font-family: "monoton";
+  font-size: 2.5em;
+}
+.PodiumContainer{
+  display: flex;
+  flex-direction: row;
+  min-width: 60%;
+  min-height: 80%;
+  align-items: flex-end;
+}
+.avatarImage{
+  filter: drop-shadow(0.5em 0.1em 0.1px black);
+}
+.thirdPlace{
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+.thirdPlaceBox{
+background-color: #134450;
+height: 20vh;
+width: 100%;
+filter: drop-shadow(0.5em 0.1em 0.1px black);
 
-.avatarImage {
-    width: 50px;
-    margin-bottom: -5px;
+}
+.firstPlace{
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+.firstPlaceBox{
+background-color: #2487a0;
+height: 40vh;
+width: 100%;
+filter: drop-shadow(0.5em 0.1em 0.1px black);
+
+}
+.secondPlace{
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+.secondPlaceBox{
+background-color: #1b6375;
+height: 30vh;
+width: 100%;
+filter: drop-shadow(0.5em 0.1em 0.1px black);
+
+}
+.avatarImage{
+  height: 8em;
+  width: 8em;
 }
 
-#playerNameInList {
-    transition: 0.2s;
+
+.fade {
+  position: relative;
+  width: 100%;
+  min-height: 75vh;
+  top: -25px;
+  /* background-image: linear-gradient(0deg, transparent, #24a07b 75%); */
+  z-index: 1;
 }
 
-#playerNameInList:hover {
-font-size: 1.1em;
-color: rgb(255, 97, 97);
-transition: 0.2s;
-cursor:pointer;
+.star-wars {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 800px;
+  color: black;
+  font-family: Righteous;
+  font-size: 200%;
+  font-weight: 600;
+  line-height: 150%;
+  perspective: 400px;
+  text-align: justify;
+  margin: 0.5em;
+
+}
+
+.crawl {
+  position: relative;
+  top: -100px;
+  transform-origin: 50% 100%;
+  animation: crawl 300s linear;
+}
+
+.crawl > .title {
+  font-size: 90%;
+  text-align: center;
+}
+
+.crawl > .title h1 {
+  margin: 0 0 100px;
+  text-transform: uppercase;
+}
+
+@keyframes crawl {
+  0% {
+    /* The element starts below the screen */
+    top: 0;
+    /* Rotate the text 20 degrees but keep it close to the viewer */
+  }
+  100% { 
+    /* This is a magic number, but using a big one to make sure the text is fully off the screen at the end */
+    top: -600em;
+    /* Slightly increasing the rotation at the end and moving the text far away from the viewer */
+  }
 }
 </style>
