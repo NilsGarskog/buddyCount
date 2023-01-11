@@ -21,9 +21,6 @@
     </div>
     </div>
     </div>
-    <div id="nextButtonContainer">
-    <button id="nextButton"><img :src="require('../Icons/right-arrow.png')" id="arrowIcon"></button>
-    </div>
     
 </body>
 </template>
@@ -31,33 +28,6 @@
 <script>
 import io from 'socket.io-client';
 const socket = io();
-
-// function PlayerWithAnswer (nm, av, ans){
-//     this.name = nm;
-//     this.avatar = av;
-//     this.answer = ans;
-// }
-
-
-
-// let playerans1 = new PlayerWithAnswer('Nils', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/smiling-face-with-heart-eyes_1f60d.png', Math.floor((Math.random()*100)));
-// let playerans2 = new PlayerWithAnswer('Samuel', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/cold-face_1f976.png', Math.floor((Math.random()*100)));
-// let playerans3 = new PlayerWithAnswer('Isak', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/clown-face_1f921.png', Math.floor((Math.random()*100)));
-// let playerans4 = new PlayerWithAnswer('Linnea', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/front-facing-baby-chick_1f425.png', Math.floor((Math.random()*100)));
-// let playerans5 = new PlayerWithAnswer('Hanna', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/eagle_1f985.png', Math.floor((Math.random()*100)));
-// let player6 = new PlayerWithAnswer('Jonas', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/top-hat_1f3a9.png',Math.floor((Math.random()*100)));
-// let player7 = new PlayerWithAnswer('Ali', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/grinning-cat-with-smiling-eyes_1f638.png',Math.floor((Math.random()*100)));
-// let player8 = new PlayerWithAnswer('Elsa', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/santa-claus_1f385.png',Math.floor((Math.random()*100)));
-// let player9 = new PlayerWithAnswer('Fido', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/dog-face_1f436.png',Math.floor((Math.random()*100)));
-// let player10 = new PlayerWithAnswer('Hans', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/325/man-vampire_1f9db-200d-2642-fe0f.png',Math.floor((Math.random()*100)));
-
-
-// let myPlayersAnswers = [playerans1,playerans2,playerans3,playerans4,playerans5,player6,player7,player8,player9,player10];
-
-
-
-
-
 
 export default {
 
@@ -142,22 +112,22 @@ methods: {
 
     },
 
-  timer: function(timerId){
-    if (this.timeLeft == 0) {
-      if(!this.sendTimer)
-      {
-        socket.emit("goToScoreBoard",this.pollId)
-        socket.emit("roundOver", this.pollId)
+  // timer: function(timerId){
+  //   if (this.timeLeft == 0) {
+  //     if(!this.sendTimer)
+  //     {
+  //       socket.emit("goToScoreBoard",this.pollId)
+  //       socket.emit("roundOver", this.pollId)
 
-        clearTimeout(timerId);
-        timerId = null;
-        this.sendTimer = true;
-      }
+  //       clearTimeout(timerId);
+  //       timerId = null;
+  //       this.sendTimer = true;
+  //     }
 
-    } else {
-      return this.timeLeft--;
-    }
-  },
+  //   } else {
+  //     return this.timeLeft--;
+  //   }
+  // },
 
     assembleArr: function() {
         for (let player of this.players){

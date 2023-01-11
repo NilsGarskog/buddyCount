@@ -111,7 +111,7 @@ export default {
       if (this.timeLeft == 0) {
         if(!this.sendTimer)
         {
-          //socket.emit("goToNextRound",this.pollId)
+          socket.emit("goToNextRound",this.pollId)
 
           clearTimeout(timerId);
           timerId = null;
@@ -151,17 +151,9 @@ font-weight: 300;
     align-self:left;
 }
 
-.playerList {
- font-size: 3em;
- text-align: left;
- margin-left: 7em;
-}
-
-.amountofpoints {
-font-size: 3em;
- text-align: right;
- margin-right: 7em;
- margin-top: -6.1em;
+.topfive {
+  display:flex;
+  justify-content: center;
 }
 
 .showpointsCont {
