@@ -58,8 +58,5 @@
 	"correctAnswers": "The correct answers are:",
 	"CodeHolder": "GAME CODE...",
 	"QuestionPrompt": "Write questions here:",
-	"QuestionPromptPlaceholder": "Question...",
-	"CodeHolder": "GAME CODE...",
-	"QuestionPrompt": "Skriv frågor här:",
-	"QuestionPromptPlaceholder": "Fråga..."
+	"QuestionPromptPlaceholder": "Question..."
 }
