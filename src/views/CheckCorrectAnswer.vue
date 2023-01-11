@@ -31,20 +31,7 @@
 import io from 'socket.io-client';
      const socket = io();
 
-    // let player1A = {pID:1, answers:
-    //     [{q:1,a:1},
-    //     {q:2, a:2},
-    //     {q:3, a:3}]} 
-
-    // let player2A= {pID:2, answers:
-    //     [{q:1,a:4},
-    //     {q:2, a:5},
-    //     {q:3, a:6}]} 
-
-    // let player3A= {pID:3, answers:
-    //     [{q:1,a:7},
-    //     {q:2, a:8},
-    //     {q:3, a:9}]} 
+   
 
     
  export default {
@@ -63,24 +50,7 @@ import io from 'socket.io-client';
         uiLabels: {}, 
         points: 0,
         
-        //playersA: [player1A,player2A,player3A],
-    //     playersAnswers: [],
-    //     player1G:[[
-    //     {playerId: 4, q:1, gO: [{p:1,g:1}, {p:2,g:2},{p:3,g:3} ]}, //såhär ska det nog se ut, ändra lite i loopen sen
-    //     {q:1, gO: {p:2,g:2}},
-    //     {q:1, gO: {p:3,g:3}}
-    // ],
-    // [
-    //     {q:2, gO: {p:1, g:4}},
-    //     {q:2, gO: {p:2, g:5}},
-    //     {q:2, gO: {p:3, g:6}}
-    // ],
-    // [
-    //     {q:3, gO: {p:1, g:7}},
-    //     {q:3, gO: {p:2, g:8}},
-    //     {q:3, gO: {p:3, g:9}}
-    // ]
-    // ],
+    
     GuessObj:[],
 
     answerTest: [],
@@ -100,9 +70,9 @@ created: function () {
    socket.emit("pageLoaded", this.lang);
    socket.on("CurrentGuesses", (guessOBJ) => {
       this.GuessObj = guessOBJ;
-    socket.emit('getAnswerForResult', this.pollId) //Denna ska checkAnswerView ha, inte AnswerQView
+    socket.emit('getAnswerForResult', this.pollId) 
   })
-  socket.on("AnswersForResult", (update) => { //Denna ska checkAnswerView ha, inte AnswerQView
+  socket.on("AnswersForResult", (update) => { 
         this.answerTest = update;
         if(this.pointsSent==false){
         this.checkAnswer();
@@ -112,11 +82,12 @@ created: function () {
 
     
 
-    socket.on('getPoints', (update) => { //denna ska scoreboard ha
+   /*socket.on('getPoints', (update) => { //denna ska scoreboard ha
     this.TotalPoints = update;
   });
-  socket.emit('getPlayerPoints', this.pollId) //denna ska scoreboard ha
-
+  socket.emit('getPlayerPoints', this.pollId) //denna ska scoreboard ha 
+  
+*/
   
    socket.on("init", (labels) => {
       this.uiLabels = labels
