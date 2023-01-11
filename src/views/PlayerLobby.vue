@@ -6,32 +6,32 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
         <div class ="headerContainer">
             <div>
-                <p>No. of players: {{this.players.length}}</p>
+                <p>{{uiLabels.noPlayers}}: {{this.players.length}}</p>
             </div>
             <div class ="gameCode">
-            <p>CODE: {{pollId}} </p>
+            <p>{{uiLabels.code}}: {{pollId}} </p>
             </div>
         </div>
         <div>
-        <h1 class ="playersTitle">PLAYERS</h1>
-        <h3 class="removeText">Click name to remove from game. No naughty names allowed!</h3>
+        <h1 class ="playersTitle">{{uiLabels.players}}</h1>
+        <h3 class="removeText">{{uiLabels.removeText}}</h3>
         </div>
         <section class="playerListContainer">
             
         <div class = "playerList">
         <div v-for="player in players"
         v-bind:player="player"
-        v-bind:key="player.name" >
-        <span v-on:click="removeParticipant(player)"><span id="playerNameInList"> <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" /> {{player.name}}</span></span>
+        v-bind:key="player.name">
+        <span v-on:click="removeParticipant(player)"><span id="playerNameInList"> <img class ="avatarImage" :src="require('../Icons/'+player.avatar[0].image + '.png')" />{{player.name}}</span></span>
         </div>
     </div>
         
     </section>
-
+    <!--
     <div id="footer">
-        <button class="startGameButton" v-on:click="goToQuestion()">START GAME!</button>
+        <button class="startGameButton" v-on:click="goToQuestion()">{{uiLabels.startGame}}</button>
     </div>
-            
+-->
     </body>
 
 </template>
@@ -39,7 +39,6 @@
 
 
 <script>
-import firstNames from '/first-names.json'
 import io from 'socket.io-client';
 const socket = io();
 
@@ -49,16 +48,21 @@ export default {
 
     data: function () {
         return {
-            firstNames,
+            uiLabels: {},
+            lang: "en",
             players: [],
             pollId: "",
-            lang:""
+            
             
         }
     },
     created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang
+    socket.emit("switchLanguage", this.lang);
+    socket.on("init", (labels) => {
+      this.uiLabels = labels;
+    });
     socket.emit('joinPoll', this.pollId)
     socket.on("sendPlayers", (update) => {       //Funktion för att hämta Spelarobjekt från korrekt rum
     this.players = update;
@@ -73,16 +77,8 @@ export default {
     },
 
     methods: {
-    getRandID: function () {
-            let number1 = Math.floor(Math.random()*10000);
-      return number1.toString().padStart(4,'0');
-    },
-
-    getRandName: function () {
-        var array = this.firstNames;
-        var ran_key = array[Math.random()* array.length | 0 ];
-        return ran_key;
-    }, 
+  
+    
 
     removeParticipant: function (player) {
         if(player.playerId != 1){

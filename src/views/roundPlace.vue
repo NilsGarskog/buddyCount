@@ -183,4 +183,15 @@ button{
     }
 }
 
+@media (min-width: 500px){
+  h1 {
+    font-size: 5em;
+    margin-top:20%;
+  }
+  h2 {
+    font-size: 2em;
+    margin-top:-2%;
+  }
+}
+
 </style>

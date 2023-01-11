@@ -74,7 +74,8 @@ name: 'CreateQPartView',
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
     },
       continueEmit: function(){
-      socket.emit('goToNextPage', this.pollId)
+      socket.emit('goToNextPage', this.pollId);
+      this.$router.push('/answerq/' + this.lang+'/'+this.pollId +'/'+ this.playerId);
     },
     addQuestion: function () {           //Lagt till fråge-id mm.
       if (this.questions.length < 3){
@@ -152,11 +153,7 @@ margin-bottom:50px;
 
 }
 
-.continueButton:hover {
-background-color: #00acae;
-transition: 0.2s;
-cursor: pointer;
-}
+
 
 .buttonCont {
 display: flex;
@@ -284,6 +281,14 @@ input {
     width:40px;
     height:40px;
   }
+}
+
+@media (min-width: 600px) {
+  .continueButton:hover {
+background-color: #00acae;
+transition: 0.2s;
+cursor: pointer;
+}
 }
 /* @media screen and (max-width:50em) {
 .showQuestions{

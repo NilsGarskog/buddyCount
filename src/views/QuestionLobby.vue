@@ -23,7 +23,7 @@
 
   </div>
 </div>
-
+<!--
 <div class="timeLeft" >
   <h1 id="tid" >
     Time left:
@@ -61,7 +61,7 @@
     <span>1</span>
     <span id="endQuestionLobby">0</span>
   </div>
-</div>
+</div> -->
 </body>
 </template>
 
@@ -171,14 +171,20 @@ body{
   color:black;
   font-family: righteous;
 }
+
+.bigContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
 .questions{
-  margin-top:2vh;
+  margin-top:13vh;
+  margin-bottom: 7vh;
   font-weight: 700;
   font-size:3em;
 }
-#endQuestionLobby{
 
-}
 .timeLeft{
   position: absolute;
   text-align: left;
@@ -393,6 +399,7 @@ span:nth-child(31) {
   justify-content: center;
   padding: 0 0.25em;
   align-content: space-evenly;
+  
 
 }
 .playerList{
@@ -400,6 +407,7 @@ span:nth-child(31) {
   max-width: 20%;
   padding: 0 0.25em;
   margin-bottom: 3em;
+
 }
 playerList characters{
   margin-top: 0.5em;
