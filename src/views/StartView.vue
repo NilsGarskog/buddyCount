@@ -21,7 +21,7 @@
       </PopUp>
     </div>
     <div class="animationCont">
-    <lottie-player class="animation" src="https://assets7.lottiefiles.com/packages/lf20_j7wzhpuq.json"  background="transparent"  speed="0.05"  style="width: 2200px; height: 2200px;"  autoplay></lottie-player>
+    <lottie-player class="animation" src="https://assets7.lottiefiles.com/packages/lf20_j7wzhpuq.json"  background="transparent"  speed="0.03"  style="width: 2600px; height: 2600px;"  autoplay></lottie-player>
     </div>
     <div v-if="popupTriggers.buttonTriggerRules"> <!-- Popup för regler -->
       <PopUp
