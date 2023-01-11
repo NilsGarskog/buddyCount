@@ -5,13 +5,13 @@
         <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
   <div class ="headerContainer">
       <div class ="gameCode">
-    <p>CODE: {{pollId}}</p>
+    <p>{{ uiLabels.codeCreateQHost }} {{pollId}}</p>
   </div>
     <div id="hideQuestions">
   <img class="hideEye" :src="hidePic" v-on:click="hideQuestion" > 
   </div>
   </div>
-<h1 class ="questionTitle">Questions:</h1>
+<h1 class ="questionTitle">{{uiLabels.questionCreateQHost}}</h1>
 <div class="questions">
 <div v-if="!hide">
     <div v-for= "question in questions" v-bind:key="question"> <!--En loop över de "fråge objekten""-->
@@ -30,15 +30,6 @@
   </div>
   </div>
   </div>
-  <!-- <router-link v-bind:to="'/lobby/' + lang + '/' + pollId">
-        <button role="button">
-          <p class="buttonText">Start game</p>
-        </button>
-      </router-link> -->
-      <!--
-      <div id="footer">
-        <button class="startGameButton" v-on:click="moveOn()">START GAME!</button>
-      </div>-->
 
 </body>
 
@@ -52,7 +43,7 @@ export default {
   name: 'CreateQHostView',
   data: function () {
     return {
-      lang: "",
+      lang: "en",
       pollId: "",
       questionObject: "",
       questions: "", /* la till en tom array*/
@@ -65,6 +56,12 @@ export default {
     created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang
+
+      socket.emit("pageLoaded", this.lang);
+      socket.on("init", (labels) => {
+        this.uiLabels = labels
+      })
+
     socket.emit('joinPoll', this.pollId)
     socket.on("questionUpdate", (update) => {       //Funktion för att hämta fråge-array /Nils
       this.questions = update;
