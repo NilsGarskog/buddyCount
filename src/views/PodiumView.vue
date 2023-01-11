@@ -12,24 +12,9 @@
 
       <div class="crawl">
         <div class="title">
-    <h1>Thank you for playing BuddyCount!</h1>
+    <h1>{{uiLabels.CreditsHeading}}</h1>
         </div>
-     <p>We hope you had as much fun playing it as we had making it.
-
-We are a small team of programmers and designers: Nils Gärskog, Samuel Ram, Linnea Nilsson, Hanna Andersson, and Isak Lindström. We put our hearts and souls into making this game, and we are grateful for all the support we received along the way.
-
-However, we want to be transparent and let you know that the development process was not without its challenges. One of the biggest challenges we faced was dealing with the constant crashes of Samuel's computer.
-
-In our case, Samuel's computer seemed to crash at the most inopportune moments, causing us to lose valuable work and forcing us to spend countless hours trying to resolve the issues. We can't tell you how many times we wanted to throw our computers out the window because of it.
-
-Despite these challenges, we persevered and were able to deliver a high-quality game that we are proud of. We want to thank you again for playing BuddyCount and supporting our team. We hope you will continue to enjoy the game and look forward to bringing you more fun and engaging experiences in the future.
-
-In comparison to the lame "true or false" game that Felix and his minions created, BuddyCount is far superior in every way. The gameplay is engaging and entertaining, the graphics are colorful and vibrant, and the overall experience is much more enjoyable. We put a lot of time and effort into making BuddyCount the best game it could be, and we are confident that it will provide hours of entertainment for players of all ages.
-
-Thank you again for playing BuddyCount, and we hope you will continue to enjoy the game!
-
-Sincerely,
-The BuddyCount team
+     <p>{{uiLabels.Credits}}
     </p>
   </div>
     </section>
@@ -88,7 +73,8 @@ data: function () {
     placement:[],
     loaded: false,
     pollId:"",
-    lang:"",
+    lang:"en",
+    uiLabels: {},
   }
 },
 created: function () {
@@ -127,10 +113,11 @@ body {
   margin-top: 3em;
 }
 .Credits{
-width: 35%;
-height: 80vh;
-background-color: black;
+width: 30%;
+height: 90vh;
 overflow: hidden;
+border-left: 6px solid white;
+border-right: 6px solid white;
 
 }
 .flexContainerHnP{
@@ -196,9 +183,9 @@ filter: drop-shadow(0.5em 0.1em 0.1px black);
 .fade {
   position: relative;
   width: 100%;
-  min-height: 60vh;
+  min-height: 75vh;
   top: -25px;
-  background-image: linear-gradient(0deg, transparent, black 75%);
+  /* background-image: linear-gradient(0deg, transparent, #24a07b 75%); */
   z-index: 1;
 }
 
@@ -207,21 +194,22 @@ filter: drop-shadow(0.5em 0.1em 0.1px black);
   justify-content: center;
   position: relative;
   height: 800px;
-  color: #feda4a;
-  font-family: 'Pathway Gothic One', sans-serif;
-  font-size: 300%;
+  color: black;
+  font-family: Righteous;
+  font-size: 200%;
   font-weight: 600;
-  letter-spacing: 6px;
   line-height: 150%;
   perspective: 400px;
   text-align: justify;
+  margin: 0.5em;
+
 }
 
 .crawl {
   position: relative;
   top: -100px;
   transform-origin: 50% 100%;
-  animation: crawl 60s linear;
+  animation: crawl 300s linear;
 }
 
 .crawl > .title {
@@ -239,13 +227,11 @@ filter: drop-shadow(0.5em 0.1em 0.1px black);
     /* The element starts below the screen */
     top: 0;
     /* Rotate the text 20 degrees but keep it close to the viewer */
-    transform: rotateX(20deg) translateZ(0);
   }
   100% { 
     /* This is a magic number, but using a big one to make sure the text is fully off the screen at the end */
-    top: -12000px;
+    top: -600em;
     /* Slightly increasing the rotation at the end and moving the text far away from the viewer */
-    transform: rotateX(21deg) translateZ(-4000px);
   }
 }
 </style>

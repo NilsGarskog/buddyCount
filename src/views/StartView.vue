@@ -118,7 +118,7 @@ export default {
       lang: "en",
       hideNav: true,
       audioOn: false,
-      audio: new Audio(require("../Music/FunkyMusic.mp3")),
+      audio: new Audio(require("../Music/GameMusic.mp3")),
       audioPicture: require("../Icons/music-on.svg"),
       rulesPicture: require("../Icons/question.svg"),
       langImg: require("../Icons/Sweden.png"),

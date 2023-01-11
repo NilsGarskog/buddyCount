@@ -63,7 +63,7 @@ goToQuestion: function(){
 }
 </script>
 
-<style>
+<style scoped>
 body {
 position: fixed;
 background-color: #24a07b;
