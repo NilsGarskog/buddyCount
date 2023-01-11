@@ -57,7 +57,7 @@
       <h1 id="title">BuddyCount</h1>
     <div id="Buttons">
       <router-link v-bind:to="'/lobby/' + lang+'/'+id">
-        <button class="standardButton" role="button" v-on:click="createPoll">
+        <button class="standardButton"  id="createGameButton" role="button" v-on:click="createPoll">
           <p class="buttonText">{{uiLabels.createGame}}</p>
         </button>
       </router-link>
@@ -70,6 +70,7 @@
       <div>
         <button
           class="standardButton"
+          id="joinGameButton"
           role="button"
           v-on:click="togglePopup('join')"
         >
@@ -412,7 +413,12 @@ display: none;
     width:180px;
     font-size:20px;
   }
-
+#createGameButton{
+  display:none;
+}
+#joinGameButton{
+  margin-top: 3em;
+}
   #codeSubmitButton {
 
     width:80px;
